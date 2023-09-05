@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/dest_main">
+
+    <fragment
+        android:id="@+id/dest_main"
+        android:name="com.appteam4.postella.ui.MainFragment"
+        android:label="메인"
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_dest_main_to_dest_category"
+            app:destination="@id/dest_category" />
+        <action
+            android:id="@+id/action_dest_main_to_dest_prod_detail"
+            app:destination="@id/dest_prod_detail" />
+        <action
+            android:id="@+id/action_dest_main_to_dest_search"
+            app:destination="@id/dest_search" />
+        <action
+            android:id="@+id/action_dest_main_to_dest_ad_list"
+            app:destination="@id/dest_ad_list" />
+        <action
+            android:id="@+id/action_dest_main_to_dest_login"
+            app:destination="@id/dest_login" />
+        <action
+            android:id="@+id/action_dest_main_to_dest_cart2"
+            app:destination="@id/dest_cart" />
+        <action
+            android:id="@+id/action_dest_main_to_dest_wish_list2"
+            app:destination="@id/dest_wish_list" />
+        <action
+            android:id="@+id/action_dest_main_to_dest_mypage_order_list"
+            app:destination="@id/dest_mypage_order_list" />
+    </fragment>
+    <fragment
+        android:id="@+id/dest_prod_list"
+        android:name="com.appteam4.postella.ui.ProdListFragment"
+        android:label="상품목록"
+        tools:layout="@layout/fragment_list" >
+        <action
+            android:id="@+id/action_dest_prod_list_to_dest_prod_detail"
+            app:destination="@id/dest_prod_detail" />
+    </fragment>
+    <fragment
+        android:id="@+id/dest_category"
+        android:name="com.appteam4.postella.ui.CategoryFragment"
+        android:label="카테고리"
+        tools:layout="@layout/fragment_category" >
+        <action
+            android:id="@+id/action_dest_category_to_dest_prod_list"
+            app:destination="@id/dest_prod_list" />
+    </fragment>
+    <fragment
+        android:id="@+id/dest_prod_detail"
+        android:name="com.appteam4.postella.ui.ProdDetailFragment"
+        android:label="상품상세"
+        tools:layout="@layout/fragment_prod_detail" >
+        <action
+            android:id="@+id/action_dest_prod_detail_to_dest_inquiry"
+            app:destination="@id/dest_inquiry" />
+        <action
+            android:id="@+id/action_dest_prod_detail_to_dest_review"
+            app:destination="@id/dest_review" />
+        <action
+            android:id="@+id/action_dest_prod_detail_to_dest_order"
+            app:destination="@id/dest_order" />
+    </fragment>
+    <fragment
+        android:id="@+id/dest_inquiry"
+        android:name="com.appteam4.postella.ui.InquryFragment"
+        android:label="상품문의"
+        tools:layout="@layout/fragment_inqury" >
+        <action
+            android:id="@+id/action_dest_inquiry_to_dest_prod_detail"
+            app:destination="@id/dest_prod_detail" />
+        <action
+            android:id="@+id/action_dest_inquiry_to_dest_review2"
+            app:destination="@id/dest_review" />
+    </fragment>
+    <fragment
+        android:id="@+id/dest_review"
+        android:name="com.appteam4.postella.ui.ReviewFragment"
+        android:label="상품리뷰"
+        tools:layout="@layout/fragment_review" >
+        <action
+            android:id="@+id/action_dest_review_to_dest_prod_detail"
+            app:destination="@id/dest_prod_detail" />
+        <action
+            android:id="@+id/action_dest_review_to_dest_inquiry"
+            app:destination="@id/dest_inquiry" />
+    </fragment>
+    <fragment
+        android:id="@+id/dest_ad_list"
+        android:name="com.appteam4.postella.ui.ADListFragment"
+        android:label="광고목록"
+        tools:layout="@layout/fragment_a_d_list" >
+        <action
+            android:id="@+id/action_dest_ad_list_to_dest_ad_detail"
+            app:destination="@id/dest_ad_detail" />
+    </fragment>
+    <fragment
+        android:id="@+id/dest_ad_detail"
+        android:name="com.appteam4.postella.ui.ADDetailFragment"
+        android:label="광고상세"
+        tools:layout="@layout/fragment_a_d_detail" />
+    <fragment
+        android:id="@+id/dest_search"
+        android:name="com.appteam4.postella.ui.SearchFragment"
+        android:label="검색"
+        tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/dest_cart"
+        android:name="com.appteam4.postella.ui.CartFragment"
+        android:label="장바구니"
+        tools:layout="@layout/fragment_cart" >
+        <action
+            android:id="@+id/action_dest_cart_to_dest_prod_detail"
+            app:destination="@id/dest_prod_detail" />
+        <action
+            android:id="@+id/action_dest_cart_to_dest_order"
+            app:destination="@id/dest_order" />
+    </fragment>
+    <fragment
+        android:id="@+id/dest_order"
+        android:name="com.appteam4.postella.ui.OrderFragment"
+        android:label="주문결제"
+        tools:layout="@layout/fragment_order" />
+    <fragment
+        android:id="@+id/dest_login"
+        android:name="com.appteam4.postella.ui.LoginFragment"
+        android:label="로그인"
+        tools:layout="@layout/fragment_login" />
+    <fragment
+        android:id="@+id/dest_mypage_order_list"
+        android:name="com.appteam4.postella.ui.MyPageOrderListFragment"
+        android:label="마이페이지"
+        tools:layout="@layout/fragment_my_order_list" />
+    <fragment
+        android:id="@+id/dest_wish_list"
+        android:name="com.appteam4.postella.ui.WishListFragment"
+        android:label="찜목록"
+        tools:layout="@layout/fragment_wish_list" />
+</navigation>
