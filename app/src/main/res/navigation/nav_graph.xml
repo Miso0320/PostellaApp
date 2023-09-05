@@ -79,6 +79,9 @@
         <action
             android:id="@+id/action_dest_inquiry_to_dest_review"
             app:destination="@id/dest_review" />
+        <action
+            android:id="@+id/action_dest_inquiry_to_dest_order"
+            app:destination="@id/dest_order" />
     </fragment>
     <fragment
         android:id="@+id/dest_review"
@@ -91,21 +94,24 @@
         <action
             android:id="@+id/action_dest_review_to_dest_inquiry"
             app:destination="@id/dest_inquiry" />
+        <action
+            android:id="@+id/action_dest_review_to_dest_order"
+            app:destination="@id/dest_order" />
     </fragment>
     <fragment
         android:id="@+id/dest_ad_list"
-        android:name="com.appteam4.postella.ui.ADListFragment"
+        android:name="com.appteam4.postella.ui.AdListFragment"
         android:label="광고목록"
-        tools:layout="@layout/fragment_a_d_list" >
+        tools:layout="@layout/fragment_ad_list" >
         <action
             android:id="@+id/action_dest_ad_list_to_dest_ad_detail"
             app:destination="@id/dest_ad_detail" />
     </fragment>
     <fragment
         android:id="@+id/dest_ad_detail"
-        android:name="com.appteam4.postella.ui.ADDetailFragment"
+        android:name="com.appteam4.postella.ui.AdDetailFragment"
         android:label="광고상세"
-        tools:layout="@layout/fragment_a_d_detail" />
+        tools:layout="@layout/fragment_ad_detail" />
     <fragment
         android:id="@+id/dest_search"
         android:name="com.appteam4.postella.ui.SearchFragment"
