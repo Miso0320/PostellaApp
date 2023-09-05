@@ -43,6 +43,12 @@
         <action
             android:id="@+id/action_dest_prod_list_to_dest_prod_detail"
             app:destination="@id/dest_prod_detail" />
+        <action
+            android:id="@+id/action_dest_prod_list_to_dest_search"
+            app:destination="@id/dest_search" />
+        <action
+            android:id="@+id/action_dest_prod_list_to_dest_cart"
+            app:destination="@id/dest_cart" />
     </fragment>
     <fragment
         android:id="@+id/dest_category"
@@ -52,6 +58,12 @@
         <action
             android:id="@+id/action_dest_category_to_dest_prod_list"
             app:destination="@id/dest_prod_list" />
+        <action
+            android:id="@+id/action_dest_category_to_dest_search"
+            app:destination="@id/dest_search" />
+        <action
+            android:id="@+id/action_dest_category_to_dest_cart"
+            app:destination="@id/dest_cart" />
     </fragment>
     <fragment
         android:id="@+id/dest_prod_detail"
@@ -67,6 +79,9 @@
         <action
             android:id="@+id/action_dest_prod_detail_to_dest_order"
             app:destination="@id/dest_order" />
+        <action
+            android:id="@+id/action_dest_prod_detail_to_dest_search"
+            app:destination="@id/dest_search" />
     </fragment>
     <fragment
         android:id="@+id/dest_inquiry"
@@ -79,6 +94,12 @@
         <action
             android:id="@+id/action_dest_inquiry_to_dest_review2"
             app:destination="@id/dest_review" />
+        <action
+            android:id="@+id/action_dest_inquiry_to_dest_search"
+            app:destination="@id/dest_search" />
+        <action
+            android:id="@+id/action_dest_inquiry_to_dest_cart"
+            app:destination="@id/dest_cart" />
     </fragment>
     <fragment
         android:id="@+id/dest_review"
@@ -91,6 +112,12 @@
         <action
             android:id="@+id/action_dest_review_to_dest_inquiry"
             app:destination="@id/dest_inquiry" />
+        <action
+            android:id="@+id/action_dest_review_to_dest_search"
+            app:destination="@id/dest_search" />
+        <action
+            android:id="@+id/action_dest_review_to_dest_cart"
+            app:destination="@id/dest_cart" />
     </fragment>
     <fragment
         android:id="@+id/dest_ad_list"
@@ -100,12 +127,25 @@
         <action
             android:id="@+id/action_dest_ad_list_to_dest_ad_detail"
             app:destination="@id/dest_ad_detail" />
+        <action
+            android:id="@+id/action_dest_ad_list_to_dest_search"
+            app:destination="@id/dest_search" />
+        <action
+            android:id="@+id/action_dest_ad_list_to_dest_cart"
+            app:destination="@id/dest_cart" />
     </fragment>
     <fragment
         android:id="@+id/dest_ad_detail"
         android:name="com.appteam4.postella.ui.ADDetailFragment"
         android:label="광고상세"
-        tools:layout="@layout/fragment_a_d_detail" />
+        tools:layout="@layout/fragment_a_d_detail" >
+        <action
+            android:id="@+id/action_dest_ad_detail_to_dest_search"
+            app:destination="@id/dest_search" />
+        <action
+            android:id="@+id/action_dest_ad_detail_to_dest_cart"
+            app:destination="@id/dest_cart" />
+    </fragment>
     <fragment
         android:id="@+id/dest_search"
         android:name="com.appteam4.postella.ui.SearchFragment"
@@ -142,5 +182,12 @@
         android:id="@+id/dest_wish_list"
         android:name="com.appteam4.postella.ui.WishListFragment"
         android:label="찜목록"
-        tools:layout="@layout/fragment_wish_list" />
+        tools:layout="@layout/fragment_wish_list" >
+        <action
+            android:id="@+id/action_dest_wish_list_to_dest_search"
+            app:destination="@id/dest_search" />
+        <action
+            android:id="@+id/action_dest_wish_list_to_dest_cart"
+            app:destination="@id/dest_cart" />
+    </fragment>
 </navigation>
