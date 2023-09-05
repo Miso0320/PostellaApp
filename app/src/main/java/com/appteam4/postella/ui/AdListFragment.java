@@ -12,10 +12,10 @@ import com.appteam4.postella.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ADListFragment#newInstance} factory method to
+ * Use the {@link AdListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ADListFragment extends Fragment {
+public class AdListFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class ADListFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public ADListFragment() {
+    public AdListFragment() {
         // Required empty public constructor
     }
 
@@ -39,8 +39,8 @@ public class ADListFragment extends Fragment {
      * @return A new instance of fragment ADListFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ADListFragment newInstance(String param1, String param2) {
-        ADListFragment fragment = new ADListFragment();
+    public static AdListFragment newInstance(String param1, String param2) {
+        AdListFragment fragment = new AdListFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,6 +61,6 @@ public class ADListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_a_d_list, container, false);
+        return inflater.inflate(R.layout.fragment_ad_list, container, false);
     }
 }
