@@ -101,8 +101,8 @@
     <fragment
         android:id="@+id/dest_ad_list"
         android:name="com.appteam4.postella.ui.AdListFragment"
-        android:label="광고목록"
-        tools:layout="@layout/fragment_ad_list" >
+        android:label="이벤트"
+        tools:layout="@layout/fragment_ad_list">
         <action
             android:id="@+id/action_dest_ad_list_to_dest_ad_detail"
             app:destination="@id/dest_ad_detail" />
@@ -110,7 +110,7 @@
     <fragment
         android:id="@+id/dest_ad_detail"
         android:name="com.appteam4.postella.ui.AdDetailFragment"
-        android:label="광고상세"
+        android:label="이벤트"
         tools:layout="@layout/fragment_ad_detail" />
     <fragment
         android:id="@+id/dest_search"
