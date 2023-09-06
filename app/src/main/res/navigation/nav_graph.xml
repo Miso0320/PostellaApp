@@ -39,7 +39,7 @@
         android:id="@+id/dest_prod_list"
         android:name="com.appteam4.postella.ui.ProdListFragment"
         android:label="상품목록"
-        tools:layout="@layout/fragment_list" >
+        tools:layout="@layout/fragment_prod_list" >
         <action
             android:id="@+id/action_dest_prod_list_to_dest_prod_detail"
             app:destination="@id/dest_prod_detail" />
