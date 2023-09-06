@@ -24,7 +24,7 @@ public class WishListFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentWishListBinding.inflate(inflater);
         navController = NavHostFragment.findNavController(this);
-
+        // 주석
         initBtnProdDetail();
 
         return binding.getRoot();
