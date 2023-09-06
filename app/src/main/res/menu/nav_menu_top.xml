@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/dest_search"
+        android:icon="@drawable/ic_search_24dp"
+        app:showAsAction="always"
+        android:title="검색" />
+    <item
+        android:id="@+id/dest_cart"
+        android:icon="@drawable/ic_cart_24dp"
+        app:showAsAction="always"
+        android:title="장바구니" />
+</menu>
