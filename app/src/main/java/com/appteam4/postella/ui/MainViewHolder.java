@@ -7,21 +7,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import com.appteam4.postella.R;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.w3c.dom.Text;
+import com.appteam4.postella.R;
+import com.appteam4.postella.dto.Product;
+import com.appteam4.postella.service.ProductGroupService;
+
+import java.text.DecimalFormat;
+import java.util.Currency;
 
 public class MainViewHolder extends RecyclerView.ViewHolder {
     private static final String TAG = "MainViewHolder";
 
-    private int prodNo;
+    private int pg_no;
     private ImageView imgProdAttach;
     private TextView prodPrice;
     private TextView prodDiscount;
     private TextView prodName;
 
-    public MainViewHolder(@NonNull View itemView, AdapterView.OnItemClickListener onItemClickListener) {
+    public MainViewHolder (@NonNull View itemView, AdapterView.OnItemClickListener onItemClickListener) {
         super(itemView);
         //아이템 UI 얻기
         imgProdAttach = (ImageView) itemView.findViewById(R.id.img_prod_attach);
@@ -31,18 +35,28 @@ public class MainViewHolder extends RecyclerView.ViewHolder {
 
         //클릭 이벤트 처리
         itemView.setOnClickListener(v -> {
-            Log.i(TAG, "prodNo : " + prodNo);
-            //pg_no가 애매한 열유형이라고 검색이 안돼서 같이 상의 해봐야할거 같앙..
-            //전체 상품을 불러 올건데 pg_no가 같은 상품은 가장 위 하나만 가져오도록 sql문을 짰어
-            /*SELECT pg_name, pg_imgfile, prd_price, prd_org_price
-            FROM (
-                    SELECT p.*, pg.*,
-                    ROW_NUMBER() OVER (PARTITION BY pg.pg_no ORDER BY ROWNUM) AS rn
-                    FROM product p
-                    JOIN product_group pg ON p.pg_no = pg.pg_no
-            )
-            WHERE rn = 1*/
-            //아마 외래키가 아니어서 컬럼 이름이 같아서 그런거 같은데 후움~
+            Log.i(TAG, "prodNo : " + pg_no);
+
         });
+    }
+
+    public void setData(Product product){
+        pg_no = product.getPg_no();
+        ProductGroupService.loadImage(product.getPg_no(), imgProdAttach);
+        //상품 가격
+        DecimalFormat df = new DecimalFormat("#,###");
+        prodPrice.setText(df.format(product.getPrd_price()));
+        //할인율 계산
+        int topPrdPrice = product.getPrd_org_price();
+        int topPrdSaleprice = product.getPrd_org_price();
+        Log.i(TAG, "setData: topPrdPrice" + topPrdPrice);
+        Log.i(TAG, "setData: topPrdSaleprice" + topPrdSaleprice);
+        double salePercent = (double)(topPrdPrice - topPrdSaleprice) / topPrdPrice * 100 ;
+        int intSalePercent = (int)salePercent;
+        //할인 하고 있을 때만 할인율 표시
+        if(intSalePercent != 0){
+            prodDiscount.setText(String.valueOf(intSalePercent)+ "%");
+        }
+        prodName.setText(product.getPg_name());
     }
 }

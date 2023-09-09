@@ -1,14 +1,7 @@
 package com.appteam4.postella.ui;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.core.view.MenuProvider;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Lifecycle;
-import androidx.navigation.NavController;
-import androidx.navigation.fragment.NavHostFragment;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,14 +9,29 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.appteam4.postella.MainActivity;
+import androidx.annotation.NonNull;
+import androidx.core.view.MenuProvider;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+
 import com.appteam4.postella.R;
 import com.appteam4.postella.databinding.FragmentMainBinding;
+import com.appteam4.postella.dto.Product;
+import com.appteam4.postella.service.ProductGroupService;
+import com.appteam4.postella.service.ServiceProvider;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainFragment extends Fragment {
 
@@ -41,6 +49,8 @@ public class MainFragment extends Fragment {
         initMenu();
         //상단 광고 초기화
         initPagerView();
+        //RecyclerView 초기화
+        initRecyclerView();
 
         return binding.getRoot();
     }
@@ -114,6 +124,45 @@ public class MainFragment extends Fragment {
             public void run() {
                 getActivity().runOnUiThread(update);
             }
-        }, 3000, 3000); // 이미지 전환 간격 3초(작업을 실행하기 전의 지연 시간,업을 반복할 간격)
+        }, 2000, 2000); // 이미지 전환 간격 2초(작업을 실행하기 전의 지연 시간,업을 반복할 간격)
+    }
+
+    private void initRecyclerView() {
+        // RecyclerView에서 항목을 배치하도록 설정
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
+        binding.recyclerMainView.setLayoutManager(layoutManager);
+
+        // 어댑터 생성
+        MainAdapter mainAdapter = new MainAdapter();
+
+        // API 서버에서 목록 받기
+        ProductGroupService productGroupService = ServiceProvider.getProductList(getContext());
+        Call<List<Product>> call = productGroupService.getProductList();
+        call.enqueue(new Callback<List<Product>>() {
+            @Override
+            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+                // json -> List<Product>
+                List<Product> list = response.body();
+                if (list != null) {
+                    // 어댑터 데이터 생성하기
+                    mainAdapter.setList(list);
+                    // RecyclerView에 어댑터 세팅
+                    binding.recyclerMainView.setAdapter(mainAdapter);
+                    // RecyclerView를 보이도록 설정
+                    binding.recyclerMainView.setVisibility(View.VISIBLE);
+                } else {
+                    Log.i(TAG, "onResponse: 리스트가 널이여~");
+                }
+                // RecyclerView에 어댑터 세팅
+                // 어댑터에 데이터가 설정된 후 notifyDataSetChanged() 호출
+                binding.recyclerMainView.setAdapter(mainAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<List<Product>> call, Throwable t) {
+                Log.e(TAG, "API 호출 실패", t);
+            }
+        });
+        // 항목 클릭시 콜백 메소드 등록
     }
 }

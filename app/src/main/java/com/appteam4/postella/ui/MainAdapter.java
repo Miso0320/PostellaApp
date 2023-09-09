@@ -40,10 +40,14 @@ public class MainAdapter extends RecyclerView.Adapter<MainViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull MainViewHolder holder, int position) {
         Product product = list.get(position);
+        holder.setData(product);
     }
 
     @Override
-    public int getItemCount() {
-        return list.size();
+    public int getItemCount() { return list.size(); }
+    public void setList(List<Product> list){this.list = list;}
+    public interface OnItemClickListener {
+        void onItemClick(View itemView, int position);
     }
+ 
 }
