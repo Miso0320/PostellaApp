@@ -2,6 +2,7 @@ package com.appteam4.postella.ui;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -24,21 +25,24 @@ public class SearchFragment extends Fragment {
         binding = FragmentSearchBinding.inflate(inflater);
         navController = NavHostFragment.findNavController(this);
 
-        initBtnProdList();
-        initBtnProdDetail();
+        // AppBar 숨기기
+        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+
+        // 검색어 입력 부분을 가장 위에 배치
+        View searchView = binding.textInputLayout.getRootView();
+        ViewGroup parent = (ViewGroup) searchView.getParent();
+        if (parent != null) {
+            parent.removeView(searchView);
+            parent.addView(searchView, 0);
+        }
 
         return binding.getRoot();
     }
 
-    private void initBtnProdList() {
-        binding.btnProdList.setOnClickListener(v -> {
-            navController.navigate(R.id.action_dest_search_to_dest_prod_list);
-        });
-    }
-
-    private void initBtnProdDetail() {
-        binding.btnProdDetail.setOnClickListener(v -> {
-            navController.navigate(R.id.action_dest_search_to_dest_prod_detail2);
-        });
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        // AppBar 표시
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
     }
 }

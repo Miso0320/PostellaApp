@@ -80,6 +80,9 @@ public class MainFragment extends Fragment {
                 } else if(menuItem.getItemId() == R.id.dest_cart) {
                     navController.navigate(R.id.action_dest_main_to_dest_cart);
                     return true;
+                }else if(menuItem.getItemId() == R.id.dest_category){
+                    navController.navigate(R.id.action_dest_main_to_dest_category);
+                    return true;
                 }
                 return false;
             }
