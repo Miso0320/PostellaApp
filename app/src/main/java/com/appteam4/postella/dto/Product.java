@@ -1,10 +1,11 @@
 package com.appteam4.postella.dto;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-public class Product {
+public class Product implements Serializable {
 	@Override
 	public String toString() {
 		return "Product{" +

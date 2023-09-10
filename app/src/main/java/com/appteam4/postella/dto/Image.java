@@ -1,8 +1,9 @@
 package com.appteam4.postella.dto;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
-public class Image {
+public class Image implements Serializable {
 	@Override
 	public String toString() {
 		return "Image{" +

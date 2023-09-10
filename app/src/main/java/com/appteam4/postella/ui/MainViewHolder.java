@@ -14,7 +14,6 @@ import com.appteam4.postella.dto.Product;
 import com.appteam4.postella.service.ProductGroupService;
 
 import java.text.DecimalFormat;
-import java.util.Currency;
 
 public class MainViewHolder extends RecyclerView.ViewHolder {
     private static final String TAG = "MainViewHolder";
@@ -25,7 +24,7 @@ public class MainViewHolder extends RecyclerView.ViewHolder {
     private TextView prodDiscount;
     private TextView prodName;
 
-    public MainViewHolder (@NonNull View itemView, AdapterView.OnItemClickListener onItemClickListener) {
+    public MainViewHolder (@NonNull View itemView, MainAdapter.OnItemClickListener onItemClickListener) {
         super(itemView);
         //아이템 UI 얻기
         imgProdAttach = (ImageView) itemView.findViewById(R.id.img_prod_attach);
@@ -36,7 +35,7 @@ public class MainViewHolder extends RecyclerView.ViewHolder {
         //클릭 이벤트 처리
         itemView.setOnClickListener(v -> {
             Log.i(TAG, "prodNo : " + pg_no);
-
+            onItemClickListener.onItemClick(v, getAdapterPosition());
         });
     }
 
@@ -49,11 +48,9 @@ public class MainViewHolder extends RecyclerView.ViewHolder {
         //할인율 계산
         int topPrdPrice = product.getPrd_org_price();
         int topPrdSaleprice = product.getPrd_org_price();
-        Log.i(TAG, "setData: topPrdPrice" + topPrdPrice);
-        Log.i(TAG, "setData: topPrdSaleprice" + topPrdSaleprice);
         double salePercent = (double)(topPrdPrice - topPrdSaleprice) / topPrdPrice * 100 ;
         int intSalePercent = (int)salePercent;
-        //할인 하고 있을 때만 할인율 표시
+        //할인 하고 있는 상품만 할인율 표시
         if(intSalePercent != 0){
             prodDiscount.setText(String.valueOf(intSalePercent)+ "%");
         }

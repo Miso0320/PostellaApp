@@ -25,6 +25,7 @@ import com.appteam4.postella.service.ServiceProvider;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -164,5 +165,16 @@ public class MainFragment extends Fragment {
             }
         });
         // 항목 클릭시 콜백 메소드 등록
+        mainAdapter.setOnItemClickListener(new MainAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View itemView, int position) {
+                Product product = mainAdapter.getItem(position);
+                Log.i(TAG, product.toString());
+
+                Bundle args = new Bundle();
+                args.putSerializable("product", product);
+                navController.navigate(R.id.action_dest_main_to_dest_prod_detail);
+            }
+        });
     }
 }
