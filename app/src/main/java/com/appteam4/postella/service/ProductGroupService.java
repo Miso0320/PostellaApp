@@ -12,10 +12,10 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface ProductGroupService {
-    @GET("getProductList")
+    @GET("getProductListForApp")
     Call<List<Product>> getProductList();
 
-    @GET("getProducts")
+    @GET("getProductsForApp")
     Call<List<Product>>getProudcts(@Query("pg_no")int pg_no);
     @GET
     static void loadImage(int pg_no, ImageView imageView) {
