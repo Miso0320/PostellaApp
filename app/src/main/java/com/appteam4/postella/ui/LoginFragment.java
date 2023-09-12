@@ -25,13 +25,13 @@ public class LoginFragment extends Fragment {
         binding = FragmentLoginBinding.inflate(inflater);
         navController = NavHostFragment.findNavController(this);
 
-        initBtnMain();
-        initBtnLogin();
+        /*initBtnMain();
+        initBtnLogin();*/
 
         return binding.getRoot();
     }
 
-    private void initBtnMain() {
+    /*private void initBtnMain() {
         binding.btnMain.setOnClickListener(v -> {
             navController.navigate(R.id.action_dest_login_to_dest_main);
         });
@@ -42,5 +42,5 @@ public class LoginFragment extends Fragment {
             navController.popBackStack();
             //navController.popBackStack(R.id.dest_main,false);
         });
-    }
+    }*/
 }

@@ -53,6 +53,9 @@ dependencies {
     // AndroidX: activity라이브러리의 일부, 라이브러리 패키지 구조 개선을 위해 사용
     implementation ("androidx.activity:activity:1.7.2")
 
+    // 둥근 이미지를 보여주는 라이브러리
+    implementation("de.hdodenhof:circleimageview:3.1.0")
+
     modules {
         module("org.jetbrains.kotlin:kotlin-stdlib-jdk7") {
             replacedBy("org.jetbrains.kotlin:kotlin-stdlib", "kotlin-stdlib-jdk7 is now part of kotlin-stdlib")
