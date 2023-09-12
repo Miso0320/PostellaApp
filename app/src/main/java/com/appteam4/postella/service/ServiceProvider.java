@@ -5,6 +5,7 @@ import android.content.Context;
 import com.appteam4.postella.datastore.AppKeyValueStore;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
@@ -49,6 +50,7 @@ public class ServiceProvider {
                         return chain.proceed(updateRequest);
                     }
                 }).build();
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(NetworkInfo.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
