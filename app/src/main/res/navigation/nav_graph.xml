@@ -8,6 +8,7 @@
     <fragment
         android:id="@+id/dest_main"
         android:name="com.appteam4.postella.ui.MainFragment"
+        app:icon="@drawable/ic_menu_24dp"
         android:label="@string/app_name"
         tools:layout="@layout/fragment_main" >
         <action

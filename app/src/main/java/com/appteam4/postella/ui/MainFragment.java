@@ -8,16 +8,23 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
+import androidx.core.view.GravityCompat;
 import androidx.core.view.MenuProvider;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Lifecycle;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import com.appteam4.postella.MainActivity;
 import com.appteam4.postella.R;
+import com.appteam4.postella.databinding.ActivityMainBinding;
 import com.appteam4.postella.databinding.FragmentMainBinding;
 import com.appteam4.postella.dto.Product;
 import com.appteam4.postella.service.ProductGroupService;
@@ -25,7 +32,6 @@ import com.appteam4.postella.service.ServiceProvider;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -45,6 +51,7 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentMainBinding.inflate(inflater);
         navController = NavHostFragment.findNavController(this);
+        Log.i(TAG, "onStop: 실행");
 
         // 메뉴 초기화
         initMenu();
@@ -55,6 +62,7 @@ public class MainFragment extends Fragment {
 
         return binding.getRoot();
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -81,13 +89,13 @@ public class MainFragment extends Fragment {
                     navController.navigate(R.id.action_dest_main_to_dest_cart);
                     return true;
                 }else if(menuItem.getItemId() == R.id.dest_category){
-                    navController.navigate(R.id.action_dest_main_to_dest_category);
                     return true;
                 }
                 return false;
             }
-        };
+            // 최상위 창 아이콘 클릭 이벤트 처리
 
+        };
         getActivity().addMenuProvider(menuProvider, getViewLifecycleOwner(), Lifecycle.State.RESUMED);
     }
     private void initPagerView() {
@@ -180,4 +188,5 @@ public class MainFragment extends Fragment {
             }
         });
     }
+
 }

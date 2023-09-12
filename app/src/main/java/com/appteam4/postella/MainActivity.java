@@ -1,16 +1,27 @@
 package com.appteam4.postella;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+import android.view.Menu;
+import android.view.View;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.appteam4.postella.databinding.ActivityMainBinding;
+import com.appteam4.postella.ui.MainFragment;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -22,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
 
     private NavController navController;
+
+    private Handler handler = new Handler();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,15 +51,14 @@ public class MainActivity extends AppCompatActivity {
                 (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_main);
         navController = navHostFragment.getNavController();
 
-        initDrawerLayout();
         // 하단 탐색 뷰와 NavController 연동
         NavigationUI.setupWithNavController(binding.bottomNavigationView, navController);
-
         // 앱바 추가하기
         initAppbar();
+        //drawerlayout 메뉴 추가하기
+        initDrawerLayout();
         
     }
-
     private void initAppbar() {
         // Toolbar를 앱바로 설정
         setSupportActionBar(binding.toolbar);
@@ -69,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
                 R.id.dest_category,
                 R.id.dest_search,
                 R.id.dest_cart
-                // 추가적인 대상 ID를 여기에 추가
         )
                 .setOpenableLayout(drawerLayout)
                 .build();
@@ -84,26 +96,43 @@ public class MainActivity extends AppCompatActivity {
         // ActionBar의 Up 버튼을 사용하여 네비게이션 드로어 열기/닫기
         NavigationUI.setupWithNavController(navigationView, navController);
 
+        // 최상위 창 아이콘 (툴바의 네비게이션 아이콘) 클릭 이벤트 처리
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
+                this,
+                drawerLayout,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close
+
+        );
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+
+        // 최상위 창 아이콘 클릭 이벤트 처리
+        binding.toolbar.setNavigationOnClickListener(v -> {
+            // 네비게이션 드로어가 열린 상태에서만 CategoryFragment로 이동
+            Log.i(TAG, "onClick: 실행");
+            drawerLayout.openDrawer(GravityCompat.START);
+        });
+
+
         // 네비게이션 메뉴 아이템 클릭 처리
         navigationView.setNavigationItemSelectedListener(item -> {
             int id = item.getItemId();
-           /* switch (id) {
-                case R.id.nav_item1:
-                    // Item 1을 클릭한 경우의 동작 처리
-                    break;
-                case R.id.nav_item2:
-                    // Item 2를 클릭한 경우의 동작 처리
-                    break;
-                case R.id.nav_item3:
-                    // Item 3을 클릭한 경우의 동작 처리
-                    break;
-                case R.id.nav_item4:
-                    // Item 4를 클릭한 경우의 동작 처리
-                    break;
-            }*/
-            // 네비게이션 드로어를 닫습니다.
+
+            // 네비게이션 드로어 닫기
             drawerLayout.closeDrawer(GravityCompat.START);
+            // MainFragment로 이동 (네비게이션 드로어가 닫힌 후)
+            navController.popBackStack();
+
             return true;
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        int backStackEntryCount = fragmentManager.getBackStackEntryCount();
     }
 }
