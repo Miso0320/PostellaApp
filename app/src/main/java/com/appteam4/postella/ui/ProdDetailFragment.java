@@ -97,7 +97,7 @@ public class ProdDetailFragment extends Fragment {
 
     private void initTabPage() {
         binding.tabProductReviews.setOnClickListener(v -> {
-            //navController.navigate(R.id.action_dest_prod_detail_to_dest_review);
+            navController.navigate(R.id.action_dest_prod_detail_to_dest_review);
         });
 
         binding.tabProductInquiries.setOnClickListener(v -> {
