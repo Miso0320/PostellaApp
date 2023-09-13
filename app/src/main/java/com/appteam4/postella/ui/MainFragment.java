@@ -8,10 +8,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuProvider;
+import androidx.core.widget.NestedScrollView;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
@@ -41,8 +43,8 @@ public class MainFragment extends Fragment {
     private static final String TAG = "MainFragment";
     private FragmentMainBinding binding;
     private NavController navController;
-    private NavigationView navigationView;
-    private DrawerLayout drawerLayout;
+    private NestedScrollView nestedScrollView;
+
 
 
     @Override
@@ -59,6 +61,8 @@ public class MainFragment extends Fragment {
         initPagerView();
         //RecyclerView 초기화
         initRecyclerView();
+        //NestedScrollView 초기화
+        initNestedSCrollView();
 
         return binding.getRoot();
     }
@@ -183,6 +187,26 @@ public class MainFragment extends Fragment {
                 Bundle args = new Bundle();
                 args.putSerializable("product", product);
                 navController.navigate(R.id.action_dest_main_to_dest_prod_detail);
+            }
+        });
+    }
+
+    private void initNestedSCrollView(){
+        // NestedScrollView 초기화
+        nestedScrollView = binding.getRoot().findViewById(R.id.nest_scroll_main_view);
+        nestedScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            if((!v.canScrollVertically(-1))){
+                binding.btnScrollToTop.hide();
+            }else {
+                binding.btnScrollToTop.show();
+            }
+
+        });
+        binding.btnScrollToTop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // NestedScrollView를 맨 위로 스크롤
+                nestedScrollView.smoothScrollTo(0, 0);
             }
         });
     }

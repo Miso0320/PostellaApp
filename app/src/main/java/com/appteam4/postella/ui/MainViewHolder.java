@@ -47,7 +47,7 @@ public class MainViewHolder extends RecyclerView.ViewHolder {
         prodPrice.setText(df.format(product.getPrd_price()));
         //할인율 계산
         int topPrdPrice = product.getPrd_org_price();
-        int topPrdSaleprice = product.getPrd_org_price();
+        int topPrdSaleprice = product.getPrd_price();
         double salePercent = (double)(topPrdPrice - topPrdSaleprice) / topPrdPrice * 100 ;
         int intSalePercent = (int)salePercent;
         //할인 하고 있는 상품만 할인율 표시

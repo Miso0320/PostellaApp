@@ -21,4 +21,9 @@
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
     </style>
+   <!--scrollTop 버튼 동그라미 모양 설정-->
+    <style name="rounded_fab" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
 </resources>
