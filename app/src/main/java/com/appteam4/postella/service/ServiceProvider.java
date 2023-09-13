@@ -64,4 +64,14 @@ public class ServiceProvider {
 
         return productGroupService;
     }
+
+    public static MyPageOrderListService getMyPageOrderList(Context context) {
+        MyPageOrderListService myPageOrderListService = getRetrofit(context).create(MyPageOrderListService.class);
+        return myPageOrderListService;
+    }
+
+    public static CartService getCart(Context context) {
+        CartService cartService = getRetrofit(context).create(CartService.class);
+        return cartService;
+    }
 }
