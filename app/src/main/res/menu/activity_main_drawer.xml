@@ -1,20 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <item
+        android:id="@+id/c_main_item"
+        android:title="카테고리"
+        android:checkableBehavior="single"
+        android:icon="@drawable/ic_arrow_drop_down_24dp" />
+    <group
+        android:id="@+id/group_category"
+        android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_item1"
-            android:title="Item1" />
+            android:id="@+id/c_sub_item1"
+            android:icon="@drawable/ic_photo_24dp"
+            android:title="포토엽서" />
         <item
-            android:id="@+id/nav_item2"
-            android:title="Item2" />
+            android:id="@+id/c_sub_item2"
+            android:icon="@drawable/ic_mode_24dp"
+            android:title="디자인 패턴 엽서" />
         <item
-            android:id="@+id/nav_item3"
-            android:title="Item3" />
+            android:id="@+id/c_sub_item3"
+            android:icon="@drawable/ic_palette_24dp"
+            android:title="그림/일러스트 엽서" />
         <item
-            android:id="@+id/nav_item4"
-            android:title="Item4" />
+            android:id="@+id/c_sub_item4"
+            android:icon="@drawable/ic_brush_24dp"
+            android:title="캘리그라피 엽서" />
+    </group>
+    <item
+        android:id="@+id/b_main_item"
+        android:title="브랜드"
+        android:checkableBehavior="single"
+        android:icon="@drawable/ic_arrow_drop_down_24dp"/>
+    <group
+        android:id="@+id/group_brand"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/b_sub_item1"
+            android:title="홍홍엔데코"
+            android:icon="@drawable/ic_rocket_24dp"/>
+        <item
+            android:id="@+id/b_sub_item2"
+            android:title="송미 풋"
+            android:icon="@drawable/ic_psychiatry_24dp"/>
+        <item
+            android:id="@+id/b_sub_item3"
+            android:title="우리집 토끼는 미소천사"
+            android:icon="@drawable/ic_cruelty_free_24dp"/>
+        <item
+            android:id="@+id/b_sub_item4"
+            android:title="유짱이네 쿼카"
+            android:icon="@drawable/ic_face_24dp"/>
+        <item
+            android:id="@+id/b_sub_item5"
+            android:title="살쾡이는 너무 무서워"
+            android:icon="@drawable/ic_pets_24dp"/>
+    </group>
+    <item
+        android:id="@+id/m_main_item"
+        android:title="메시지"
+        android:checkableBehavior="single"
+        android:icon="@drawable/ic_arrow_drop_down_24dp"/>
+    <group
+        android:id="@+id/group_message"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/m_sub_item1"
+            android:title="축하/기념일"
+            android:icon="@drawable/ic_celebration_24dp"/>
+        <item
+            android:id="@+id/m_sub_item2"
+            android:title="사랑/고백"
+            android:icon="@drawable/ic_volunteer_activism_24dp"
+            />
+        <item
+            android:id="@+id/m_sub_item3"
+            android:title="감사"
+            android:icon="@drawable/ic_folded_hands_24dp"/>
+        <item
+            android:id="@+id/m_sub_item4"
+            android:title="힐링"
+            android:icon="@drawable/ic_local_florist_24dp"/>
+        <item
+            android:id="@+id/m_sub_item5"
+            android:title="위로/격려"
+            android:icon="@drawable/ic_healing_24dp"/>
     </group>
 </menu>

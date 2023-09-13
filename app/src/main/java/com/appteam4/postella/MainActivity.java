@@ -2,9 +2,15 @@ package com.appteam4.postella;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.BackgroundColorSpan;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +29,8 @@ import androidx.navigation.ui.NavigationUI;
 import com.appteam4.postella.databinding.ActivityMainBinding;
 import com.appteam4.postella.ui.MainFragment;
 import com.google.android.material.navigation.NavigationView;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -53,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
         // 하단 탐색 뷰와 NavController 연동
         NavigationUI.setupWithNavController(binding.bottomNavigationView, navController);
+
         // 앱바 추가하기
         initAppbar();
         //drawerlayout 메뉴 추가하기
@@ -69,13 +78,13 @@ public class MainActivity extends AppCompatActivity {
         // Toolbar만 단독으로 사용
         NavigationUI.setupWithNavController(binding.toolbar, navController, appBarConfiguration);
     }
-
+    private boolean isVisible = false;
     private void initDrawerLayout(){
         //네비게이션 드로어의 DrawerLayout 가져오기
         drawerLayout = findViewById(R.id.drawer_layout);
-
         //네비게이션 뷰 가져오기
         NavigationView navigationView = findViewById(R.id.navigation_view);
+
         // 네비게이션 그래프 설정
         appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.dest_main,
@@ -96,6 +105,9 @@ public class MainActivity extends AppCompatActivity {
         // ActionBar의 Up 버튼을 사용하여 네비게이션 드로어 열기/닫기
         NavigationUI.setupWithNavController(navigationView, navController);
 
+        // 메뉴 아이템 참조 가져오기
+        MenuItem menuItem = navigationView.getMenu().findItem(R.id.c_main_item);
+
         // 최상위 창 아이콘 (툴바의 네비게이션 아이콘) 클릭 이벤트 처리
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
                 this,
@@ -114,24 +126,81 @@ public class MainActivity extends AppCompatActivity {
             drawerLayout.openDrawer(GravityCompat.START);
         });
 
-
         // 네비게이션 메뉴 아이템 클릭 처리
         navigationView.setNavigationItemSelectedListener(item -> {
-            int id = item.getItemId();
-
-            // 네비게이션 드로어 닫기
-            drawerLayout.closeDrawer(GravityCompat.START);
-            // MainFragment로 이동 (네비게이션 드로어가 닫힌 후)
-            navController.popBackStack();
-
+            drawerLayout = findViewById(R.id.drawer_layout);
+            Menu menu = navigationView.getMenu();
+            int itemId = item.getItemId();
+            // 카테고리 항목 선택 이벤트 리스너
+            if(itemId == R.id.c_main_item){
+                // 카테고리 항목을 클릭하면 드롭다운 메뉴 그룹의 가시성을 토글
+                isVisible = !isVisible;
+                menu.setGroupVisible(R.id.group_category, isVisible);
+                Log.i(TAG, "initDrawerLayout: " + isVisible);
+            }else if(itemId == R.id.b_main_item){
+                // 브랜드 항목을 클릭하면 드롭다운 메뉴 그룹의 가시성을 토글
+                boolean isVisible = menu.findItem(R.id.b_sub_item1).isVisible();
+                menu.setGroupVisible(R.id.group_brand, !isVisible);
+            }else if(itemId == R.id.m_main_item) {
+                // 메시지 항목을 클릭하면 드롭다운 메뉴 그룹의 가시성을 토글
+                boolean isVisible = menu.findItem(R.id.m_sub_item1).isVisible();
+                menu.setGroupVisible(R.id.group_message, !isVisible);
+            }else if(itemId == R.id.c_sub_item1){
+                navController.navigate(R.id.dest_category);
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }else if(itemId == R.id.c_sub_item2){
+                navController.navigate(R.id.dest_category);
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }else if(itemId == R.id.c_sub_item3){
+                navController.navigate(R.id.dest_category);
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }else if(itemId == R.id.c_sub_item4){
+                navController.navigate(R.id.dest_category);
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }else if(itemId == R.id.b_sub_item1){
+                navController.navigate(R.id.dest_category);
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }else if(itemId == R.id.b_sub_item2){
+                navController.navigate(R.id.dest_category);
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }else if(itemId == R.id.b_sub_item3){
+                navController.navigate(R.id.dest_category);
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }else if(itemId == R.id.b_sub_item4){
+                navController.navigate(R.id.dest_category);
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }else if(itemId == R.id.b_sub_item5){
+                navController.navigate(R.id.dest_category);
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }else if(itemId == R.id.m_sub_item1){
+                navController.navigate(R.id.dest_category);
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }else if(itemId == R.id.m_sub_item2){
+                navController.navigate(R.id.dest_category);
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }else if(itemId == R.id.m_sub_item3){
+                navController.navigate(R.id.dest_category);
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }else if(itemId == R.id.m_sub_item4){
+                navController.navigate(R.id.dest_category);
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }else if(itemId == R.id.m_sub_item5){
+                navController.navigate(R.id.dest_category);
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }else{
+                // 다른 항목 클릭 시 카테고리 메뉴 닫기
+                menu.setGroupVisible(R.id.group_category, false);
+                // 네비게이션 드로어 닫기
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }
             return true;
         });
+
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
         FragmentManager fragmentManager = getSupportFragmentManager();
         int backStackEntryCount = fragmentManager.getBackStackEntryCount();
     }

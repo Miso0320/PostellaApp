@@ -8,27 +8,23 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
-import androidx.core.view.GravityCompat;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuProvider;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Lifecycle;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 
-import com.appteam4.postella.MainActivity;
 import com.appteam4.postella.R;
-import com.appteam4.postella.databinding.ActivityMainBinding;
 import com.appteam4.postella.databinding.FragmentMainBinding;
 import com.appteam4.postella.dto.Product;
 import com.appteam4.postella.service.ProductGroupService;
 import com.appteam4.postella.service.ServiceProvider;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -45,6 +41,8 @@ public class MainFragment extends Fragment {
     private static final String TAG = "MainFragment";
     private FragmentMainBinding binding;
     private NavController navController;
+    private NavigationView navigationView;
+    private DrawerLayout drawerLayout;
 
 
     @Override
@@ -53,6 +51,8 @@ public class MainFragment extends Fragment {
         navController = NavHostFragment.findNavController(this);
         Log.i(TAG, "onStop: 실행");
 
+        // AppBar 나타나기
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         // 메뉴 초기화
         initMenu();
         //상단 광고 초기화
@@ -93,8 +93,6 @@ public class MainFragment extends Fragment {
                 }
                 return false;
             }
-            // 최상위 창 아이콘 클릭 이벤트 처리
-
         };
         getActivity().addMenuProvider(menuProvider, getViewLifecycleOwner(), Lifecycle.State.RESUMED);
     }

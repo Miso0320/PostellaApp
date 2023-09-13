@@ -2,6 +2,7 @@ package com.appteam4.postella.ui;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.NavHostController;
@@ -26,14 +27,10 @@ public class CategoryFragment extends Fragment {
         binding = FragmentCategoryBinding.inflate(inflater);
         navController = NavHostFragment.findNavController(this);
 
-        initBtnProdList();
+        // AppBar 숨기기
+        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
 
         return binding.getRoot();
     }
 
-    private void initBtnProdList() {
-        binding.btnProdList.setOnClickListener(v -> {
-            navController.navigate(R.id.action_dest_category_to_dest_prod_list);
-        });
-    }
 }
