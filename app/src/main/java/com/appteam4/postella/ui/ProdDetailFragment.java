@@ -10,6 +10,7 @@ import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
 import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -52,7 +53,7 @@ public class ProdDetailFragment extends Fragment {
         navController = NavHostFragment.findNavController(this);
 
         // 앱바 설정
-        //initMenu();
+        initMenu();
 
         // 취소선 추가
         binding.prdOrgPrice.setPaintFlags(binding.prdOrgPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
@@ -60,15 +61,15 @@ public class ProdDetailFragment extends Fragment {
         // 이미지 슬라이더
         initPagerView();
 
+        // 탭 메뉴 이동
+        initTabPage();
+
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        // 탭 메뉴 이동
-        initTabPage();
     }
 
     private void initMenu() {
@@ -81,12 +82,10 @@ public class ProdDetailFragment extends Fragment {
             @Override
             public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
                 if(menuItem.getItemId() == R.id.dest_search) {
-                    navController.navigate(R.id.action_dest_main_to_dest_search);
+                    navController.navigate(R.id.dest_search, null);
                     return true;
                 } else if(menuItem.getItemId() == R.id.dest_cart) {
-                    navController.navigate(R.id.action_dest_main_to_dest_cart);
-                    return true;
-                }else if(menuItem.getItemId() == R.id.dest_category){
+                    navController.navigate(R.id.dest_cart, null);
                     return true;
                 }
                 return false;
@@ -97,11 +96,25 @@ public class ProdDetailFragment extends Fragment {
 
     private void initTabPage() {
         binding.tabProductReviews.setOnClickListener(v -> {
-            navController.navigate(R.id.action_dest_prod_detail_to_dest_review);
+            //navController.navigate(R.id.action_dest_prod_detail_to_dest_review);
+            //navController.popBackStack(R.id.dest_review, false);
+            NavOptions navOptions = new NavOptions.Builder()
+                    .setPopUpTo(R.id.dest_review, false)
+                    .setLaunchSingleTop(true)
+                    .build();
+
+            navController.navigate(R.id.dest_review, null, navOptions);
         });
 
         binding.tabProductInquiries.setOnClickListener(v -> {
-            navController.navigate(R.id.action_dest_prod_detail_to_dest_inquiry);
+            //navController.navigate(R.id.action_dest_prod_detail_to_dest_inquiry);
+            //navController.popBackStack(R.id.dest_inquiry, false);
+            NavOptions navOptions = new NavOptions.Builder()
+                    .setPopUpTo(R.id.dest_inquiry, false)
+                    .setLaunchSingleTop(true)
+                    .build();
+
+            navController.navigate(R.id.dest_inquiry, null, navOptions);
         });
     }
 
