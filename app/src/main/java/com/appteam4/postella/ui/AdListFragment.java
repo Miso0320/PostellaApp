@@ -26,16 +26,9 @@ public class AdListFragment extends Fragment {
         binding = FragmentAdListBinding.inflate(inflater);
         navController = NavHostFragment.findNavController(this);
 
-        initBtnGoBack();
         initBtnAdDetail();
 
         return binding.getRoot();
-    }
-
-    private void initBtnGoBack(){
-        binding.btnGoBack.setOnClickListener(v->{
-            navController.popBackStack();
-        });
     }
 
     private  void initBtnAdDetail(){

@@ -89,12 +89,13 @@
             android:layout_height="wrap_content"
             android:text="로그인"
             app:cornerRadius="5dp"/>
+
         <Button
-            android:id="@+id/btn_logout"
+            android:id="@+id/btn_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="로그아웃"
-            app:cornerRadius="5dp"/>
+            android:text="회원가입"
+            app:cornerRadius="5dp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

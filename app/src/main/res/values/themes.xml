@@ -6,12 +6,19 @@
     </style>
 
     <style name="Theme.Postella" parent="Base.Theme.Postella" />
-    <style name="Theme.Postella.NoActionBar">
+
+    <!--<style name="Theme.Postella.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-    </style>
+    </style>-->
 
     <style name="Theme.Postella.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.Postella.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!-- 앱 시작 테마 -->
+    <style name="SplashTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+    </style>
 </resources>

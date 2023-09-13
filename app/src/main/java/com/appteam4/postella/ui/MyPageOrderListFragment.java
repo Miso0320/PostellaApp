@@ -1,7 +1,16 @@
 package com.appteam4.postella.ui;
 
+import android.Manifest;
+import android.app.AlertDialog;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.PickVisualMediaRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -11,6 +20,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.appteam4.postella.R;
 import com.appteam4.postella.databinding.FragmentMyOrderListBinding;
@@ -31,6 +41,7 @@ public class MyPageOrderListFragment extends Fragment {
     private FragmentMyOrderListBinding binding;
     private NavController navController;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -38,6 +49,8 @@ public class MyPageOrderListFragment extends Fragment {
        navController = NavHostFragment.findNavController(this);
 
        initRecyclerViewMyOrderList();
+       //initClickProfile();
+       initBtnImageSelect();
 
        return binding.getRoot();
     }
@@ -91,6 +104,86 @@ public class MyPageOrderListFragment extends Fragment {
                 args.putSerializable("myPageOrderList", myPageOrderList);
                 navController.navigate(R.id.action_dest_mypage_order_list_to_dest_prod_detail);
             }
+        });
+    }
+
+    /*private void initClickProfile() {
+        binding.profileImg.setOnClickListener(v -> {
+
+            Log.i(TAG, "클릭됨");
+
+            if (ContextCompat.checkSelfPermission(getContext(),
+                    android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                Log.i(TAG, "네비갤러리 실행");
+                navigateGallery();
+            } else {
+                *//*ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, 1000);
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+                alertDialog.setTitle("권한 없음")
+                        .setMessage("갤러리 접근에 실패하였습니다.")
+                        .setPositiveButton("확인", null)
+                        .create()
+                        .show();*//*
+                if (ContextCompat.checkSelfPermission(
+                        getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    Log.i(TAG, "true 접근");
+                    requestPermissions(new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, 1000);
+                }
+
+                requestStoragePermission();
+            }
+        });
+    }
+
+    private void navigateGallery() {
+        Log.i(TAG, "네비갤러리 함수 실행");
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        //startActivityForResult(intent, 2000);
+        startActivity(intent);
+    }
+
+    private void requestStoragePermission() {
+        if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            // 사용자에게 권한 필요 이유 설명
+            new AlertDialog.Builder(getContext())
+                    .setTitle("권한 필요")
+                    .setMessage("프로필 이미지를 바꾸기 위해 갤러리 접근 권한이 필요합니다.")
+                    .setPositiveButton("동의하기", (dialog, which) -> {
+                        // 권한 요청
+                        ActivityCompat.requestPermissions(getActivity(),
+                                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1000);
+                    })
+                    .setNegativeButton("취소하기", (dialog, which) -> {
+                        // 사용자가 권한 요청을 취소한 경우의 동작을 설정
+                    })
+                    .create()
+                    .show();
+        } else {
+            // 권한 요청을 처음 시도하는 경우
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1000);
+        }
+    }*/
+
+    private void initBtnImageSelect() {
+        ActivityResultLauncher<PickVisualMediaRequest> activityResultLauncher =
+                registerForActivityResult(
+                        new ActivityResultContracts.PickVisualMedia(),
+                        uri -> {
+                            if (uri != null) {
+                                binding.profileImg.setImageURI(uri);
+                                binding.profileImg.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                            }
+                        }
+                );
+
+        binding.profileImg.setOnClickListener(v -> {
+            PickVisualMediaRequest request = new PickVisualMediaRequest.Builder()
+                    .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                    .build();
+            activityResultLauncher.launch(request);
         });
     }
 }
