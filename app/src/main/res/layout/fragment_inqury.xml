@@ -72,7 +72,7 @@
         app:layout_constraintTop_toBottomOf="@id/selected_tab">
 
         <Button
-            android:id="@+id/outlinedButton"
+            android:id="@+id/btn_inquiry"
             style="?attr/materialButtonOutlinedStyle"
             android:layout_width="350dp"
             android:layout_height="wrap_content"

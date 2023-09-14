@@ -152,5 +152,9 @@ public class InquryFragment extends Fragment {
 
             navController.navigate(R.id.dest_review, null, navOptions);
         });
+
+        binding.btnInquiry.setOnClickListener(v -> {
+            navController.navigate(R.id.dest_order);
+        });
     }
 }
