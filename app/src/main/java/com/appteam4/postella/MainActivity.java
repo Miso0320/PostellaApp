@@ -121,9 +121,17 @@ public class MainActivity extends AppCompatActivity {
 
         // 최상위 창 아이콘 클릭 이벤트 처리
         binding.toolbar.setNavigationOnClickListener(v -> {
-            // 네비게이션 드로어가 열린 상태에서만 CategoryFragment로 이동
-            Log.i(TAG, "onClick: 실행");
-            drawerLayout.openDrawer(GravityCompat.START);
+            // 현재 액티비티에서 FragmentManager를 가져옵니다.
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            // 현재 액티비티에 표시되는 현재 프래그먼트를 가져옴
+            Fragment currentFragment = fragmentManager.findFragmentById(R.id.nav_main).getChildFragmentManager().getFragments().get(0);
+            // 네비게이션 드로어가 열린 상태에서만 드로어 메뉴로 이동
+            if (currentFragment instanceof MainFragment) {
+                Log.i(TAG, "onClick: 실행");
+                drawerLayout.openDrawer(GravityCompat.START);
+            }else {
+                navController.popBackStack();
+            }
         });
 
         // 네비게이션 메뉴 아이템 클릭 처리

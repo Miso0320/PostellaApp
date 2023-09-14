@@ -14,22 +14,22 @@ import com.appteam4.postella.service.ProductGroupService;
 
 import java.text.DecimalFormat;
 
-public class MainViewHolder extends RecyclerView.ViewHolder {
-    private static final String TAG = "MainViewHolder";
+public class RecomendViewHolder extends RecyclerView.ViewHolder {
 
+    private static final String TAG = "RecomendViewHolder";
     private int pg_no;
     private ImageView imgProdAttach;
     private TextView prodPrice;
     private TextView prodDiscount;
     private TextView prodName;
 
-    public MainViewHolder (@NonNull View itemView, MainAdapter.OnItemClickListener onItemClickListener) {
+    public RecomendViewHolder(@NonNull View itemView, SearchAdapter.OnItemClickListener onItemClickListener) {
         super(itemView);
         //아이템 UI 얻기
-        imgProdAttach = (ImageView) itemView.findViewById(R.id.img_prod_attach);
+        imgProdAttach = (ImageView) itemView.findViewById(R.id.img_reco_prod);
         prodPrice = (TextView) itemView.findViewById(R.id.txt_reco_prod_price);
         prodDiscount = (TextView) itemView.findViewById(R.id.txt_reco_prod_discount);
-        prodName = (TextView) itemView.findViewById(R.id.txt_prod_name);
+        prodName = (TextView) itemView.findViewById(R.id.txt_reco_prod_name);
 
         //클릭 이벤트 처리
         itemView.setOnClickListener(v -> {

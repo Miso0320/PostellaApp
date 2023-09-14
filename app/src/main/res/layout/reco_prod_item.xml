@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="140dp"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="0dp"
+    app:strokeWidth="0dp"
+    android:layout_marginLeft="5dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/img_reco_prod"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/photo1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="3dp">
+
+            <!-- Title, secondary and supporting text -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txt_reco_prod_discount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="3dp"
+                    android:text="10%"
+                    android:textAppearance="?attr/textAppearanceHeadline6"
+                    android:textSize="13dp"
+                    android:textColor="#E81010" />
+
+                <TextView
+                    android:id="@+id/txt_reco_prod_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="4,000"
+                    android:textSize="13dp"
+                    android:textAppearance="?attr/textAppearanceHeadline6" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical">
+
+                <RatingBar
+                    android:id="@+id/reco_prod_rating"
+                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    android:layout_width="65dp"
+                    android:layout_height="wrap_content"
+                    android:numStars="5"
+                    android:progressTint="@android:color/holo_orange_dark"
+                    android:rating="3" />
+
+                <TextView
+                    android:id="@+id/reco_prod_ratingScore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10dp"
+                    android:text="3.0" />
+
+                <TextView
+                    android:id="@+id/reco_prod_ratingCountByProduct"
+                    android:layout_width="1dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="2dp"
+                    android:textSize="10dp"
+                    android:text="(20)" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/txt_reco_prod_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="Sub Title"
+                    android:textAppearance="?attr/textAppearanceBody1"
+                    android:textColor="#737373"
+                    android:textSize="13dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider" />
+
+    </LinearLayout>
+
+
+</com.google.android.material.card.MaterialCardView>

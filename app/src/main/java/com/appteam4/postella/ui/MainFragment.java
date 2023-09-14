@@ -52,7 +52,7 @@ public class MainFragment extends Fragment {
         binding = FragmentMainBinding.inflate(inflater);
         navController = NavHostFragment.findNavController(this);
         Log.i(TAG, "onStop: 실행");
-
+        binding.btnScrollToTop.hide();
         // AppBar 나타나기
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         // 메뉴 초기화

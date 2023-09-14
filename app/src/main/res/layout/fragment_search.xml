@@ -6,20 +6,44 @@
     android:layout_height="match_parent"
     tools:context=".ui.SearchFragment">
 
-    <com.google.android.material.textfield.TextInputLayout
-    android:id="@+id/textInputLayout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:startIconDrawable="@drawable/ic_search_24dp"
-    app:startIconContentDescription="Search Icon"
-    app:hintEnabled="false"
-    tools:ignore="MissingConstraints">
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/editText"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="검색어를 입력하세요" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/search_go_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:hintEnabled="false"
+            app:startIconContentDescription="Search Icon"
+            app:startIconDrawable="@drawable/ic_search_24dp"
+            tools:ignore="MissingConstraints">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="검색어를 입력하세요" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="이런 상품 어때요 ?"
+            android:textSize="18dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="5dp"
+            android:textStyle="bold"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_search_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

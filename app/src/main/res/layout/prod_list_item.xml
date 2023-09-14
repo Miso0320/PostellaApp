@@ -54,7 +54,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/txt_prod_discount"
+                android:id="@+id/txt_reco_prod_discount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="10%"
@@ -62,7 +62,7 @@
                 android:textColor="#E81010" />
 
             <TextView
-                android:id="@+id/txt_prod_price"
+                android:id="@+id/txt_reco_prod_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
