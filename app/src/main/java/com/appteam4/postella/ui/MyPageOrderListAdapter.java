@@ -59,4 +59,8 @@ public class MyPageOrderListAdapter extends RecyclerView.Adapter<MyPageOrderList
     public MyPageOrderList getItem(int position) {
         return orderList.get(position);
     }
+
+    public void addMyPageOrderList(MyPageOrderList myPageOrderList) {
+        orderList.add(myPageOrderList);
+    }
 }

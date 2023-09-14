@@ -34,7 +34,7 @@ public class CartHolder extends RecyclerView.ViewHolder {
         cartTitle = (TextView) itemView.findViewById(R.id.cart_title);
         cartPrice = (TextView) itemView.findViewById(R.id.cart_price);
         cartArrivalDate = (TextView) itemView.findViewById(R.id.cart_arrival_date);
-        cartProdPrice = (TextView) itemView.findViewById(R.id.txt_cart_total_price);
+        cartProdPrice = (TextView) itemView.findViewById(R.id.cart_total_price);
 
         //클릭 이벤트 처리
         itemView.setOnClickListener(v -> {
@@ -45,7 +45,8 @@ public class CartHolder extends RecyclerView.ViewHolder {
 
     public void setCartData(Cart cart) {
         cartNo = cart.getCartNo();
-        CartService.loadImage(cart.getCartNo(), cartImage);
+        cartImage.setImageResource(R.drawable.photo1);
+        //CartService.loadImage(cart.getCartNo(), cartImage);
         cartTitle.setText(cart.getCartTitle());
 
         DecimalFormat df = new DecimalFormat("#,###");
@@ -56,6 +57,6 @@ public class CartHolder extends RecyclerView.ViewHolder {
         String strDate = sdf.format(date);
         cartArrivalDate.setText(strDate);
 
-        cartProdPrice.setText(cart.getCartProdPrice());
+        cartProdPrice.setText(df.format(cart.getCartProdPrice()));
     }
 }

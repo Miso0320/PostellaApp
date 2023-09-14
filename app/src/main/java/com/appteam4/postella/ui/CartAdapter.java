@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.appteam4.postella.R;
 import com.appteam4.postella.dto.Cart;
+import com.appteam4.postella.dto.MyPageOrderList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,5 +54,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartHolder> {
 
     public Cart getItem(int position) {
         return list.get(position);
+    }
+
+    public void addCart(Cart cart) {
+        list.add(cart);
     }
 }

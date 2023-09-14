@@ -105,14 +105,12 @@
         android:label="이벤트"
         tools:layout="@layout/fragment_ad_list">
         <action
-            android:id="@+id/action_dest_ad_list_to_dest_ad_detail"
-            app:destination="@id/dest_ad_detail" />
+            android:id="@+id/action_dest_ad_list_to_dest_ad_detail_ad1"
+            app:destination="@id/dest_ad_detail_ad1" />
+        <action
+            android:id="@+id/action_dest_ad_list_to_dest_ad_detail_ad2"
+            app:destination="@id/dest_ad_detail_ad2" />
     </fragment>
-    <fragment
-        android:id="@+id/dest_ad_detail"
-        android:name="com.appteam4.postella.ui.AdDetailFragment"
-        android:label="이벤트"
-        tools:layout="@layout/fragment_ad_detail" />
     <fragment
         android:id="@+id/dest_search"
         android:name="com.appteam4.postella.ui.SearchFragment"
@@ -173,4 +171,24 @@
             android:id="@+id/action_dest_wish_list_to_dest_prod_detail"
             app:destination="@id/dest_prod_detail" />
     </fragment>
+    <fragment
+        android:id="@+id/dest_ad_detail_ad1"
+        android:name="com.appteam4.postella.ui.AdDetailAd1Fragment"
+        android:label="이벤트"
+        tools:layout="@layout/fragment_ad_detail_ad1" >
+
+    </fragment>
+    <fragment
+        android:id="@+id/dest_ad_detail_ad2"
+        android:name="com.appteam4.postella.ui.AdDetailAd2Fragment"
+        android:label="이벤트"
+        tools:layout="@layout/fragment_ad_detail_ad2" >
+
+    </fragment>
+
+    <activity
+        android:id="@+id/splashActivity"
+        android:name="com.appteam4.postella.SplashActivity"
+        android:label="activity_splash"
+        tools:layout="@layout/activity_splash" />
 </navigation>

@@ -43,7 +43,8 @@ public class MyPageOrderListHolder extends RecyclerView.ViewHolder {
 
     public void setMyPageOrderListData(MyPageOrderList myPageOrderList) {
         orderListNo = myPageOrderList.getOrderListNo();
-        MyPageOrderListService.loadImage(myPageOrderList.getOrderListNo(), orderListImage);
+        orderListImage.setImageResource(R.drawable.photo1);
+        //MyPageOrderListService.loadImage(myPageOrderList.getOrderListNo(), orderListImage);
         //상품 가격
         DecimalFormat df = new DecimalFormat("#,###");
         orderListTitle.setText(myPageOrderList.getOrderListTitle());

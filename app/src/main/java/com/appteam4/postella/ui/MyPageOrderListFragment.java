@@ -65,7 +65,19 @@ public class MyPageOrderListFragment extends Fragment {
         // adpter 생성
         MyPageOrderListAdapter myPageOrderListAdapter = new MyPageOrderListAdapter();
 
-        // api 서버에서JSON 목록 받기
+        for (int i=1; i<=10; i++) {
+            MyPageOrderList myPageOrderList = new MyPageOrderList();
+            myPageOrderList.setOrderListNo(i);
+            myPageOrderList.setOrderListTitle("상품" + i);
+            myPageOrderList.setOrderListPrice(1000 + i);
+            myPageOrderList.setOrderListStatus("배송중");
+
+            myPageOrderListAdapter.addMyPageOrderList(myPageOrderList);
+        }
+
+        binding.recyclerViewMyOrderList.setAdapter(myPageOrderListAdapter);
+
+       /* // api 서버에서JSON 목록 받기
         MyPageOrderListService myPageOrderListService = ServiceProvider.getMyPageOrderList(getContext());
         Call<List<MyPageOrderList>> call = myPageOrderListService.getMyPageOrderList();
         call.enqueue(new Callback<List<MyPageOrderList>>() {
@@ -85,10 +97,10 @@ public class MyPageOrderListFragment extends Fragment {
                 }
                 // RecyclerView에 어댑터 세팅
                 // 어댑터에 데이터가 설정된 후 notifyDataSetChanged() 호출
-                binding.recyclerViewMyOrderList.setAdapter(myPageOrderListAdapter);
+                binding.recyclerViewMyOrderList.setAdapter(myPageOrderListAdapter);*/
             }
 
-            @Override
+            /*@Override
             public void onFailure(Call<List<MyPageOrderList>> call, Throwable t) {
                 Log.i(TAG, "MyPageOrderList API 호출 실패");
             }
@@ -105,8 +117,8 @@ public class MyPageOrderListFragment extends Fragment {
                 navController.navigate(R.id.action_dest_mypage_order_list_to_dest_prod_detail);
             }
         });
-    }
-
+    }*/
+//=============================
     /*private void initClickProfile() {
         binding.profileImg.setOnClickListener(v -> {
 
