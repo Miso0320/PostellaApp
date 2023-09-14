@@ -12,7 +12,6 @@ import android.view.SubMenu;
 import android.view.View;
 import android.widget.ImageView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -22,7 +21,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
-import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -30,7 +28,6 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.appteam4.postella.databinding.ActivityMainBinding;
 import com.appteam4.postella.ui.MainFragment;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.List;
@@ -44,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
 
     private NavController navController;
+    private int selectedMenuItem = R.id.navigation_view;
 
     private Handler handler = new Handler();
 
@@ -69,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         initAppbar();
         //drawerlayout 메뉴 추가하기
         initDrawerLayout();
-        
+
     }
     private void initAppbar() {
         // Toolbar를 앱바로 설정
@@ -102,30 +100,6 @@ public class MainActivity extends AppCompatActivity {
         NavHostFragment navHostFragment =
                 (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_main);
         navController = navHostFragment.getNavController();
-
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation_view);
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-            NavOptions navOptions = new NavOptions.Builder()
-                    .setPopUpTo(R.id.dest_review, false)
-                    .setLaunchSingleTop(true)
-                    .build();
-
-            if (item.getItemId() == R.id.dest_main) {
-                navController.navigate(R.id.dest_main, null, navOptions);
-                return true;
-            } else if (item.getItemId() == R.id.dest_ad_list) {
-                navController.navigate(R.id.dest_ad_list, null, navOptions);
-                return true;
-            } else if (item.getItemId() == R.id.dest_wish_list) {
-                navController.navigate(R.id.dest_wish_list, null, navOptions);
-                return true;
-            } else if (item.getItemId() == R.id.dest_mypage_order_list) {
-                navController.navigate(R.id.dest_mypage_order_list, null, navOptions);
-                return true;
-            }
-            return false;
-        });
-
         // ActionBar와 NavController 연결
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
@@ -161,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         // 네비게이션 메뉴 아이템 클릭 처리
         navigationView.setNavigationItemSelectedListener(item -> {
             drawerLayout = findViewById(R.id.drawer_layout);
@@ -180,48 +155,17 @@ public class MainActivity extends AppCompatActivity {
                 // 메시지 항목을 클릭하면 드롭다운 메뉴 그룹의 가시성을 토글
                 boolean isVisible = menu.findItem(R.id.m_sub_item1).isVisible();
                 menu.setGroupVisible(R.id.group_message, !isVisible);
-            }else if(itemId == R.id.c_sub_item1){
+            }else if (itemId == R.id.c_sub_item1 || itemId == R.id.c_sub_item2 ||
+                    itemId == R.id.c_sub_item3 || itemId == R.id.c_sub_item4 ||
+                    itemId == R.id.b_sub_item1 || itemId == R.id.b_sub_item2 ||
+                    itemId == R.id.b_sub_item3 || itemId == R.id.b_sub_item4 ||
+                    itemId == R.id.b_sub_item5 || itemId == R.id.m_sub_item1 ||
+                    itemId == R.id.m_sub_item2 || itemId == R.id.m_sub_item3 ||
+                    itemId == R.id.m_sub_item4 || itemId == R.id.m_sub_item5) {
                 navController.navigate(R.id.dest_category);
                 drawerLayout.closeDrawer(GravityCompat.START);
-            }else if(itemId == R.id.c_sub_item2){
-                navController.navigate(R.id.dest_category);
-                drawerLayout.closeDrawer(GravityCompat.START);
-            }else if(itemId == R.id.c_sub_item3){
-                navController.navigate(R.id.dest_category);
-                drawerLayout.closeDrawer(GravityCompat.START);
-            }else if(itemId == R.id.c_sub_item4){
-                navController.navigate(R.id.dest_category);
-                drawerLayout.closeDrawer(GravityCompat.START);
-            }else if(itemId == R.id.b_sub_item1){
-                navController.navigate(R.id.dest_category);
-                drawerLayout.closeDrawer(GravityCompat.START);
-            }else if(itemId == R.id.b_sub_item2){
-                navController.navigate(R.id.dest_category);
-                drawerLayout.closeDrawer(GravityCompat.START);
-            }else if(itemId == R.id.b_sub_item3){
-                navController.navigate(R.id.dest_category);
-                drawerLayout.closeDrawer(GravityCompat.START);
-            }else if(itemId == R.id.b_sub_item4){
-                navController.navigate(R.id.dest_category);
-                drawerLayout.closeDrawer(GravityCompat.START);
-            }else if(itemId == R.id.b_sub_item5){
-                navController.navigate(R.id.dest_category);
-                drawerLayout.closeDrawer(GravityCompat.START);
-            }else if(itemId == R.id.m_sub_item1){
-                navController.navigate(R.id.dest_category);
-                drawerLayout.closeDrawer(GravityCompat.START);
-            }else if(itemId == R.id.m_sub_item2){
-                navController.navigate(R.id.dest_category);
-                drawerLayout.closeDrawer(GravityCompat.START);
-            }else if(itemId == R.id.m_sub_item3){
-                navController.navigate(R.id.dest_category);
-                drawerLayout.closeDrawer(GravityCompat.START);
-            }else if(itemId == R.id.m_sub_item4){
-                navController.navigate(R.id.dest_category);
-                drawerLayout.closeDrawer(GravityCompat.START);
-            }else if(itemId == R.id.m_sub_item5){
-                navController.navigate(R.id.dest_category);
-                drawerLayout.closeDrawer(GravityCompat.START);
+                // 카테고리 프레그먼트에서 탭 선택을 위함
+                selectedMenuItem = item.getItemId();
             }else{
                 // 다른 항목 클릭 시 카테고리 메뉴 닫기
                 menu.setGroupVisible(R.id.group_category, false);
@@ -230,7 +174,11 @@ public class MainActivity extends AppCompatActivity {
             }
             return true;
         });
+    }
 
+    // 선택한 메뉴 아이템을 반환하는 메서드(카테고리 탭 선택을 위함)
+    public int getSelectedMenuItem(){
+        return selectedMenuItem;
     }
 
     @Override

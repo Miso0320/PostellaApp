@@ -1,23 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.CategoryTabPageFragment">
+    tools:context=".ui.BrandTabPageFragment">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nest_scroll_category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fillViewport="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
-
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,12 +17,12 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/txt_photo_cate"
+                android:id="@+id/txt_hong_brand"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:text="포토 엽서"
+                android:text="홍홍엔데코"
                 android:textAppearance="?attr/textAppearanceHeadline6" />
 
             <LinearLayout
@@ -41,21 +33,89 @@
                 android:orientation="horizontal">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/img_cate_photo"
+                    android:id="@+id/img_brand_hong"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/tab_illust4" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_brand_hong2"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/tab_illust2" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_brand_hong3"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/tab_design" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_brand_hong4"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/tab_design3" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_brand_hong5"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/tab_illust" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_brand_hong6"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/tab_brand_hong" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/txt_song_brand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:text="송미 풋"
+                android:textAppearance="?attr/textAppearanceHeadline6" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_brand_song"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_weight="1"
                     android:src="@drawable/tab_cate" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/img_cate_photo2"
+                    android:id="@+id/img_brand_song2"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_weight="1"
                     android:src="@drawable/tab_cate2" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/img_cate_photo3"
+                    android:id="@+id/img_brand_song3"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_weight="1"
@@ -71,21 +131,21 @@
                 android:orientation="horizontal">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/img_cate_photo4"
+                    android:id="@+id/img_brand_song4"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_weight="1"
                     android:src="@drawable/tab_cate4" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/img_cate_photo5"
+                    android:id="@+id/img_brand_song5"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_weight="1"
                     android:src="@drawable/tab_cate5" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/img_cate_photo6"
+                    android:id="@+id/img_brand_song6"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_weight="1"
@@ -93,12 +153,79 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/txt_design_cate"
+                android:id="@+id/txt_smile_brand"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:text="디자인 패턴 엽서"
+                android:text="우리집 토끼는 미소천사"
+                android:textAppearance="?attr/textAppearanceHeadline6" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_brand_smile"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/tab_brand_smile" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_brand_smile2"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/tab_brand_smile2" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_brand_smile3"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/tab_brand_smile3" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_brand_smile4"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/tab_brand_smile4" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_brand_smile5"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/tab_brand_smile5" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_brand_smile6"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/tab_brand_smile6" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/txt_yuyu_brand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:text="유짱이네 쿼카"
                 android:textAppearance="?attr/textAppearanceHeadline6" />
 
             <LinearLayout
@@ -109,25 +236,25 @@
                 android:orientation="horizontal">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/img_cate_design"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_weight="1"
-                    android:src="@drawable/tab_design" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/img_cate_design2"
+                    android:id="@+id/img_brand_yuyu"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_weight="1"
                     android:src="@drawable/tab_design2" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/img_cate_design3"
+                    android:id="@+id/img_brand_yuyu2"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_weight="1"
-                    android:src="@drawable/tab_design3" />
+                    android:src="@drawable/tab_illust5" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_brand_yuyu3"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/tab_brand_yuyu" />
 
             </LinearLayout>
 
@@ -139,101 +266,33 @@
                 android:orientation="horizontal">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/img_cate_design4"
+                    android:id="@+id/img_brand_yuyu4"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_weight="1"
-                    android:src="@drawable/tab_design4" />
+                    android:src="@drawable/tab_brand_yuyu2" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/img_cate_design5"
+                    android:id="@+id/img_brand_yuyu5"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_weight="1"
-                    android:src="@drawable/tab_design5" />
+                    android:src="@drawable/tab_brand_yuyu3" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/img_cate_design6"
+                    android:id="@+id/img_brand_yuyu6"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_weight="1"
-                    android:src="@drawable/tab_design6" />
+                    android:src="@drawable/tab_brand_yuyu4" />
             </LinearLayout>
-
             <TextView
-                android:id="@+id/txt_illust_cate"
+                android:id="@+id/txt_gyu_brand"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:text="그림/일러스트 엽서"
-                android:textAppearance="?attr/textAppearanceHeadline6" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/img_cate_illust"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_weight="1"
-                    android:src="@drawable/tab_illust"/>
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/img_cate_illust2"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_weight="1"
-                    android:src="@drawable/tab_illust2" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/img_cate_illust3"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_weight="1"
-                    android:src="@drawable/tab_illust3"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/img_cate_illust4"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_weight="1"
-                    android:src="@drawable/tab_illust4" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/img_cate_illust5"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_weight="1"
-                    android:src="@drawable/tab_illust5"/>
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/img_cate_illust6"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_weight="1"
-                    android:src="@drawable/tab_illust6" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/txt_calli_cate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:text="캘리그라피 엽서"
+                android:text="살쾡이는 너무 무서워"
                 android:textAppearance="?attr/textAppearanceHeadline6" />
 
             <LinearLayout
@@ -244,57 +303,57 @@
                 android:orientation="horizontal">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/img_cate_calli"
+                    android:id="@+id/img_brand_gyu"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/test" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_brand_gyu2"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/tab_brand_gyu" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_brand_gyu3"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/tab_brand_gyu2" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_brand_gyu4"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_weight="1"
                     android:src="@drawable/tab_calli" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/img_cate_calli2"
+                    android:id="@+id/img_brand_gyu5"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/tab_brand_gyu3" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_brand_gyu6"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_weight="1"
                     android:src="@drawable/tab_calli2" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/img_cate_calli3"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_weight="1"
-                    android:src="@drawable/tab_calli3" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/img_cate_calli4"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_weight="1"
-                    android:src="@drawable/tab_calli4"/>
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/img_cate_calli5"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_weight="1"
-                    android:src="@drawable/tab_calli5"/>
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/img_cate_calli6"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_weight="1"
-                    android:src="@drawable/tab_calli6"/>
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

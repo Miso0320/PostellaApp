@@ -43,6 +43,11 @@
                 android:layout_height="wrap_content"
                 android:text="오늘의 추천 상품"
                 android:textAppearance="?attr/textAppearanceBody1" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_reco_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_main_view"

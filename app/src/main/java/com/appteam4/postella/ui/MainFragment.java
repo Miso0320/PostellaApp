@@ -61,6 +61,7 @@ public class MainFragment extends Fragment {
         initPagerView();
         //RecyclerView 초기화
         initRecyclerView();
+        initRecyclerView2();
         //NestedScrollView 초기화
         initNestedSCrollView();
 
@@ -182,6 +183,56 @@ public class MainFragment extends Fragment {
             @Override
             public void onItemClick(View itemView, int position) {
                 Product product = mainAdapter.getItem(position);
+                Log.i(TAG, product.toString());
+
+                Bundle args = new Bundle();
+                args.putSerializable("product", product);
+                navController.navigate(R.id.action_dest_main_to_dest_prod_detail);
+            }
+        });
+    }
+
+    private void initRecyclerView2() {
+        // RecyclerView에서 항목을 수평으로 배치하도록 설정
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(),1 , GridLayoutManager.HORIZONTAL, false);
+        binding.recyclerRecoView.setLayoutManager(layoutManager);
+
+        // 어댑터 생성
+        SearchAdapter searchAdapter = new SearchAdapter();
+
+        // API 서버에서 목록 받기
+        ProductGroupService productGroupService = ServiceProvider.getProductList(getContext());
+        Call<List<Product>> call = productGroupService.getProductList();
+        call.enqueue(new Callback<List<Product>>() {
+            @Override
+            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+                // json -> List<Product>
+                List<Product> list = response.body();
+                if (list != null) {
+                    // 어댑터 데이터 생성하기
+                    searchAdapter.setList(list);
+                    // RecyclerView에 어댑터 세팅
+                    binding.recyclerRecoView.setAdapter(searchAdapter);
+                    // RecyclerView를 보이도록 설정
+                    binding.recyclerRecoView.setVisibility(View.VISIBLE);
+                } else {
+                    Log.i(TAG, "onResponse: 리스트가 없엉!!");
+                }
+                // RecyclerView에 어댑터 세팅
+                // 어댑터에 데이터가 설정된 후 notifyDataSetChanged() 호출
+                binding.recyclerRecoView.setAdapter(searchAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<List<Product>> call, Throwable t) {
+                Log.e(TAG, "API 호출 실패", t);
+            }
+        });
+        // 항목 클릭시 콜백 메소드 등록
+        searchAdapter.setOnItemClickListener(new SearchAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View itemView, int position) {
+                Product product = searchAdapter.getItem(position);
                 Log.i(TAG, product.toString());
 
                 Bundle args = new Bundle();
