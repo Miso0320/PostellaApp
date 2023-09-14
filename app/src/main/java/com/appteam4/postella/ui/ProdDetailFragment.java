@@ -96,8 +96,6 @@ public class ProdDetailFragment extends Fragment {
 
     private void initTabPage() {
         binding.tabProductReviews.setOnClickListener(v -> {
-            //navController.navigate(R.id.action_dest_prod_detail_to_dest_review);
-            //navController.popBackStack(R.id.dest_review, false);
             NavOptions navOptions = new NavOptions.Builder()
                     .setPopUpTo(R.id.dest_review, false)
                     .setLaunchSingleTop(true)
@@ -107,8 +105,6 @@ public class ProdDetailFragment extends Fragment {
         });
 
         binding.tabProductInquiries.setOnClickListener(v -> {
-            //navController.navigate(R.id.action_dest_prod_detail_to_dest_inquiry);
-            //navController.popBackStack(R.id.dest_inquiry, false);
             NavOptions navOptions = new NavOptions.Builder()
                     .setPopUpTo(R.id.dest_inquiry, false)
                     .setLaunchSingleTop(true)

@@ -11,6 +11,7 @@
         android:id="@+id/tab_menu_layout"
         android:layout_width="0dp"
         android:layout_height="30dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,8 +37,7 @@
             android:gravity="center"
             android:text="상품평"
             android:textColor="@android:color/black"
-            android:textSize="16sp"
-             />
+            android:textSize="16sp" />
 
         <!-- 상품문의 -->
         <TextView
@@ -60,4 +60,42 @@
         android:background="#7E57C2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tab_menu_layout" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/selected_tab">
+
+        <Button
+            android:id="@+id/outlinedButton"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:text="상품 문의하기"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeColor="#7E57C2"
+            app:strokeWidth="2dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- 상품평 목록 -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/inquiry_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

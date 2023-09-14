@@ -22,7 +22,7 @@ public class ReviewViewHolder extends RecyclerView.ViewHolder {
     public ReviewViewHolder(@NonNull View itemView) {
         super(itemView);
         // 아이템 UI 얻기
-        this.usName = itemView.findViewById(R.id.us_name);
+        this.usName = itemView.findViewById(R.id.ans);
         this.prdName = itemView.findViewById(R.id.prd_name);
         this.revContent = itemView.findViewById(R.id.rev_content);
         this.revDate = itemView.findViewById(R.id.rev_date);
