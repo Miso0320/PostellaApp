@@ -12,6 +12,7 @@ import android.view.SubMenu;
 import android.view.View;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -21,6 +22,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -28,6 +30,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.appteam4.postella.databinding.ActivityMainBinding;
 import com.appteam4.postella.ui.MainFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.List;
@@ -99,6 +102,30 @@ public class MainActivity extends AppCompatActivity {
         NavHostFragment navHostFragment =
                 (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_main);
         navController = navHostFragment.getNavController();
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation_view);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            NavOptions navOptions = new NavOptions.Builder()
+                    .setPopUpTo(R.id.dest_review, false)
+                    .setLaunchSingleTop(true)
+                    .build();
+
+            if (item.getItemId() == R.id.dest_main) {
+                navController.navigate(R.id.dest_main, null, navOptions);
+                return true;
+            } else if (item.getItemId() == R.id.dest_ad_list) {
+                navController.navigate(R.id.dest_ad_list, null, navOptions);
+                return true;
+            } else if (item.getItemId() == R.id.dest_wish_list) {
+                navController.navigate(R.id.dest_wish_list, null, navOptions);
+                return true;
+            } else if (item.getItemId() == R.id.dest_mypage_order_list) {
+                navController.navigate(R.id.dest_mypage_order_list, null, navOptions);
+                return true;
+            }
+            return false;
+        });
+
         // ActionBar와 NavController 연결
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
