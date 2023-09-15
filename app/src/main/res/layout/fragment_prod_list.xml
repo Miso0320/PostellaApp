@@ -6,23 +6,89 @@
     android:layout_height="match_parent"
     tools:context=".ui.ProdListFragment">
 
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:text="상품 목록"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:id="@+id/linearLayout5"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btn_prod_detail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="상품상세"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
+                android:text="상품"
+                android:textAppearance="?attr/textAppearanceHeadline6"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/txt_prod_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="200dp"
+                android:text="22"
+                android:textAppearance="?attr/textAppearanceHeadline6"
+                android:textColor="#9d9d9d"
+                android:textSize="18dp" />
+
+            <Spinner
+                android:id="@+id/spinner_order_kind"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.21" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_order_category"
+                android:layout_width="115dp"
+                android:layout_height="35dp"
+                android:text="카테고리"
+                android:textSize="10dp"
+                android:textColor="#6b6b6b"
+                android:drawableRight="@drawable/baseline_keyboard_arrow_down_24"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_marginRight="10dp"/>
+            <Button
+                android:id="@+id/btn_order_brand"
+                android:layout_width="105dp"
+                android:layout_height="35dp"
+                android:text="브랜드"
+                android:textSize="10dp"
+                android:textColor="#6b6b6b"
+                android:drawableRight="@drawable/baseline_keyboard_arrow_down_24"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_marginRight="10dp"/>
+            <Button
+                android:id="@+id/btn_order_message"
+                android:layout_width="105dp"
+                android:layout_height="35dp"
+                android:text="메세지"
+                android:textSize="10dp"
+                android:textColor="#6b6b6b"
+                android:drawableRight="@drawable/baseline_keyboard_arrow_down_24"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_marginRight="10dp"/>
+
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_prod_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"/>
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

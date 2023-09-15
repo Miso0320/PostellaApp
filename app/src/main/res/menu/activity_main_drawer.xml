@@ -39,24 +39,24 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/b_sub_item1"
-            android:title="홍홍엔데코"
-            android:icon="@drawable/ic_rocket_24dp"/>
+            android:icon="@drawable/ic_rocket_24dp"
+            android:title="홍홍엔데코" />
         <item
             android:id="@+id/b_sub_item2"
-            android:title="송미 풋"
-            android:icon="@drawable/ic_psychiatry_24dp"/>
+            android:icon="@drawable/ic_psychiatry_24dp"
+            android:title="송미 풋" />
         <item
             android:id="@+id/b_sub_item3"
-            android:title="우리집 토끼는 미소천사"
-            android:icon="@drawable/ic_cruelty_free_24dp"/>
+            android:icon="@drawable/ic_cruelty_free_24dp"
+            android:title="우리집 토끼는 미소천사" />
         <item
             android:id="@+id/b_sub_item4"
-            android:title="유짱이네 쿼카"
-            android:icon="@drawable/ic_face_24dp"/>
+            android:icon="@drawable/ic_face_24dp"
+            android:title="유짱이네 쿼카" />
         <item
             android:id="@+id/b_sub_item5"
-            android:title="살쾡이는 너무 무서워"
-            android:icon="@drawable/ic_pets_24dp"/>
+            android:icon="@drawable/ic_pets_24dp"
+            android:title="살쾡이는 너무 무서워" />
     </group>
     <item
         android:id="@+id/m_main_item"
@@ -68,24 +68,23 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/m_sub_item1"
-            android:title="축하/기념일"
-            android:icon="@drawable/ic_celebration_24dp"/>
+            android:icon="@drawable/ic_celebration_24dp"
+            android:title="축하/기념일" />
         <item
             android:id="@+id/m_sub_item2"
-            android:title="사랑/고백"
             android:icon="@drawable/ic_volunteer_activism_24dp"
-            />
+            android:title="사랑/고백" />
         <item
             android:id="@+id/m_sub_item3"
-            android:title="감사"
-            android:icon="@drawable/ic_folded_hands_24dp"/>
+            android:icon="@drawable/ic_folded_hands_24dp"
+            android:title="감사" />
         <item
             android:id="@+id/m_sub_item4"
-            android:title="힐링"
-            android:icon="@drawable/ic_local_florist_24dp"/>
+            android:icon="@drawable/ic_local_florist_24dp"
+            android:title="힐링" />
         <item
             android:id="@+id/m_sub_item5"
-            android:title="위로/격려"
-            android:icon="@drawable/ic_healing_24dp"/>
+            android:icon="@drawable/ic_healing_24dp"
+            android:title="위로/격려" />
     </group>
 </menu>

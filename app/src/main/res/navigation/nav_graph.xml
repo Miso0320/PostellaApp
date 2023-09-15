@@ -44,6 +44,9 @@
         <action
             android:id="@+id/action_dest_prod_list_to_dest_prod_detail"
             app:destination="@id/dest_prod_detail" />
+        <action
+            android:id="@+id/action_dest_prod_list_to_dest_filter"
+            app:destination="@id/dest_filter" />
     </fragment>
     <fragment
         android:id="@+id/dest_category"
@@ -191,4 +194,13 @@
         android:name="com.appteam4.postella.SplashActivity"
         android:label="activity_splash"
         tools:layout="@layout/activity_splash" />
+    <fragment
+        android:id="@+id/dest_filter"
+        android:name="com.appteam4.postella.ui.FilterFragment"
+        android:label="필터"
+        tools:layout="@layout/fragment_filter" >
+        <action
+            android:id="@+id/action_dest_filter_to_dest_prod_list"
+            app:destination="@id/dest_prod_list" />
+    </fragment>
 </navigation>

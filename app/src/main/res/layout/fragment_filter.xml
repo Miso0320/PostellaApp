@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.FilterFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nest_scroll_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="10dp">
+
+            <TextView
+                android:id="@+id/txt_filter_categoty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
+                android:layout_marginLeft="10dp"
+                android:text="카테고리"
+                android:textAppearance="?attr/textAppearanceHeadline6"
+                android:textSize="18dp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="@android:color/darker_gray" />
+
+            <RadioGroup
+                android:id="@+id/radio_group_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/btn_radio_photo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="포토엽서"
+                    android:layout_marginEnd="10dp"
+                    />
+
+                <RadioButton
+                    android:id="@+id/btn_radio_design"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="디자인 패턴 엽서"
+                    android:layout_marginEnd="10dp" />
+
+                <RadioButton
+                    android:id="@+id/btn_radio_illust"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="그림/일러스트 엽서"
+                    android:layout_marginEnd="10dp" />
+
+
+                <RadioButton
+                    android:id="@+id/btn_radio_calli"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="캘리그라피 엽서"
+                    android:layout_marginEnd="10dp"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="@android:color/darker_gray" />
+            <TextView
+                android:id="@+id/txt_filter_brand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
+                android:text="브랜드"
+                android:textAppearance="?attr/textAppearanceHeadline6"
+                android:textSize="18dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="10dp"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="@android:color/darker_gray" />
+
+                <RadioButton
+                    android:id="@+id/btn_radio_hong"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="홍홍엔데코"
+                    android:layout_marginEnd="10dp"
+                    />
+
+                <RadioButton
+                    android:id="@+id/btn_radio_song"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="송미 풋"
+                    android:layout_marginEnd="10dp" />
+
+                <RadioButton
+                    android:id="@+id/btn_radio_smile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="우리집 토끼는 미소천사"
+                    android:layout_marginEnd="10dp" />
+
+
+                <RadioButton
+                    android:id="@+id/btn_radio_yuyu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="유짱이네 쿼카"
+                    android:layout_marginEnd="10dp"/>
+                <RadioButton
+                    android:id="@+id/btn_radio_gyu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="살쾡이는 너무 무서워"
+                    android:layout_marginEnd="10dp"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@android:color/darker_gray" />
+                <TextView
+                    android:id="@+id/txt_filter_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="3dp"
+                    android:text="메세지"
+                    android:textAppearance="?attr/textAppearanceHeadline6"
+                    android:textSize="18dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="10dp"/>
+                <View
+                    android:layout_width="390dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@android:color/darker_gray" />
+
+                <RadioButton
+                    android:id="@+id/btn_radio_cele"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="축하/기념일"
+                    android:layout_marginEnd="10dp"
+                    />
+
+                <RadioButton
+                    android:id="@+id/btn_radio_love"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="사랑/고백"
+                    android:layout_marginEnd="10dp" />
+
+                <RadioButton
+                    android:id="@+id/btn_radio_thank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="감사"
+                    android:layout_marginEnd="10dp" />
+
+                <RadioButton
+                    android:id="@+id/btn_radio_healing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="힐링"
+                    android:layout_marginEnd="10dp"/>
+                <RadioButton
+                    android:id="@+id/btn_radio_take"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="위로/격려"
+                    android:layout_marginEnd="10dp"/>
+            </RadioGroup>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+    <!-- 확인 버튼을 스크롤뷰 내에 추가하고 하단에 고정 -->
+    <Button
+        android:id="@+id/btn_prod_order_result"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:text="결과보기"
+        style="@style/Widget.Material3.Button.OutlinedButton"/>
+</FrameLayout>
