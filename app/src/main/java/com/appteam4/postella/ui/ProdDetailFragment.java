@@ -28,6 +28,7 @@ import android.widget.TextView;
 import com.appteam4.postella.R;
 import com.appteam4.postella.databinding.ActivityMainBinding;
 import com.appteam4.postella.databinding.FragmentProdDetailBinding;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -35,11 +36,11 @@ public class ProdDetailFragment extends Fragment {
     private static final String TAG = "ProdDetailFragment";
     private FragmentProdDetailBinding binding;
     NavController navController;
-    
+
     // 취소선 관련 필드
     private TextView textView;
     private boolean isStrikeThrough = false;
-    
+
     // 이미지 슬라이더 관련 필드
     private ViewPager2 viewPager2;
     private LinearLayout linearLayout;
@@ -61,6 +62,9 @@ public class ProdDetailFragment extends Fragment {
         // 이미지 슬라이더
         initPagerView();
 
+        // 하단 네비게이션바 숨기기
+        hideBottomNavigation(true);
+
         // 탭 메뉴 이동
         initTabPage();
 
@@ -81,10 +85,10 @@ public class ProdDetailFragment extends Fragment {
 
             @Override
             public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
-                if(menuItem.getItemId() == R.id.dest_search) {
+                if (menuItem.getItemId() == R.id.dest_search) {
                     navController.navigate(R.id.dest_search, null);
                     return true;
-                } else if(menuItem.getItemId() == R.id.dest_cart) {
+                } else if (menuItem.getItemId() == R.id.dest_cart) {
                     navController.navigate(R.id.dest_cart, null);
                     return true;
                 }
@@ -92,6 +96,34 @@ public class ProdDetailFragment extends Fragment {
             }
         };
         getActivity().addMenuProvider(menuProvider, getViewLifecycleOwner(), Lifecycle.State.RESUMED);
+    }
+
+    private void initPagerView() {
+        // 어댑터 생성
+        ProductDetailAdapter productDetailAdapter = new ProductDetailAdapter(getContext());
+        binding.productImageSlider.setAdapter(productDetailAdapter);
+
+        // 탭 레이아웃과 이미지 슬라이더를 연결
+        TabLayoutMediator tabLayoutMediator = new TabLayoutMediator(
+                binding.tabLayout, binding.productImageSlider, new TabLayoutMediator.TabConfigurationStrategy() {
+            @Override
+            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+            }
+        });
+
+        // TabLayoutMediator 활성화하기
+        tabLayoutMediator.attach();
+    }
+
+    private void hideBottomNavigation(boolean bool) {
+        BottomNavigationView bottomNavigation = getActivity().findViewById(R.id.bottom_navigation_view);
+        if (bool == true) {
+            // 하단 네비게이션바 지우기
+            bottomNavigation.setVisibility(View.GONE);
+        } else {
+            // 하단 네이게이션바 나타내기
+            bottomNavigation.setVisibility(View.VISIBLE);
+        }
     }
 
     private void initTabPage() {
@@ -114,18 +146,9 @@ public class ProdDetailFragment extends Fragment {
         });
     }
 
-    private void initPagerView() {
-        ProductDetailAdapter productDetailAdapter = new ProductDetailAdapter(getContext());
-        binding.productImageSlider.setAdapter(productDetailAdapter);
-
-        TabLayoutMediator tabLayoutMediator = new TabLayoutMediator(
-                binding.tabLayout, binding.productImageSlider, new TabLayoutMediator.TabConfigurationStrategy() {
-            @Override
-            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-            }
-        });
-
-        tabLayoutMediator.attach();
+    @Override
+    public void onPause() {
+        super.onPause();
+        hideBottomNavigation(false);
     }
-
 }

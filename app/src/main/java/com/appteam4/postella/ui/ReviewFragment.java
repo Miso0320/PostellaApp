@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.appteam4.postella.R;
 import com.appteam4.postella.databinding.FragmentReviewBinding;
 import com.appteam4.postella.dto.Review;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class ReviewFragment extends Fragment {
     private static final String TAG = "ReviewFragment";
@@ -40,6 +41,9 @@ public class ReviewFragment extends Fragment {
 
         // RecyclerView 초기화
         initRecyclerView();
+
+        // 하단 네비게이션바 숨기기
+        hideBottomNavigation(true);
 
         // 탭 메뉴 이동
         initTabPage();
@@ -105,6 +109,17 @@ public class ReviewFragment extends Fragment {
         binding.reviewListView.setAdapter(reviewAdapter);
     }
 
+    private void hideBottomNavigation(boolean bool) {
+        BottomNavigationView bottomNavigation = getActivity().findViewById(R.id.bottom_navigation_view);
+        if (bool == true) {
+            // 하단 네비게이션바 지우기
+            bottomNavigation.setVisibility(View.GONE);
+        } else {
+            // 하단 네이게이션바 나타내기
+            bottomNavigation.setVisibility(View.VISIBLE);
+        }
+    }
+
     private void initTabPage() {
         binding.tabProductDetail.setOnClickListener(v -> {
             NavOptions navOptions = new NavOptions.Builder()
@@ -123,6 +138,12 @@ public class ReviewFragment extends Fragment {
 
             navController.navigate(R.id.dest_inquiry, null, navOptions);
         });
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        hideBottomNavigation(false);
     }
 
 }

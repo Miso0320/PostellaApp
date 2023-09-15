@@ -27,6 +27,7 @@ import com.appteam4.postella.R;
 import com.appteam4.postella.databinding.FragmentInquryBinding;
 import com.appteam4.postella.databinding.FragmentReviewBinding;
 import com.appteam4.postella.dto.Inquiry;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class InquryFragment extends Fragment {
     private static final String TAG = "InquryFragment";
@@ -44,6 +45,9 @@ public class InquryFragment extends Fragment {
 
         // RecyclerView 초기화
         initRecyclerView();
+
+        // 하단 네비게이션바 숨기기
+        hideBottomNavigation(true);
 
         // 답변 내용 클릭 시 표출
         //viewAnswer();
@@ -111,6 +115,17 @@ public class InquryFragment extends Fragment {
         binding.inquiryListView.setAdapter(inquiryAdapter);
     }
 
+    private void hideBottomNavigation(boolean bool) {
+        BottomNavigationView bottomNavigation = getActivity().findViewById(R.id.bottom_navigation_view);
+        if (bool == true) {
+            // 하단 네비게이션바 지우기
+            bottomNavigation.setVisibility(View.GONE);
+        } else {
+            // 하단 네이게이션바 나타내기
+            bottomNavigation.setVisibility(View.VISIBLE);
+        }
+    }
+
     /*private void viewAnswer() {
         LinearLayout linearLayout6 = binding.getRoot().findViewById(R.id.linearLayout6);
 
@@ -156,5 +171,11 @@ public class InquryFragment extends Fragment {
         binding.btnInquiry.setOnClickListener(v -> {
             navController.navigate(R.id.dest_order);
         });
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        hideBottomNavigation(false);
     }
 }
