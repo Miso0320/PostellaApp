@@ -130,10 +130,10 @@
 
                     <Spinner
                         android:id="@+id/cart_spinner_count"
-                        android:entries="@array/cart_prod_count"
                         android:layout_gravity="center_vertical"
+                        android:entries="@array/cart_prod_count"
                         android:layout_width="60dp"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="15dp" />
                 </LinearLayout>
 
             </LinearLayout>

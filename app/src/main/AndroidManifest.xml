@@ -32,7 +32,6 @@
             android:name=".MainActivity"
             android:exported="false"
             android:theme="@style/Theme.Postella" />
-
     </application>
 
 </manifest>

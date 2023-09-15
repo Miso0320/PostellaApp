@@ -9,19 +9,28 @@ import android.os.Bundle;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
+import android.widget.Toolbar;
 
+import com.appteam4.postella.MainActivity;
 import com.appteam4.postella.R;
 import com.appteam4.postella.databinding.FragmentMyOrderListBinding;
 import com.appteam4.postella.dto.MyPageOrderList;
@@ -48,11 +57,30 @@ public class MyPageOrderListFragment extends Fragment {
        binding = FragmentMyOrderListBinding.inflate(inflater);
        navController = NavHostFragment.findNavController(this);
 
-       initRecyclerViewMyOrderList();
-       //initClickProfile();
-       initBtnImageSelect();
+        initMenu();
+        initRecyclerViewMyOrderList();
+        //initClickProfile();
+        initBtnImageSelect();
 
        return binding.getRoot();
+    }
+
+    private void initMenu() {
+        MenuProvider menuProvider = new MenuProvider() {
+            @Override
+            public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+                menuInflater.inflate(R.menu.mypage_settings_menu, menu);
+            }
+
+            @Override
+            public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
+                if(menuItem.getItemId() == R.id.dest_settings) {
+                    return true;
+                }
+                return false;
+            }
+        };
+        getActivity().addMenuProvider(menuProvider, getViewLifecycleOwner(), Lifecycle.State.RESUMED);
     }
 
     private void initRecyclerViewMyOrderList() {
