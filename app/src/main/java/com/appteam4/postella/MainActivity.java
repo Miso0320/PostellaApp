@@ -28,6 +28,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.appteam4.postella.databinding.ActivityMainBinding;
+import com.appteam4.postella.datastore.AppKeyValueStore;
 import com.appteam4.postella.ui.MainFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -120,8 +121,16 @@ public class MainActivity extends AppCompatActivity {
                 navController.navigate(R.id.dest_wish_list, null, navOptions);
                 return true;
             } else if (item.getItemId() == R.id.dest_mypage_order_list) {
-                navController.navigate(R.id.dest_mypage_order_list, null, navOptions);
-                return true;
+                // mid 얻기
+                String mid = AppKeyValueStore.getValue(this, "mid");
+                // mid가 없다면 로그인으로 이동
+                if (mid == null) {
+                    navController.navigate(R.id.dest_login);
+                    return true;
+                } else {
+                    navController.navigate(R.id.dest_mypage_order_list, null, navOptions);
+                    return true;
+                }
             }
             return false;
         });

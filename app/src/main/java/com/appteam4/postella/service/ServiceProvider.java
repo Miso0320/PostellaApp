@@ -74,4 +74,9 @@ public class ServiceProvider {
         CartService cartService = getRetrofit(context).create(CartService.class);
         return cartService;
     }
+
+    public static UserService getUserService(Context context) {
+        UserService userService = getRetrofit(context).create(UserService.class);
+        return userService;
+    }
 }

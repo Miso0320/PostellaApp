@@ -22,7 +22,9 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        // 이미지 뷰 찾기
         ImageView gif_image = (ImageView) findViewById(R.id.gif_image);
+        // gif 넣기
         Glide.with(this).load(R.drawable.splash).into(gif_image);
 
         Handler handler = new Handler();
@@ -35,8 +37,6 @@ public class SplashActivity extends AppCompatActivity {
                 finish();
             }
         }, 3000); // 3초 딜레이
-
-
 
     }
 
