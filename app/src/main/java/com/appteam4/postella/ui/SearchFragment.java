@@ -19,6 +19,7 @@ import com.appteam4.postella.databinding.FragmentSearchBinding;
 import com.appteam4.postella.dto.Product;
 import com.appteam4.postella.service.ProductGroupService;
 import com.appteam4.postella.service.ServiceProvider;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
 
@@ -53,6 +54,8 @@ public class SearchFragment extends Fragment {
         initRecyclerView();
         //검색버튼 클릭
         initSearchClick();
+        //하단 네비게이션바 지우기
+        hideBottomNavigation(true);
 
         return binding.getRoot();
     }
@@ -122,6 +125,23 @@ public class SearchFragment extends Fragment {
         });
     }
 
+    private void hideBottomNavigation(boolean bool) {
+        BottomNavigationView bottomNavigation = getActivity().findViewById(R.id.bottom_navigation_view);
+        if (bool == true) {
+            // 하단 네비게이션바 지우기
+            bottomNavigation.setVisibility(View.GONE);
+        } else {
+            // 하단 네이게이션바 나타내기
+            bottomNavigation.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        //하단 네비게이션 바 표시
+        hideBottomNavigation(false);
+    }
 
     @Override
     public void onDestroy() {

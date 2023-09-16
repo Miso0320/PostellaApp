@@ -18,13 +18,15 @@
             app:hintEnabled="false"
             app:startIconContentDescription="Search Icon"
             app:startIconDrawable="@drawable/ic_search_24dp"
-            tools:ignore="MissingConstraints">
+            tools:ignore="MissingConstraints"
+            app:boxCollapsedPaddingTop="0dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="검색어를 입력하세요" />
+                android:hint="검색어를 입력하세요"
+                android:maxLines="1"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
