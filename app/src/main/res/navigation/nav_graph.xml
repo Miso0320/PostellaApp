@@ -125,6 +125,9 @@
         <action
             android:id="@+id/action_dest_search_to_dest_prod_list"
             app:destination="@id/dest_prod_list" />
+        <action
+            android:id="@+id/action_dest_search_to_dest_ad_detail_ad12"
+            app:destination="@id/dest_ad_detail_ad1" />
     </fragment>
     <fragment
         android:id="@+id/dest_cart"

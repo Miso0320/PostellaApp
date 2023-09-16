@@ -20,6 +20,7 @@ import com.appteam4.postella.dto.Product;
 import com.appteam4.postella.service.ProductGroupService;
 import com.appteam4.postella.service.ServiceProvider;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -69,9 +70,13 @@ public class SearchFragment extends Fragment {
             Bundle args = new Bundle();
             args.putString("keyword", searchKeyword);
             Log.i(TAG, "initSearchClick: 키워두" + searchKeyword);
-
-            // 상품목록프레그먼트로 이동
-            navController.navigate(R.id.action_dest_search_to_dest_prod_list, args);
+            if(searchKeyword.isEmpty()){
+                Snackbar snackbar = Snackbar.make(binding.getRoot(),"검색어를 입력해 주세요.", Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }else{
+                // 상품목록프레그먼트로 이동
+                navController.navigate(R.id.action_dest_search_to_dest_prod_list, args);
+            }
         });
     }
 

@@ -10,7 +10,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -21,6 +23,7 @@ import com.appteam4.postella.dto.Product;
 import com.appteam4.postella.service.NetworkInfo;
 import com.appteam4.postella.service.ProductGroupService;
 import com.appteam4.postella.service.ServiceProvider;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -48,6 +51,8 @@ public class ProdListFragment extends Fragment {
         //필터 버튼 초기화
         initBtnFilter();
         initRecyclerView();
+        // 어댑터 생성
+        MainAdapter mainAdapter = new MainAdapter();
 
         return binding.getRoot();
     }
@@ -152,6 +157,14 @@ public class ProdListFragment extends Fragment {
                     //해당 상품 item 수를 가져와서 TextView에 띄우기
                     int numOfproduct = mainAdapter.getItemCount();
                     binding.txtProdCount.setText(String.valueOf(numOfproduct));
+                    //필터링 된 상품이 존재하지 않을 경우
+                    if(numOfproduct == 0){
+                        //상품이 존재하지 않다는 메시지와 함께 광고페이지로 이동
+                        navController.popBackStack();
+                        navController.navigate(R.id.dest_ad_detail_ad1);
+                        Snackbar snackbar = Snackbar.make(binding.getRoot(),"해당 상품이 존재하지 않습니다.", Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                    }
                 } else {
                     Log.i(TAG, "onResponse: 리스트가 널이여~");
                 }
@@ -215,6 +228,7 @@ public class ProdListFragment extends Fragment {
             return null;
         }
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
