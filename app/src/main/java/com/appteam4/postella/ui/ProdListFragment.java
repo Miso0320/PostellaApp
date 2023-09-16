@@ -125,6 +125,9 @@ public class ProdListFragment extends Fragment {
                     binding.recyclerProdList.setAdapter(mainAdapter);
                     // RecyclerView를 보이도록 설정
                     binding.recyclerProdList.setVisibility(View.VISIBLE);
+                    //해당 상품 item 수를 가져와서 TextView에 띄우기
+                    int numOfproduct = mainAdapter.getItemCount();
+                    binding.txtProdCount.setText(String.valueOf(numOfproduct));
                 } else {
                     Log.i(TAG, "onResponse: 리스트가 널이여~");
                 }
@@ -138,6 +141,7 @@ public class ProdListFragment extends Fragment {
                 Log.e(TAG, "API 호출 실패", t);
             }
         });
+
         // 항목 클릭시 콜백 메소드 등록
         mainAdapter.setOnItemClickListener(new MainAdapter.OnItemClickListener() {
             @Override
