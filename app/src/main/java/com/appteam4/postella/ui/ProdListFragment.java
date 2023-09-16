@@ -13,9 +13,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.appteam4.postella.R;
 import com.appteam4.postella.databinding.FragmentProdListBinding;
+import com.appteam4.postella.dto.Product;
+import com.appteam4.postella.service.NetworkInfo;
+import com.appteam4.postella.service.ProductGroupService;
+import com.appteam4.postella.service.ServiceProvider;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class ProdListFragment extends Fragment {
 
@@ -35,6 +47,7 @@ public class ProdListFragment extends Fragment {
         initSpinner();
         //필터 버튼 초기화
         initBtnFilter();
+        initRecyclerView();
 
         return binding.getRoot();
     }
@@ -63,6 +76,7 @@ public class ProdListFragment extends Fragment {
         });
     }
 
+    //카테고리, 브랜드, 메시지 필터링 버튼
     private void initBtnFilter(){
         binding.btnOrderCategory.setOnClickListener(v->{
             selectedFilterBtn = binding.btnOrderCategory.getId();
@@ -81,7 +95,56 @@ public class ProdListFragment extends Fragment {
         });
     }
 
-    public int getSelectedFilterBtn(){return selectedFilterBtn;}
+    private void initRecyclerView(){
+        // RecyclerView에서 항목을 배치하도록 설정
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
+        binding.recyclerProdList.setLayoutManager(layoutManager);
+        // 어댑터 생성
+        MainAdapter mainAdapter = new MainAdapter();
+
+        // 번들에서 검색어를 가져옴
+        String searchKeyword = getArguments().getString("keyword");
+        // API 서버에서 목록 받기
+        ProductGroupService productGroupService = ServiceProvider.getFilteringProducts(getContext());
+        Call<List<Product>> call = productGroupService.getFilteringProducts(searchKeyword, null, null, null);
+        call.enqueue(new Callback<List<Product>>() {
+            @Override
+            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+                // json -> List<Product>
+                List<Product> list = response.body();
+                if (list != null) {
+                    // 어댑터 데이터 생성하기
+                    mainAdapter.setList(list);
+                    // RecyclerView에 어댑터 세팅
+                    binding.recyclerProdList.setAdapter(mainAdapter);
+                    // RecyclerView를 보이도록 설정
+                    binding.recyclerProdList.setVisibility(View.VISIBLE);
+                } else {
+                    Log.i(TAG, "onResponse: 리스트가 널이여~");
+                }
+                // RecyclerView에 어댑터 세팅
+                // 어댑터에 데이터가 설정된 후 notifyDataSetChanged() 호출
+                binding.recyclerProdList.setAdapter(mainAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<List<Product>> call, Throwable t) {
+                Log.e(TAG, "API 호출 실패", t);
+            }
+        });
+        // 항목 클릭시 콜백 메소드 등록
+        mainAdapter.setOnItemClickListener(new MainAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View itemView, int position) {
+                Product product = mainAdapter.getItem(position);
+                Log.i(TAG, product.toString());
+
+                Bundle args = new Bundle();
+                args.putSerializable("product", product);
+                navController.navigate(R.id.action_dest_prod_list_to_dest_prod_detail);
+            }
+        });
+    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();

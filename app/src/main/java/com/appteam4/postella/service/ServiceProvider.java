@@ -59,7 +59,15 @@ public class ServiceProvider {
         return retrofit;
     }
 
+    //모든 상품목록
     public static ProductGroupService getProductList(Context context) {
+        ProductGroupService productGroupService = getRetrofit(context).create(ProductGroupService.class);
+
+        return productGroupService;
+    }
+
+    //필터링 된 상품 목록
+    public static ProductGroupService getFilteringProducts(Context context) {
         ProductGroupService productGroupService = getRetrofit(context).create(ProductGroupService.class);
 
         return productGroupService;

@@ -109,11 +109,11 @@ public class Product implements Serializable {
 		this.prd_ship_fee = prd_ship_fee;
 	}
 
-	public Date getPrd_date() {
+	public long getPrd_date() {
 		return prd_date;
 	}
 
-	public void setPrd_date(Date prd_date) {
+	public void setPrd_date(long prd_date) {
 		this.prd_date = prd_date;
 	}
 
@@ -247,7 +247,7 @@ public class Product implements Serializable {
 	private String prd_content; 		// 상품 상세 페이지 내용(텍스트)
 	private int prd_stock; 				// 재고
 	private int prd_ship_fee; 			// 배송비
-	private Date prd_date; 				// 상품등록일
+	private long prd_date; 				// 상품등록일
 	private int prd_hitcount; 			// 조회수
 	private int prd_sale_amount; 		// 판매량
 	private String prd_yn; 				// 판매여부

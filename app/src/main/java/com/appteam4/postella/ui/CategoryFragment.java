@@ -39,7 +39,7 @@ public class CategoryFragment extends Fragment {
         // MainActivity에서 선택한 메뉴 아이템 가져오기
         int selectedMenuItem = ((MainActivity) requireActivity()).getSelectedMenuItem();
 
-        // 프래그먼트와 탭 이름 추가 또는 변경
+        // 프래그먼트와 탭 이름 추가 또는 변경------------------------------------
         pagerAdapter.addFragment(new CategoryTabPageFragment(), "CATEGORY");
         pagerAdapter.addFragment(new BrandTabPageFragment(), "BRAND");
         pagerAdapter.addFragment(new MessageTabPageFragment(), "MESSAGE");

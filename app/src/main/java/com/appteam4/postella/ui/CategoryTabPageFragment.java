@@ -23,6 +23,14 @@ public class CategoryTabPageFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentCategoryTabPageBinding.inflate(inflater);
 
+        //이미지 클릭 이벤트 초기화
+        initImgClick();
         return binding.getRoot();
+    }
+
+    public void initImgClick(){
+        binding.imgCatePhoto.setOnClickListener(v->{
+
+        });
     }
 }

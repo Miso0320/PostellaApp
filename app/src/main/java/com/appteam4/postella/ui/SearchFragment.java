@@ -40,6 +40,7 @@ public class SearchFragment extends Fragment {
         // AppBar 숨기기
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
 
+
         // 검색어 입력 부분을 가장 위에 배치
         View searchView = binding.searchGoList.getRootView();
         ViewGroup parent = (ViewGroup) searchView.getParent();
@@ -60,13 +61,14 @@ public class SearchFragment extends Fragment {
         binding.searchGoList.setStartIconOnClickListener(v->{
             // 검색어 입력값 가져오기
             String searchKeyword = binding.editText.getText().toString();
-         
+
             // 검색어를 다음 프래그먼트로 전달 (Bundle을 사용하여 전달)
             Bundle args = new Bundle();
-            args.putString("searchKeyword", searchKeyword);
+            args.putString("keyword", searchKeyword);
+            Log.i(TAG, "initSearchClick: 키워두" + searchKeyword);
 
             // 상품목록프레그먼트로 이동
-            navController.navigate(R.id.action_dest_search_to_dest_prod_list);
+            navController.navigate(R.id.action_dest_search_to_dest_prod_list, args);
         });
     }
 
