@@ -110,6 +110,30 @@ public class ProdListFragment extends Fragment {
         String prd_category = getArguments().getString("prd_category");
         String brand = getArguments().getString("brand");
         String message = getArguments().getString("message");
+
+        //상품목록 필터 버튼 설정
+        if(prd_category != null || brand != null || message != null){
+            //선택한 필터 항목 버튼에 표시
+            if(prd_category != null){
+                String btnCateTxt = selectedFilter(prd_category);
+                binding.btnOrderCategory.setText(btnCateTxt);
+            } else if (brand != null ) {
+                String btnBrandTxt = selectedFilter(brand);
+                binding.btnOrderCategory.setText(btnBrandTxt);
+            }else{
+                String btnMessageTxt = selectedFilter(message);
+                binding.btnOrderCategory.setText(btnMessageTxt);
+            }
+            binding.btnInit.setVisibility(View.VISIBLE);
+            binding.btnInit.setOnClickListener(v->{
+                //초기화 버튼을 눌렀을 때 처음 상품목록 화면으로 돌아감
+                navController.popBackStack();
+                navController.popBackStack();
+            });
+        }else {
+            //필터 버튼을 선택하지 않았을 때 초기화 버튼 숨기기
+            binding.btnInit.setVisibility(View.GONE);
+        }
         // API 서버에서 목록 받기
         ProductGroupService productGroupService = ServiceProvider.getFilteringProducts(getContext());
         Call<List<Product>> call = productGroupService.getFilteringProducts(searchKeyword, prd_category, brand, message);
@@ -157,10 +181,44 @@ public class ProdListFragment extends Fragment {
         });
     }
 
+    //코드에 따라 필터 버튼에 표시되는 이름
+    public String selectedFilter(String code){
+        if(code == "PHO"){
+            return "포토엽서";
+        }else if(code == "DES"){
+            return "디자인 패턴 엽서";
+        }else if(code == "ILU"){
+            return "그림/일러스트 엽서";
+        }else if(code == "CAL"){
+            return "캘리그라피 엽서";
+        }else if(code == "HON"){
+            return "홍홍엔데코";
+        }else if(code == "FOO"){
+            return "송미 풋";
+        }else if(code == "SMI"){
+            return "우리집 토끼는 미소천사";
+        }else if(code == "UUU"){
+            return "유짱이네 쿼카";
+        }else if(code == "GYU"){
+            return "살쾡이는 너무 무서워";
+        }else if(code == "CEL"){
+            return "축하/기념일";
+        }else if(code == "LOV"){
+            return "사랑/고백";
+        }else if(code == "THA"){
+            return "감사";
+        }else if(code == "HEA"){
+            return "힐링";
+        }else if(code == "APO"){
+            return "위로/격려";
+        }else{
+            return null;
+        }
+    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
     }
-
+    
 }
