@@ -78,20 +78,22 @@ public class ProdListFragment extends Fragment {
 
     //카테고리, 브랜드, 메시지 필터링 버튼
     private void initBtnFilter(){
+        //검색어 가져오기
+        String searchKeyword = getArguments().getString("keyword");
+        //검색어를 번들에 넣어 필터프레그먼트에 전달
+        Bundle bundle = new Bundle();
+        bundle.putString("keyword", searchKeyword);
         binding.btnOrderCategory.setOnClickListener(v->{
-            selectedFilterBtn = binding.btnOrderCategory.getId();
-            navController.navigate(R.id.action_dest_prod_list_to_dest_filter);
+            navController.navigate(R.id.action_dest_prod_list_to_dest_filter, bundle);
         });
 
         binding.btnOrderBrand.setOnClickListener(v->{
-            selectedFilterBtn = binding.btnOrderBrand.getId();
             Log.i(TAG, "initBtnFilter: " + selectedFilterBtn);
-            navController.navigate(R.id.action_dest_prod_list_to_dest_filter);
+            navController.navigate(R.id.action_dest_prod_list_to_dest_filter, bundle);
         });
 
         binding.btnOrderMessage.setOnClickListener(v->{
-            selectedFilterBtn = binding.btnOrderMessage.getId();
-            navController.navigate(R.id.action_dest_prod_list_to_dest_filter);
+            navController.navigate(R.id.action_dest_prod_list_to_dest_filter, bundle);
         });
     }
 
@@ -104,9 +106,13 @@ public class ProdListFragment extends Fragment {
 
         // 번들에서 검색어를 가져옴
         String searchKeyword = getArguments().getString("keyword");
+        // 필터에서 선택한 항목을 가져옴
+        String prd_category = getArguments().getString("prd_category");
+        String brand = getArguments().getString("brand");
+        String message = getArguments().getString("message");
         // API 서버에서 목록 받기
         ProductGroupService productGroupService = ServiceProvider.getFilteringProducts(getContext());
-        Call<List<Product>> call = productGroupService.getFilteringProducts(searchKeyword, null, null, null);
+        Call<List<Product>> call = productGroupService.getFilteringProducts(searchKeyword, prd_category, brand, message);
         call.enqueue(new Callback<List<Product>>() {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
@@ -141,10 +147,12 @@ public class ProdListFragment extends Fragment {
 
                 Bundle args = new Bundle();
                 args.putSerializable("product", product);
-                navController.navigate(R.id.action_dest_prod_list_to_dest_prod_detail);
+                //클릭한 항목의 Product를 상품상세프레그먼트에 전달하고 이동
+                navController.navigate(R.id.action_dest_prod_list_to_dest_prod_detail, args);
             }
         });
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();

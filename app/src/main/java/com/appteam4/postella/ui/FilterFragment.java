@@ -34,19 +34,36 @@ public class FilterFragment extends Fragment {
     }
 
     private void initBtnListResult(){
+        //검색어 가져오기
+        String searchKeyword = getArguments().getString("keyword");
         // 결과 보기 버튼을 초기에 비활성화
         binding.btnProdOrderResult.setEnabled(false);
         binding.btnProdOrderResult.setOnClickListener(v->{
             // 선택한 라디오 버튼의 값을 가져와서 상품목록 프래그먼트로 전달
-            // 선택한 라디오 버튼의 값을 가져오기
-            int selectedFilterValue = getSelectedValue(binding.radioGroupCategory.getCheckedRadioButtonId());
-            Log.i(TAG, "initBtnListResult: " + selectedFilterValue);
+            String selectedFilterValue = getSelectedValue(binding.radioGroupCategory.getCheckedRadioButtonId());
             // 선택한 값을 Bundle에 담아서 상품 목록 프래그먼트로 전달
             Bundle bundle = new Bundle();
-            bundle.putInt("selectedFilterValue", selectedFilterValue);
-
-            // 상품 목록 프래그먼트로 이동
-            navController.navigate(R.id.action_dest_filter_to_dest_prod_list, bundle);
+            //검색어를 번들에 담아서 상품 목록 프레그먼트로 전달
+            bundle.putString("keyword", searchKeyword);
+            if(selectedFilterValue == "PHO" || selectedFilterValue == "DES" ||
+                selectedFilterValue == "ILU" ||selectedFilterValue == "CAL" ){
+                bundle.putString("prd_category", selectedFilterValue);
+                // 상품 목록 프래그먼트로 이동
+                navController.navigate(R.id.action_dest_filter_to_dest_prod_list, bundle);
+            } else if (selectedFilterValue == "HON" || selectedFilterValue == "FOO" ||
+                    selectedFilterValue == "SMI" || selectedFilterValue == "UUU" || selectedFilterValue == "GYU") {
+                bundle.putString("brand", selectedFilterValue);
+                // 상품 목록 프래그먼트로 이동
+                navController.navigate(R.id.action_dest_filter_to_dest_prod_list, bundle);
+            }else if (selectedFilterValue == "CEL" || selectedFilterValue == "LOV" ||
+                    selectedFilterValue == "THA" || selectedFilterValue == "HEA" || selectedFilterValue == "APO") {
+                bundle.putString("message", selectedFilterValue);
+                // 상품 목록 프래그먼트로 이동
+                navController.navigate(R.id.action_dest_filter_to_dest_prod_list, bundle);
+            }else {
+                // 상품 목록 프래그먼트로 이동
+                navController.navigate(R.id.action_dest_filter_to_dest_prod_list);
+            }
         });
         // 라디오 버튼 클릭 이벤트 처리
         binding.radioGroupCategory.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -58,11 +75,37 @@ public class FilterFragment extends Fragment {
         });
     }
     // 라디오 버튼에 대한 선택한 값을 정의
-    private int getSelectedValue(int radioButtonId) {
+    private String getSelectedValue(int radioButtonId) {
         if(radioButtonId == binding.btnRadioPhoto.getId()){
-            return 1;
-        }else{
-            return 0;
+            return "PHO";
+        }else if(radioButtonId == binding.btnRadioDesign.getId()){
+            return "DES";
+        }else if(radioButtonId == binding.btnRadioIllust.getId()){
+            return "ILU";
+        }else if(radioButtonId == binding.btnRadioCalli.getId()){
+            return "CAL";
+        }else if(radioButtonId == binding.btnRadioHong.getId()){
+            return "HON";
+        }else if(radioButtonId == binding.btnRadioSong.getId()){
+            return "FOO";
+        }else if(radioButtonId == binding.btnRadioSmile.getId()){
+            return "SMI";
+        }else if(radioButtonId == binding.btnRadioYuyu.getId()){
+            return "UUU";
+        }else if(radioButtonId == binding.btnRadioGyu.getId()){
+            return "GYU";
+        }else if(radioButtonId == binding.btnRadioCele.getId()){
+            return "CEL";
+        }else if(radioButtonId == binding.btnRadioLove.getId()){
+            return "LOV";
+        }else if(radioButtonId == binding.btnRadioThank.getId()){
+            return "THA";
+        }else if(radioButtonId == binding.btnRadioHealing.getId()){
+            return "HEA";
+        }else if(radioButtonId == binding.btnRadioTake.getId()){
+            return "APO";
+        }else {
+            return null;
         }
     }
 
