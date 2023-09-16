@@ -34,6 +34,7 @@
                 android:textAppearance="?attr/textAppearanceHeadline6" />
 
             <LinearLayout
+                android:id="@+id/linear_cate_photo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
@@ -64,6 +65,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/linear_cate_photo2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
@@ -102,6 +104,7 @@
                 android:textAppearance="?attr/textAppearanceHeadline6" />
 
             <LinearLayout
+                android:id="@+id/linear_cate_design"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
@@ -132,6 +135,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/linear_cate_design2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
@@ -170,6 +174,7 @@
                 android:textAppearance="?attr/textAppearanceHeadline6" />
 
             <LinearLayout
+                android:id="@+id/linear_cate_illust"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -199,6 +204,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/linear_cate_illust2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
@@ -237,6 +243,7 @@
                 android:textAppearance="?attr/textAppearanceHeadline6" />
 
             <LinearLayout
+                android:id="@+id/linear_cate_calli"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
@@ -267,6 +274,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/linear_cate_calli2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"

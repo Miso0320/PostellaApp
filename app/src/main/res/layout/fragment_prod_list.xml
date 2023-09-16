@@ -30,7 +30,7 @@
                 android:id="@+id/txt_prod_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="200dp"
+                android:layout_marginRight="100dp"
                 android:text="22"
                 android:textAppearance="?attr/textAppearanceHeadline6"
                 android:textColor="#9d9d9d"
@@ -42,10 +42,11 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.21" />
         </LinearLayout>
-        <ScrollView
+        <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fillViewport="true"
+            android:scrollbars="none"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent">
 
@@ -67,7 +68,7 @@
                     android:layout_marginRight="10dp"/>
                 <Button
                     android:id="@+id/btn_order_category"
-                    android:layout_width="115dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="35dp"
                     android:text="카테고리"
                     android:textSize="10dp"
@@ -75,19 +76,21 @@
                     android:drawableRight="@drawable/baseline_keyboard_arrow_down_24"
                     style="?attr/materialButtonOutlinedStyle"
                     android:layout_marginRight="10dp"/>
+
                 <Button
                     android:id="@+id/btn_order_brand"
-                    android:layout_width="105dp"
-                    android:layout_height="35dp"
-                    android:text="브랜드"
-                    android:textSize="10dp"
-                    android:textColor="#6b6b6b"
-                    android:drawableRight="@drawable/baseline_keyboard_arrow_down_24"
                     style="?attr/materialButtonOutlinedStyle"
-                    android:layout_marginRight="10dp"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_marginRight="10dp"
+                    android:drawableRight="@drawable/baseline_keyboard_arrow_down_24"
+                    android:text="브랜드"
+                    android:textColor="#6b6b6b"
+                    android:textSize="10dp" />
+
                 <Button
                     android:id="@+id/btn_order_message"
-                    android:layout_width="105dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="35dp"
                     android:text="메세지"
                     android:textSize="10dp"
@@ -97,7 +100,7 @@
                     android:layout_marginRight="10dp"/>
 
             </LinearLayout>
-        </ScrollView>
+        </HorizontalScrollView>
 
 
         <androidx.recyclerview.widget.RecyclerView

@@ -26,6 +26,7 @@
                 android:textAppearance="?attr/textAppearanceHeadline6" />
 
             <LinearLayout
+                android:id="@+id/linear_brand_hong"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
@@ -56,6 +57,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/linear_brand_hong2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
@@ -94,6 +96,7 @@
                 android:textAppearance="?attr/textAppearanceHeadline6" />
 
             <LinearLayout
+                android:id="@+id/linear_brand_song"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
@@ -124,6 +127,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/linear_brand_song2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
@@ -162,6 +166,7 @@
                 android:textAppearance="?attr/textAppearanceHeadline6" />
 
             <LinearLayout
+                android:id="@+id/linear_brand_smile"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -191,6 +196,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/linear_brand_smile2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
@@ -229,6 +235,7 @@
                 android:textAppearance="?attr/textAppearanceHeadline6" />
 
             <LinearLayout
+                android:id="@+id/linear_brand_yuyu"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
@@ -259,6 +266,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/linear_brand_yuyu2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
@@ -296,6 +304,7 @@
                 android:textAppearance="?attr/textAppearanceHeadline6" />
 
             <LinearLayout
+                android:id="@+id/linear_brand_gyu"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
@@ -326,6 +335,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/linear_brand_gyu2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"

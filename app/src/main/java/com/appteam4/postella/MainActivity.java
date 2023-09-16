@@ -170,7 +170,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         // 네비게이션 메뉴 아이템 클릭 처리
         navigationView.setNavigationItemSelectedListener(item -> {
             drawerLayout = findViewById(R.id.drawer_layout);

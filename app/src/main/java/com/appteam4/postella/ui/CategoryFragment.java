@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.viewpager2.widget.ViewPager2;
@@ -35,6 +36,7 @@ public class CategoryFragment extends Fragment {
     }
 
     private void initTabLayout(){
+        Bundle bundle = new Bundle();
         CategoryTabPagerAdapter pagerAdapter = new CategoryTabPagerAdapter(this);
         // MainActivity에서 선택한 메뉴 아이템 가져오기
         int selectedMenuItem = ((MainActivity) requireActivity()).getSelectedMenuItem();

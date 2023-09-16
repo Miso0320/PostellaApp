@@ -26,6 +26,7 @@
                 android:textAppearance="?attr/textAppearanceHeadline6" />
 
             <LinearLayout
+                android:id="@+id/linear_message_cele"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
@@ -33,21 +34,18 @@
                 android:orientation="horizontal">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/img_brand_hong"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_weight="1"
                     android:src="@drawable/tab_message_cele" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/img_brand_hong2"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_weight="1"
                     android:src="@drawable/tab_message_cele3" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/img_brand_hong3"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_weight="1"
@@ -65,6 +63,7 @@
                 android:textAppearance="?attr/textAppearanceHeadline6" />
 
             <LinearLayout
+                android:id="@+id/linear_message_love"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
@@ -104,27 +103,25 @@
                 android:textAppearance="?attr/textAppearanceHeadline6" />
 
             <LinearLayout
+                android:id="@+id/linear_message_thank"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/img_brand_smile"
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:src="@drawable/tab_message_thank" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/img_brand_smile2"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_weight="1"
                     android:src="@drawable/tab_message_thank2" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/img_brand_smile3"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_weight="1"
@@ -133,7 +130,6 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/txt_yuyu_brand"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -142,6 +138,7 @@
                 android:textAppearance="?attr/textAppearanceHeadline6" />
 
             <LinearLayout
+                android:id="@+id/linear_message_healing"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
@@ -181,6 +178,7 @@
                 android:textAppearance="?attr/textAppearanceHeadline6" />
 
             <LinearLayout
+                android:id="@+id/linear_message_take"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
