@@ -4,6 +4,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,12 @@ public class MainAdapter extends RecyclerView.Adapter<MainViewHolder> {
     private static final String TAG = "MainAdapter";
     List<Product> list = new ArrayList<>();
     private OnItemClickListener onItemClickListener;
+    private MainFragment mainFragment;
+
+    // MainFragment의 참조 설정
+    public void setMainFragment(MainFragment mainFragment) {
+        this.mainFragment = mainFragment;
+    }
 
     /**
      * RecyclerView에서 새로운 뷰 홀더 객체를 생성
@@ -53,6 +60,27 @@ public class MainAdapter extends RecyclerView.Adapter<MainViewHolder> {
         Product product = list.get(position);
         // ViewHolder에 데이터를 설정하여 화면에 표시
         holder.setData(product);
+        // ViewHolder에서 CheckBox 참조 가져오기
+        CheckBox checkBoxFavorite = holder.itemView.findViewById(R.id.checkbox_favorite);
+
+        // CheckBox에 대한 OnCheckedChangeListener 설정
+        checkBoxFavorite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (mainFragment != null) {
+                    if (isChecked) {
+                        Log.i(TAG, "onCheckedChanged: 실행한다 체쿠");
+                        Log.i(TAG, "onCheckedChanged: " + product);
+                        // 체크되었을 때, addWish 함수 호출
+                        mainFragment.addWish(product);
+                    } else {
+                        Log.i(TAG, "onCheckedChanged: 실행한다 체쿠");
+                        // 체크 해제되었을 때, removeWish 함수 호출
+                        mainFragment.removeWish(product);
+                    }
+                }
+            }
+        });
     }
 
     /**

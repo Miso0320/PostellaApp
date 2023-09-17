@@ -43,20 +43,6 @@ public class MainViewHolder extends RecyclerView.ViewHolder {
             Log.i(TAG, "prodNo : " + pg_no);
             onItemClickListener.onItemClick(v, getAdapterPosition());
         });
-
-        // CheckBox의 상태 변경 이벤트 처리
-        checkboxItem.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // 아이템의 체크 상태 업데이트
-                if (listener != null) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        listener.onItemClick(itemView, position);
-                    }
-                }
-            }
-        });
     }
 
     public void setData(Product product){
@@ -75,10 +61,5 @@ public class MainViewHolder extends RecyclerView.ViewHolder {
             prodDiscount.setText(String.valueOf(intSalePercent)+ "%");
         }
         prodName.setText(product.getPg_name());
-        // CheckBox 상태 변경 이벤트에 대한 리스너 설정
-        this.listener = listener;
-
-        // CheckBox 초기 상태 설정 (여기서는 필요에 따라 설정)
-        checkboxItem.setChecked(product.isChecked());
     }
 }
