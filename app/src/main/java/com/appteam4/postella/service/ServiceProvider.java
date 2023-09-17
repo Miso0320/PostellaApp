@@ -3,9 +3,9 @@ package com.appteam4.postella.service;
 import android.content.Context;
 
 import com.appteam4.postella.datastore.AppKeyValueStore;
+import com.appteam4.postella.ui.MainAdapter;
 
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;

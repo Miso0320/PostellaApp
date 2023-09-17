@@ -34,6 +34,7 @@ public class Product implements Serializable {
 				", message=" + message +
 				", keyword='" + keyword + '\'' +
 				", quantity=" + quantity +
+				", isChecked=" + isChecked +
 				'}';
 	}
 
@@ -267,10 +268,20 @@ public class Product implements Serializable {
 	private List<String> brand;			// 브랜드별 필터
 	private List<String> status;		// 상품상태별 필터
 	private List<String> message;		// 메세지별 필터
-	
+
+	public boolean isChecked() {
+		return isChecked;
+	}
+
+	public void setChecked(boolean checked) {
+		isChecked = checked;
+	}
+
 	// 상품 리스트 검색(헤더)
 	private String keyword;				// 검색어
 	
 	// 상품 수량
 	private int quantity;				// 상품 수량
+	// 체크 상태를 나타내는 필드(찜)
+	private boolean isChecked;
 }

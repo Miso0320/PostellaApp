@@ -2,7 +2,6 @@ package com.appteam4.postella.ui;
 
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;

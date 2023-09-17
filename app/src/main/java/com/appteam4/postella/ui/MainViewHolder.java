@@ -2,6 +2,8 @@ package com.appteam4.postella.ui;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,6 +24,9 @@ public class MainViewHolder extends RecyclerView.ViewHolder {
     private TextView prodPrice;
     private TextView prodDiscount;
     private TextView prodName;
+    public CheckBox checkboxItem; // 하트 체크박스 체크 여부를 위함
+
+    private MainAdapter.OnItemClickListener listener; // 인터페이스 객체 추가
 
     public MainViewHolder (@NonNull View itemView, MainAdapter.OnItemClickListener onItemClickListener) {
         super(itemView);
@@ -30,11 +35,27 @@ public class MainViewHolder extends RecyclerView.ViewHolder {
         prodPrice = (TextView) itemView.findViewById(R.id.txt_reco_prod_price);
         prodDiscount = (TextView) itemView.findViewById(R.id.txt_reco_prod_discount);
         prodName = (TextView) itemView.findViewById(R.id.txt_prod_name);
-
+        checkboxItem = itemView.findViewById(R.id.checkbox_favorite); // 레이아웃 XML에서 CheckBox 뷰 찾아서 초기화
+        // 인터페이스 리스너 설정
+        this.listener = listener;
         //클릭 이벤트 처리
         itemView.setOnClickListener(v -> {
             Log.i(TAG, "prodNo : " + pg_no);
             onItemClickListener.onItemClick(v, getAdapterPosition());
+        });
+
+        // CheckBox의 상태 변경 이벤트 처리
+        checkboxItem.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // 아이템의 체크 상태 업데이트
+                if (listener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        listener.onItemClick(itemView, position);
+                    }
+                }
+            }
         });
     }
 
@@ -54,5 +75,10 @@ public class MainViewHolder extends RecyclerView.ViewHolder {
             prodDiscount.setText(String.valueOf(intSalePercent)+ "%");
         }
         prodName.setText(product.getPg_name());
+        // CheckBox 상태 변경 이벤트에 대한 리스너 설정
+        this.listener = listener;
+
+        // CheckBox 초기 상태 설정 (여기서는 필요에 따라 설정)
+        checkboxItem.setChecked(product.isChecked());
     }
 }

@@ -1,6 +1,5 @@
 package com.appteam4.postella.ui;
 
-import android.graphics.Paint;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -15,7 +14,6 @@ import android.view.ViewGroup;
 
 import com.appteam4.postella.R;
 import com.appteam4.postella.databinding.FragmentWishListBinding;
-import com.appteam4.postella.dto.Review;
 import com.appteam4.postella.dto.Wish;
 
 public class WishListFragment extends Fragment {

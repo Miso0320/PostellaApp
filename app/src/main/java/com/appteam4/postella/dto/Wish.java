@@ -3,6 +3,29 @@ package com.appteam4.postella.dto;
 import java.io.Serializable;
 
 public class Wish implements Serializable {
+    private int us_no; //회원 식별번호
+
+    public int getUs_no() {
+        return us_no;
+    }
+
+    public void setUs_no(int us_no) {
+        this.us_no = us_no;
+    }
+
+    @Override
+    public String toString() {
+        return "Wish{" +
+                "us_no=" + us_no +
+                ", img_type='" + img_type + '\'' +
+                ", encodedFile='" + encodedFile + '\'' +
+                ", pg_no=" + pg_no +
+                ", pg_name='" + pg_name + '\'' +
+                ", prd_org_price=" + prd_org_price +
+                ", prd_price=" + prd_price +
+                '}';
+    }
+
     // 이미지 파일 불러오기
     private String img_type;            // img 타입
     private String encodedFile;            // encoded된 이미지파일
@@ -60,15 +83,4 @@ public class Wish implements Serializable {
         this.prd_price = prd_price;
     }
 
-    @Override
-    public String toString() {
-        return "Wish{" +
-                "img_type='" + img_type + '\'' +
-                ", encodedFile='" + encodedFile + '\'' +
-                ", pg_no=" + pg_no +
-                ", pg_name='" + pg_name + '\'' +
-                ", prd_org_price=" + prd_org_price +
-                ", prd_price=" + prd_price +
-                '}';
-    }
 }

@@ -4,13 +4,17 @@ import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 
+import com.appteam4.postella.dto.Wish;
+import com.appteam4.postella.dto.WishResult;
 import com.appteam4.postella.dto.Product;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface ProductGroupService {
@@ -26,6 +30,11 @@ public interface ProductGroupService {
             @Nullable @Query("brand") String brand,
             @Nullable @Query("message") String message
     );
+
+    @POST("addWishForApp")
+    Call<WishResult> addWish(@Body Wish wish);
+    @POST("removeWishForApp")
+    Call<WishResult> removeWish(@Body Wish wish);
     @GET
     static void loadImage(int pg_no, ImageView imageView) {
         String url = NetworkInfo.BASE_URL + "productGroup?pg_no=" + pg_no;

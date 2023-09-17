@@ -8,6 +8,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +24,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import com.appteam4.postella.R;
 import com.appteam4.postella.databinding.FragmentMainBinding;
 import com.appteam4.postella.dto.Product;
+import com.appteam4.postella.dto.Wish;
+import com.appteam4.postella.dto.WishResult;
 import com.appteam4.postella.service.ProductGroupService;
 import com.appteam4.postella.service.ServiceProvider;
 import com.google.android.material.tabs.TabLayout;
@@ -185,8 +189,16 @@ public class MainFragment extends Fragment {
                 Bundle args = new Bundle();
                 args.putSerializable("product", product);
                 navController.navigate(R.id.action_dest_main_to_dest_prod_detail);
+                // 상품의 찜 상태가 체크되어 있으면 찜 해제 요청 보냄, 아니면 찜 추가 요청 보냄
+                if (product.isChecked()) {
+                    removeWish(product);
+                } else {
+                    addWish(product);
+                }
             }
         });
+
+
     }
 
     private void initRecyclerView2() {
@@ -255,6 +267,61 @@ public class MainFragment extends Fragment {
             public void onClick(View v) {
                 // NestedScrollView를 맨 위로 스크롤
                 nestedScrollView.smoothScrollTo(0, 0);
+            }
+        });
+    }
+
+    //찜 추가 요청
+    private void addWish(Product product) {
+        // 찜 추가 API 요청 보내기
+        Wish wish = new Wish(); // 적절한 Wish 객체 생성 (상품 ID를 전달)
+        wish.setPg_no(product.getPg_no());
+        wish.setUs_no(121);
+        ProductGroupService productGroupService = ServiceProvider.getProductList(getContext());
+        Call<WishResult> call = productGroupService.addWish(wish);
+        call.enqueue(new Callback<WishResult>() {
+            @Override
+            public void onResponse(Call<WishResult> call, Response<WishResult> response) {
+                // API 요청이 성공했을 때의 처리
+                if (response.isSuccessful()) {
+                    // 찜 목록에서 상품을 추가한 상태로 업데이트
+                    Log.i(TAG, "onResponse: 추가 완료");
+                } else {
+                    // API 요청이 실패한 경우에 대한 처리
+                    Log.e(TAG, "API 호출 실패");
+                }
+            }
+            @Override
+            public void onFailure(Call<WishResult> call, Throwable t) {
+                // API 요청 실패 시 예외 처리
+                Log.e(TAG, "API 호출 실패", t);
+            }
+        });
+    }
+    //찜 삭제 요청
+    private void removeWish(Product product) {
+        // 찜 추가 API 요청 보내기
+        Wish wish = new Wish(); // 적절한 Wish 객체 생성 (상품 ID를 전달)
+        wish.setPg_no(product.getPg_no());
+        wish.setUs_no(121);
+        ProductGroupService productGroupService = ServiceProvider.getProductList(getContext());
+        Call<WishResult> call = productGroupService.addWish(wish);
+        call.enqueue(new Callback<WishResult>() {
+            @Override
+            public void onResponse(Call<WishResult> call, Response<WishResult> response) {
+                // API 요청이 성공했을 때의 처리
+                if (response.isSuccessful()) {
+                    Log.i(TAG, "onResponse: 찜 삭제 완료");
+                } else {
+                    // API 요청이 실패한 경우에 대한 처리
+                    Log.e(TAG, "API 호출 실패");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<WishResult> call, Throwable t) {
+                // API 요청 실패 시 예외 처리
+                Log.e(TAG, "API 호출 실패", t);
             }
         });
     }
