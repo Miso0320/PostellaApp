@@ -19,13 +19,16 @@ import java.util.List;
 public class MainAdapter extends RecyclerView.Adapter<MainViewHolder> {
     private static final String TAG = "MainAdapter";
     List<Product> list = new ArrayList<>();
+
     private OnItemClickListener onItemClickListener;
     private MainFragment mainFragment;
+    private ProdListFragment prodListFragment;
 
     // MainFragment의 참조 설정
     public void setMainFragment(MainFragment mainFragment) {
         this.mainFragment = mainFragment;
     }
+    public void setProdListFragment(ProdListFragment prodListFragment) {this.prodListFragment = prodListFragment;}
 
     /**
      * RecyclerView에서 새로운 뷰 홀더 객체를 생성
@@ -79,6 +82,20 @@ public class MainAdapter extends RecyclerView.Adapter<MainViewHolder> {
                         mainFragment.removeWish(product);
                     }
                 }
+
+                if(prodListFragment != null){
+                    Log.i(TAG, "onCheckedChanged: 앙녕");
+                    if (isChecked) {
+                        Log.i(TAG, "onCheckedChanged: 실행한다 체쿠");
+                        Log.i(TAG, "onCheckedChanged: " + product);
+                        // 체크되었을 때, addWish 함수 호출
+                        prodListFragment.addWish(product);
+                    } else {
+                        Log.i(TAG, "onCheckedChanged: 실행한다 체쿠");
+                        // 체크 해제되었을 때, removeWish 함수 호출
+                        prodListFragment.removeWish(product);
+                    }
+                }
             }
         });
     }
@@ -127,5 +144,6 @@ public class MainAdapter extends RecyclerView.Adapter<MainViewHolder> {
      * @return 지정된 위치에 있는 아이템
      */
     public Product getItem(int position) {return list.get(position);}
+
 
 }

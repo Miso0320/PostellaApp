@@ -19,7 +19,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.appteam4.postella.R;
 import com.appteam4.postella.databinding.FragmentProdListBinding;
+import com.appteam4.postella.dto.MyWish;
 import com.appteam4.postella.dto.Product;
+import com.appteam4.postella.dto.WishResult;
 import com.appteam4.postella.service.NetworkInfo;
 import com.appteam4.postella.service.ProductGroupService;
 import com.appteam4.postella.service.ServiceProvider;
@@ -208,6 +210,7 @@ public class ProdListFragment extends Fragment {
                 navController.navigate(R.id.action_dest_prod_list_to_dest_prod_detail, args);
             }
         });
+        mainAdapter.setProdListFragment(this);
     }
 
 
@@ -223,23 +226,23 @@ public class ProdListFragment extends Fragment {
             return "캘리그라피 엽서";
         }else if(code == "HON"){
             return "홍홍엔데코";
-        }else if(code == "FOO"){
+        }else if(code.equals("FOO")){
             return "송미 풋";
-        }else if(code == "SMI"){
+        }else if(code.equals("SMI")){
             return "우리집 토끼는 미소천사";
-        }else if(code == "UUU"){
+        }else if(code.equals("UUU")){
             return "유짱이네 쿼카";
-        }else if(code == "GYU"){
+        }else if(code.equals("GYU")){
             return "살쾡이는 너무 무서워";
-        }else if(code == "CEL"){
+        }else if(code.equals("CEL")){
             return "축하/기념일";
-        }else if(code == "LOV"){
+        }else if(code.equals("LOV")){
             return "사랑/고백";
-        }else if(code == "THA"){
+        }else if(code.equals("THA")){
             return "감사";
-        }else if(code == "HEA"){
+        }else if(code.equals("HEA")){
             return "힐링";
-        }else if(code == "APO"){
+        }else if(code.equals("APO")){
             return "위로/격려";
         }else{
             return null;
@@ -250,6 +253,92 @@ public class ProdListFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    //찜 추가 요청
+    public void addWish(Product product) {
+        // 찜 추가 API 요청 보내기
+        MyWish wish = new MyWish(); // 적절한 Wish 객체 생성 (상품 ID를 전달)
+        wish.setPg_no(product.getPg_no());
+        wish.setUs_no(121);
+        ProductGroupService productGroupService = ServiceProvider.getProductList(getContext());
+        Call<WishResult> call = productGroupService.addWish(wish);
+        call.enqueue(new Callback<WishResult>() {
+            @Override
+            public void onResponse(Call<WishResult> call, Response<WishResult> response) {
+                WishResult wishResult = response.body(); // WishResult 객체 가져오기
+                // API 요청이 성공했을 때의 처리
+                if (response.isSuccessful()) {
+                    if(wishResult != null){
+                        String result = wishResult.getResult();
+                        if(result.equals("success")){
+                            // 찜 목록에서 상품을 추가한 상태로 업데이트
+                            Snackbar snackbar = Snackbar.make(getView(), "상품을 나의 찜목록에 담았어요! 바로가기", Snackbar.LENGTH_SHORT);
+                            snackbar.setAction("바로가기", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    // 바로가기 클릭 시 찜목록 프래그먼트로 이동
+                                    NavController navController = NavHostFragment.findNavController(ProdListFragment.this);
+                                    navController.navigate(R.id.action_dest_prod_list_to_dest_wish_list3);
+                                }
+                            });
+                            snackbar.show();
+                        }else if(result.equals("fail")){
+                            Snackbar snackbar = Snackbar.make(getView(), "이미 추가된 상품입니다! 바로가기", Snackbar.LENGTH_SHORT);
+                            snackbar.setAction("바로가기", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    // 바로가기 클릭 시 찜목록 프래그먼트로 이동
+                                    NavController navController = NavHostFragment.findNavController(ProdListFragment.this);
+                                    navController.navigate(R.id.action_dest_prod_list_to_dest_wish_list3);
+                                }
+                            });
+                            snackbar.show();
+                        }
+                    }
+                }else {
+                    Log.i(TAG, "onResponse: 왜안되는교" + response.isSuccessful());
+                }
+            }
+            @Override
+            public void onFailure(Call<WishResult> call, Throwable t) {
+                // API 요청 실패 시 예외 처리
+                Log.e(TAG, "API 호출 실패", t);
+                // 오류 메시지를 얻어와서 로그로 출력
+                String errorMessage = t.getMessage(); // 예외 메시지 얻기
+                Log.e(TAG, "API 오류 메시지: " + errorMessage);
+            }
+        });
+    }
+    //찜 삭제 요청
+    public void removeWish(Product product) {
+        // 찜 추가 API 요청 보내기
+        MyWish wish = new MyWish(); // 적절한 Wish 객체 생성 (상품 ID를 전달)
+        wish.setPg_no(product.getPg_no());
+        wish.setUs_no(121);
+        ProductGroupService productGroupService = ServiceProvider.getProductList(getContext());
+        Call<WishResult> call = productGroupService.removeWish(wish);
+        call.enqueue(new Callback<WishResult>() {
+            @Override
+            public void onResponse(Call<WishResult> call, Response<WishResult> response) {
+                WishResult wishResult = response.body();
+                // API 요청이 성공했을 때의 처리
+                if (response.isSuccessful()) {
+                    Log.i(TAG, "onResponse: 삭제 여부" + wishResult.getResult());
+                }else {
+                    Log.i(TAG, "onResponse: 왜안되는교" + call.toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<WishResult> call, Throwable t) {
+                // API 요청 실패 시 예외 처리
+                Log.e(TAG, "API 호출 실패", t);
+                // 오류 메시지를 얻어와서 로그로 출력
+                String errorMessage = t.getMessage(); // 예외 메시지 얻기
+                Log.e(TAG, "API 오류 메시지: " + errorMessage);
+            }
+        });
     }
     
 }

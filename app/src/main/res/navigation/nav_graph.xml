@@ -47,6 +47,9 @@
         <action
             android:id="@+id/action_dest_prod_list_to_dest_filter"
             app:destination="@id/dest_filter" />
+        <action
+            android:id="@+id/action_dest_prod_list_to_dest_wish_list3"
+            app:destination="@id/dest_wish_list" />
     </fragment>
     <fragment
         android:id="@+id/dest_category"
