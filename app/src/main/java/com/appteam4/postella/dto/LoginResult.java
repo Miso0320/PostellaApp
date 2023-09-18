@@ -3,15 +3,15 @@ package com.appteam4.postella.dto;
 public class LoginResult {
 
     private String result;
-    private String mid;
-    private String mpassword;
+    private String us_email;
+    private String us_password;
 
     @Override
     public String toString() {
         return "LoginResult{" +
                 "result='" + result + '\'' +
-                ", mid='" + mid + '\'' +
-                ", mpassword='" + mpassword + '\'' +
+                ", us_email='" + us_email + '\'' +
+                ", us_password='" + us_password + '\'' +
                 '}';
     }
 
@@ -23,19 +23,19 @@ public class LoginResult {
         this.result = result;
     }
 
-    public String getMid() {
-        return mid;
+    public String getUs_email() {
+        return us_email;
     }
 
-    public void setMid(String mid) {
-        this.mid = mid;
+    public void setUs_email(String us_email) {
+        this.us_email = us_email;
     }
 
-    public String getMpassword() {
-        return mpassword;
+    public String getUs_password() {
+        return us_password;
     }
 
-    public void setMpassword(String mpassword) {
-        this.mpassword = mpassword;
+    public void setUs_password(String us_password) {
+        this.us_password = us_password;
     }
 }

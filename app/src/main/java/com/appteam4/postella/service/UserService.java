@@ -8,5 +8,5 @@ import retrofit2.http.Query;
 
 public interface UserService {
     @GET("user/login")
-    Call<LoginResult> login(@Query("mid") String mid, @Query("mpassword") String mpassword);
+    Call<LoginResult> login(@Query("us_email") String us_email, @Query("us_password") String us_password);
 }

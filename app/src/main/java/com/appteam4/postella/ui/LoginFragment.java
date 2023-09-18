@@ -60,10 +60,10 @@ public class LoginFragment extends Fragment {
                         Log.i(TAG, "로그인 성공");
 
                         // 로그인 성공시 mid와 mpassword를 공유 저장소에 저장
-                        //AppKeyValueStore.put(getContext(), "mid", loginResult.getMid());
-                        //AppKeyValueStore.put(getContext(), "mpassword", loginResult.getMpassword());
-                        AppKeyValueStore.put(getContext(), "mid", "user");
-                        AppKeyValueStore.put(getContext(), "mpassword", "12345");
+                        AppKeyValueStore.put(getContext(), "us_email", loginResult.getUs_email());
+                        AppKeyValueStore.put(getContext(), "us_password", loginResult.getUs_password());
+                        //AppKeyValueStore.put(getContext(), "mid", "user");
+                        //AppKeyValueStore.put(getContext(), "mpassword", "12345");
 
                         // 이전 화면 이동
                         navController.popBackStack();

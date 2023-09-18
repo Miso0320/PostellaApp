@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.appteam4.postella.R;
 import com.appteam4.postella.databinding.FragmentMainBinding;
+import com.appteam4.postella.datastore.AppKeyValueStore;
 import com.appteam4.postella.dto.MyWish;
 import com.appteam4.postella.dto.Product;
 import com.appteam4.postella.dto.Wish;
@@ -92,13 +93,20 @@ public class MainFragment extends Fragment {
 
             @Override
             public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
+                // us_email 얻기
+                String us_email = AppKeyValueStore.getValue(getContext(), "us_email");
+
                 if(menuItem.getItemId() == R.id.dest_search) {
                     navController.navigate(R.id.action_dest_main_to_dest_search);
                     return true;
                 } else if(menuItem.getItemId() == R.id.dest_cart) {
-                    navController.navigate(R.id.action_dest_main_to_dest_cart);
+                    if (us_email == null) {
+                        navController.navigate(R.id.dest_login);
+                    } else {
+                        navController.navigate(R.id.action_dest_main_to_dest_cart);
+                    }
                     return true;
-                }else if(menuItem.getItemId() == R.id.dest_category){
+                } else if(menuItem.getItemId() == R.id.dest_category){
                     return true;
                 }
                 return false;

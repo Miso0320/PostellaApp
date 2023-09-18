@@ -111,6 +111,8 @@ public class MainActivity extends AppCompatActivity {
                     .setLaunchSingleTop(true)
                     .build();
 
+            // us_email 얻기
+            String us_email = AppKeyValueStore.getValue(this, "us_email");
             if (item.getItemId() == R.id.dest_main) {
                 navController.navigate(R.id.dest_main, null, navOptions);
                 return true;
@@ -118,19 +120,21 @@ public class MainActivity extends AppCompatActivity {
                 navController.navigate(R.id.dest_ad_list, null, navOptions);
                 return true;
             } else if (item.getItemId() == R.id.dest_wish_list) {
-                navController.navigate(R.id.dest_wish_list, null, navOptions);
+                // us_email 없다면 로그인으로 이동
+                if (us_email == null) {
+                    navController.navigate(R.id.dest_login);
+                } else {
+                    navController.navigate(R.id.dest_wish_list, null, navOptions);
+                }
                 return true;
             } else if (item.getItemId() == R.id.dest_mypage_order_list) {
-                // mid 얻기
-                String mid = AppKeyValueStore.getValue(this, "mid");
-                // mid가 없다면 로그인으로 이동
-                if (mid == null) {
+                // us_email 없다면 로그인으로 이동
+                if (us_email == null) {
                     navController.navigate(R.id.dest_login);
-                    return true;
                 } else {
                     navController.navigate(R.id.dest_mypage_order_list, null, navOptions);
-                    return true;
                 }
+                return true;
             }
             return false;
         });
