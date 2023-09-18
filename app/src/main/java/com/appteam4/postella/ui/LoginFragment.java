@@ -59,14 +59,12 @@ public class LoginFragment extends Fragment {
                     if (loginResult.getResult().equals("success")) {
                         Log.i(TAG, "로그인 성공");
 
-                        // 로그인 성공시 mid와 mpassword를 공유 저장소에 저장
+                        // 로그인 성공시 us_email us_password 공유 저장소에 저장
                         AppKeyValueStore.put(getContext(), "us_email", loginResult.getUs_email());
                         AppKeyValueStore.put(getContext(), "us_password", loginResult.getUs_password());
-                        //AppKeyValueStore.put(getContext(), "mid", "user");
-                        //AppKeyValueStore.put(getContext(), "mpassword", "12345");
 
-                        // 이전 화면 이동
-                        navController.popBackStack();
+                        // 메인 화면 이동
+                        navController.navigate(R.id.dest_main);
                     } else {
                         AlertDialog alertDialog = new AlertDialog.Builder(getContext())
                                 .setTitle("로그인 실패")

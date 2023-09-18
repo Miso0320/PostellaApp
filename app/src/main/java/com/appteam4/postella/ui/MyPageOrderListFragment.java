@@ -33,6 +33,7 @@ import android.widget.Toolbar;
 import com.appteam4.postella.MainActivity;
 import com.appteam4.postella.R;
 import com.appteam4.postella.databinding.FragmentMyOrderListBinding;
+import com.appteam4.postella.datastore.AppKeyValueStore;
 import com.appteam4.postella.dto.MyPageOrderList;
 import com.appteam4.postella.dto.Product;
 import com.appteam4.postella.service.MyPageOrderListService;
@@ -60,6 +61,7 @@ public class MyPageOrderListFragment extends Fragment {
         initMenu();
         initRecyclerViewMyOrderList();
         //initClickProfile();
+        initBtnLogout();
         initBtnImageSelect();
 
        return binding.getRoot();
@@ -206,6 +208,14 @@ public class MyPageOrderListFragment extends Fragment {
                     new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1000);
         }
     }*/
+
+    private void initBtnLogout() {
+        binding.btnLogout.setOnClickListener(v -> {
+            AppKeyValueStore.remove(getContext(), "us_email");
+            AppKeyValueStore.remove(getContext(), "us_password");
+            navController.navigate(R.id.dest_main);
+        });
+    }
 
     private void initBtnImageSelect() {
         ActivityResultLauncher<PickVisualMediaRequest> activityResultLauncher =
