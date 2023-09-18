@@ -65,6 +65,8 @@ public class ProdDetailFragment extends Fragment {
         // 하단 네비게이션바 숨기기
         hideBottomNavigation(true);
 
+        showBottomSheet();
+
         // 탭 메뉴 이동
         initTabPage();
 
@@ -124,6 +126,9 @@ public class ProdDetailFragment extends Fragment {
             // 하단 네이게이션바 나타내기
             bottomNavigation.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void showBottomSheet() {
     }
 
     private void initTabPage() {

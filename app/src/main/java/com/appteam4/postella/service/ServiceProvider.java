@@ -82,9 +82,27 @@ public class ServiceProvider {
         CartService cartService = getRetrofit(context).create(CartService.class);
         return cartService;
     }
-
+    
     public static UserService getUserService(Context context) {
         UserService userService = getRetrofit(context).create(UserService.class);
         return userService;
+    }
+    
+    //상품상세
+    public static ProductDetailService getProductDetailService(Context context) {
+        ProductDetailService productDetailService = getRetrofit(context).create(ProductDetailService.class);
+        return productDetailService;
+    }
+    
+    // 상품평
+    public static ReviewService getReviewService(Context context) {
+        ReviewService reviewService = getRetrofit(context).create(ReviewService.class);
+        return reviewService;
+    }
+    
+    // 상품문의
+    public static InquiryService getInquiryService(Context context) {
+        InquiryService inquiryService = getRetrofit(context).create(InquiryService.class);
+        return inquiryService;
     }
 }

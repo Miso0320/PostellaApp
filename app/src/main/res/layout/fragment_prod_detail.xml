@@ -62,14 +62,51 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tab_menu_layout" />
 
+    <LinearLayout
+        android:id="@+id/bottom_payment_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <CheckBox
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/wish_detail_selector"
+            android:button="@android:color/transparent"
+            android:elevation="12dp"
+            android:layout_gravity="center"
+            android:minWidth="48dp"
+            android:minHeight="48dp"/>
+
+        <Button
+            android:id="@+id/button2"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="구매하기"
+            android:layout_weight="1"
+            app:strokeColor="#7E57C2"
+            app:strokeWidth="2dp"
+            android:layout_gravity="center"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+
     <!-- 스크롤뷰 내용 -->
     <ScrollView
         android:id="@+id/scroll_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:contentDescription="스크롤뷰"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_payment_menu"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/selected_tab">
+        app:layout_constraintTop_toBottomOf="@+id/tab_menu_layout">
 
         <LinearLayout
             android:layout_width="match_parent"

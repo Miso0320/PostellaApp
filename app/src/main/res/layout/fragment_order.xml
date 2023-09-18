@@ -636,7 +636,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
-                        android:text="은행선택"
+                        android:text="통신사선택"
                         android:textStyle="bold" />
 
                     <Spinner
