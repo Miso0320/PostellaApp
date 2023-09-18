@@ -4,21 +4,27 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 public class Image implements Serializable {
-	@Override
-	public String toString() {
-		return "Image{" +
-				"us_no=" + us_no +
-				", prd_no=" + prd_no +
-				", can_no=" + can_no +
-				", rev_no=" + rev_no +
-				", img_file=" + Arrays.toString(img_file) +
-				", img_use='" + img_use + '\'' +
-				", img_oname='" + img_oname + '\'' +
-				", img_type='" + img_type + '\'' +
-				", pg_no=" + pg_no +
-				", encodedFile='" + encodedFile + '\'' +
-				", nullOrnot=" + nullOrnot +
-				'}';
+	private int img_no; 				// 이미지 파일 식별 번호 NOT NULL
+	private int us_no; 					// 회원 고유 번호
+	private int prd_no; 				// 상품 고유 번호
+	private int can_no; 				// 교환, 반품 취소 번호
+	private int rev_no; 				// 리뷰 식별 번호
+	
+	private byte[] img_file; 			// 이미지 파일 NOT NULL
+	private String img_use; 			// 이미지 사용 용도
+	private String img_oname; 			// 이미지 원본 파일명  NOT NULL
+	private String img_type; 			// 이미지 MIME 타입  NOT NULL
+	private int pg_no; 					// 상품 대분류
+	private String encodedFile; 		// 인코딩한 파일 저장
+	private String img_url;				// 이미지 전송을 위한 URL 정보 저장
+	private boolean nullOrnot;			// null 여부 확인
+
+	public int getImg_no() {
+		return img_no;
+	}
+
+	public void setImg_no(int img_no) {
+		this.img_no = img_no;
 	}
 
 	public int getUs_no() {
@@ -101,6 +107,14 @@ public class Image implements Serializable {
 		this.encodedFile = encodedFile;
 	}
 
+	public String getImg_url() {
+		return img_url;
+	}
+
+	public void setImg_url(String img_url) {
+		this.img_url = img_url;
+	}
+
 	public boolean isNullOrnot() {
 		return nullOrnot;
 	}
@@ -109,17 +123,22 @@ public class Image implements Serializable {
 		this.nullOrnot = nullOrnot;
 	}
 
-	/*private int img_no;*/ 			// 이미지 파일 식별 번호 NOT NULL
-	private int us_no; 					// 회원 고유 번호
-	private int prd_no; 				// 상품 고유 번호
-	private int can_no; 				// 교환, 반품 취소 번호
-	private int rev_no; 				// 리뷰 식별 번호
-	
-	private byte[] img_file; 			// 이미지 파일 NOT NULL
-	private String img_use; 			// 이미지 사용 용도
-	private String img_oname; 			// 이미지 원본 파일명  NOT NULL
-	private String img_type; 			// 이미지 MIME 타입  NOT NULL
-	private int pg_no; 					// 상품 대분류
-	private String encodedFile; 		// 인코딩한 파일 저장
-	private boolean nullOrnot;			// null 여부 확인
+	@Override
+	public String toString() {
+		return "Image{" +
+				"img_no=" + img_no +
+				", us_no=" + us_no +
+				", prd_no=" + prd_no +
+				", can_no=" + can_no +
+				", rev_no=" + rev_no +
+				", img_file=" + Arrays.toString(img_file) +
+				", img_use='" + img_use + '\'' +
+				", img_oname='" + img_oname + '\'' +
+				", img_type='" + img_type + '\'' +
+				", pg_no=" + pg_no +
+				", encodedFile='" + encodedFile + '\'' +
+				", img_url='" + img_url + '\'' +
+				", nullOrnot=" + nullOrnot +
+				'}';
+	}
 }

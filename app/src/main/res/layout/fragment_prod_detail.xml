@@ -346,7 +346,7 @@
 
             <!-- 상품상세이미지 -->
             <ImageView
-                android:id="@+id/prod_detail_image"
+                android:id="@+id/prd_detail_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"

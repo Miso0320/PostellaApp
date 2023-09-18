@@ -134,6 +134,8 @@ public class ProdDetailFragment extends Fragment {
                 binding.reviewCount.setText("(" + String.valueOf((product.getRevCnt())) + ")");
                 binding.shippingFee.setText(String.valueOf(product.getPrd_ship_fee()));
                 binding.sellerName.setText(product.getSel_name());
+
+                ProductDetailService.loadDetailImage(product.getPg_no(), binding.prdDetailImage);
             }
 
             @Override
@@ -141,21 +143,6 @@ public class ProdDetailFragment extends Fragment {
                 t.printStackTrace();
             }
         });
-
-            /*@Override
-            public void onResponse(Call<Board> call, Response<Board> response) {
-                Board dbBoard = response.body();
-                Log.i(TAG, dbBoard.toString());
-                binding.txtBno.setText(String.valueOf(dbBoard.getBno()));
-                binding.txtMid.setText(dbBoard.getMid());
-                Date date = new Date(dbBoard.getBdate());
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
-                binding.txtBdate.setText(sdf.format(date));
-                binding.txtBattachoname.setText(dbBoard.getBattachoname());
-                binding.txtBhitcount.setText(String.valueOf(dbBoard.getBhitcount()));
-                binding.txtBcontent.setText(dbBoard.getBcontent());
-                BoardService.loadImage(bno, binding.battach);
-            }*/
 
         // 항목을 클릭했을 때 콜백 겍체를 등록
 /*        boardAdapter.setOnItemClickListener(new BoardAdapter.OnItemClickListener() {
@@ -169,9 +156,6 @@ public class ProdDetailFragment extends Fragment {
                 navController.navigate(R.id.action_dest_list_to_dest_detail, args);
             }
         });*/
-
-
-
         // TabLayoutMediator 활성화하기
         tabLayoutMediator.attach();
     }

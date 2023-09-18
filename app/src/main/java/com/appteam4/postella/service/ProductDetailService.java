@@ -4,6 +4,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 
+import com.appteam4.postella.dto.Image;
 import com.appteam4.postella.dto.MyWish;
 import com.appteam4.postella.dto.Product;
 import com.appteam4.postella.dto.WishResult;
@@ -21,14 +22,18 @@ public interface ProductDetailService {
     @GET("detailViewForApp")
     Call<Product> getDetailView(@Query("pg_no") int pg_no);
 
+    @GET("loadProductImage")
+    Call<List<Image>> loadProductImage(@Query("pg_no") int pg_no);
+
     @POST("addWishForApp")
     Call<WishResult> addWish(@Body MyWish wish);
+
     @POST("removeWishForApp")
     Call<WishResult> removeWish(@Body MyWish wish);
+
     @GET
-    static void loadImage(int pg_no, ImageView imageView) {
-        String url = NetworkInfo.BASE_URL + "productGroup?pg_no=" + pg_no;
+    static void loadDetailImage(int pg_no, ImageView imageView) {
+        String url = NetworkInfo.BASE_URL + "loadDetailImage?pg_no=" + pg_no;
         Glide.with(imageView.getContext()).load(url).into(imageView);
     }
-
 }
