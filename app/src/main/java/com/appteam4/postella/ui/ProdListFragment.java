@@ -38,6 +38,7 @@ public class ProdListFragment extends Fragment {
     private FragmentProdListBinding binding;
     private NavController navController;
     private int selectedFilterBtn = R.id.navigation_view;
+    private int kind;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,7 +51,6 @@ public class ProdListFragment extends Fragment {
         initSpinner();
         //필터 버튼 초기화
         initBtnFilter();
-        initRecyclerView();
         // 어댑터 생성
         MainAdapter mainAdapter = new MainAdapter();
 
@@ -70,10 +70,21 @@ public class ProdListFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 // 선택된 정렬 방식에 따라 작업 수행
                 String selectedOrderKind = (String) parent.getItemAtPosition(position);
+                Bundle bundle = new Bundle();
                 // 예: 선택된 정렬 방식을 로그에 출력
                 Log.d("Selected Order Kind", selectedOrderKind);
+                if (selectedOrderKind.equals("최신순")) {
+                    kind = 3;
+                } else if (selectedOrderKind.equals("낮은 가격순")) {
+                    kind = 1;
+                } else if (selectedOrderKind.equals("높은 가격순")) {
+                    kind = 2;
+                } else {
+                    kind = 0; // 기본값 설정
+                }
+                bundle.putInt("kind", kind);
+                initRecyclerView(bundle);
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 // 아무것도 선택되지 않았을 때 수행할 작업
@@ -102,7 +113,7 @@ public class ProdListFragment extends Fragment {
         });
     }
 
-    private void initRecyclerView(){
+    private void initRecyclerView(Bundle bundle){
         // RecyclerView에서 항목을 배치하도록 설정
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
         binding.recyclerProdList.setLayoutManager(layoutManager);
@@ -115,6 +126,12 @@ public class ProdListFragment extends Fragment {
         String prd_category = getArguments().getString("prd_category");
         String brand = getArguments().getString("brand");
         String message = getArguments().getString("message");
+        int kind = bundle.getInt("kind");
+        Log.i(TAG, "initRecyclerView: kind: " + kind);
+        Log.i(TAG, "initRecyclerView: searchKeyword: " + searchKeyword);
+        Log.i(TAG, "initRecyclerView: prd_category: " + prd_category);
+        Log.i(TAG, "initRecyclerView: brand: " + brand);
+        Log.i(TAG, "initRecyclerView: message: " + message);
 
         //상품목록 필터 버튼 설정
         if(prd_category != null || brand != null || message != null){
@@ -124,10 +141,10 @@ public class ProdListFragment extends Fragment {
                 binding.btnOrderCategory.setText(btnCateTxt);
             } else if (brand != null ) {
                 String btnBrandTxt = selectedFilter(brand);
-                binding.btnOrderCategory.setText(btnBrandTxt);
+                binding.btnOrderBrand.setText(btnBrandTxt);
             }else{
                 String btnMessageTxt = selectedFilter(message);
-                binding.btnOrderCategory.setText(btnMessageTxt);
+                binding.btnOrderMessage.setText(btnMessageTxt);
             }
             binding.btnInit.setVisibility(View.VISIBLE);
             binding.btnInit.setOnClickListener(v->{
@@ -141,7 +158,7 @@ public class ProdListFragment extends Fragment {
         }
         // API 서버에서 목록 받기
         ProductGroupService productGroupService = ServiceProvider.getFilteringProducts(getContext());
-        Call<List<Product>> call = productGroupService.getFilteringProducts(searchKeyword, prd_category, brand, message);
+        Call<List<Product>> call = productGroupService.getFilteringProducts(searchKeyword, prd_category, brand, message, kind);
         call.enqueue(new Callback<List<Product>>() {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
@@ -178,7 +195,6 @@ public class ProdListFragment extends Fragment {
                 Log.e(TAG, "API 호출 실패", t);
             }
         });
-
         // 항목 클릭시 콜백 메소드 등록
         mainAdapter.setOnItemClickListener(new MainAdapter.OnItemClickListener() {
             @Override
@@ -193,6 +209,7 @@ public class ProdListFragment extends Fragment {
             }
         });
     }
+
 
     //코드에 따라 필터 버튼에 표시되는 이름
     public String selectedFilter(String code){

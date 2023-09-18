@@ -28,7 +28,8 @@ public interface ProductGroupService {
             @Nullable @Query("keyword") String keyword,
             @Nullable @Query("prd_category") String prd_category,
             @Nullable @Query("brand") String brand,
-            @Nullable @Query("message") String message
+            @Nullable @Query("message") String message,
+            @Nullable @Query("kind") int kind
     );
 
     @POST("addWishForApp")
