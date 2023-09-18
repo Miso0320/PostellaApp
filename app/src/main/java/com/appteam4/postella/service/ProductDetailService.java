@@ -19,7 +19,7 @@ import retrofit2.http.Query;
 
 public interface ProductDetailService {
     @GET("detailViewForApp")
-    Call<String>detailViewForApp(@Query("pg_no")int pg_no);
+    Call<Product> getDetailView(@Query("pg_no") int pg_no);
 
     @POST("addWishForApp")
     Call<WishResult> addWish(@Body MyWish wish);

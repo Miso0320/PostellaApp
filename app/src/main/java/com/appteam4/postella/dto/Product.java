@@ -6,37 +6,55 @@ import java.util.Date;
 import java.util.List;
 
 public class Product implements Serializable {
-	@Override
-	public String toString() {
-		return "Product{" +
-				"prd_no=" + prd_no +
-				", sel_no=" + sel_no +
-				", prd_category='" + prd_category + '\'' +
-				", prd_name='" + prd_name + '\'' +
-				", prd_org_price=" + prd_org_price +
-				", prd_price=" + prd_price +
-				", prd_content='" + prd_content + '\'' +
-				", prd_stock=" + prd_stock +
-				", prd_ship_fee=" + prd_ship_fee +
-				", prd_date=" + prd_date +
-				", prd_hitcount=" + prd_hitcount +
-				", prd_sale_amount=" + prd_sale_amount +
-				", prd_yn='" + prd_yn + '\'' +
-				", prd_star_avg=" + prd_star_avg +
-				", pg_no=" + pg_no +
-				", pg_name='" + pg_name + '\'' +
-				", pg_imgFile=" + Arrays.toString(pg_imgFile) +
-				", img_type='" + img_type + '\'' +
-				", encodedFile='" + encodedFile + '\'' +
-				", kind='" + kind + '\'' +
-				", brand=" + brand +
-				", status=" + status +
-				", message=" + message +
-				", keyword='" + keyword + '\'' +
-				", quantity=" + quantity +
-				", isChecked=" + isChecked +
-				'}';
+	// 개별 상품 테이블 컬럼
+	private int prd_no; 				// 상품구분번호
+	private int sel_no; 				// 판매자 식별번호
+	private String sel_name;			// 판매자명
+	private String  prd_category; 		// 카테고리 타입, 코드테이블 사용
+	private String prd_name; 			// 상품이름
+	private int prd_org_price; 			// 정상가
+	private int prd_price; 				// 판매가
+	private String prd_content; 		// 상품 상세 페이지 내용(텍스트)
+	private int prd_stock; 				// 재고
+	private int prd_ship_fee; 			// 배송비
+	private long prd_date; 				// 상품등록일
+	private int prd_hitcount; 			// 조회수
+	private int prd_sale_amount; 		// 판매량
+	private String prd_yn; 				// 판매여부
+	private int prd_star_avg; 			// 상품 당 평균 별점, 범위  0~5
+	private int sale_percent;			// 상품할인가
+	private int revCnt;					// 상품그룹 전체 리뷰수
+	
+	// 상품 대분류
+	private int pg_no; 					// 상품 대분류 식별번호
+	private String pg_name;				// 상품 대분류 이름
+	private byte[] pg_imgFile;          //상품목록 대표 썸네일 이미지파일
+	
+	// 상품 이미지
+	private String img_type;			// img 타입
+	private String encodedFile;			// encoded된 이미지파일
+	
+	// 상품 정렬 및 필터
+	private String kind;				// 정렬기준 1:낮은가격순, 2:높은가격순, 3:최신순
+	private List<String> brand;			// 브랜드별 필터
+	private List<String> status;		// 상품상태별 필터
+	private List<String> message;		// 메세지별 필터
+
+	public boolean isChecked() {
+		return isChecked;
 	}
+
+	public void setChecked(boolean checked) {
+		isChecked = checked;
+	}
+
+	// 상품 리스트 검색(헤더)
+	private String keyword;				// 검색어
+	
+	// 상품 수량
+	private int quantity;				// 상품 수량
+	// 체크 상태를 나타내는 필드(찜)
+	private boolean isChecked;
 
 	public int getPrd_no() {
 		return prd_no;
@@ -52,6 +70,14 @@ public class Product implements Serializable {
 
 	public void setSel_no(int sel_no) {
 		this.sel_no = sel_no;
+	}
+
+	public String getSel_name() {
+		return sel_name;
+	}
+
+	public void setSel_name(String sel_name) {
+		this.sel_name = sel_name;
 	}
 
 	public String getPrd_category() {
@@ -150,6 +176,22 @@ public class Product implements Serializable {
 		this.prd_star_avg = prd_star_avg;
 	}
 
+	public int getSale_percent() {
+		return sale_percent;
+	}
+
+	public void setSale_percent(int sale_percent) {
+		this.sale_percent = sale_percent;
+	}
+
+	public int getRevCnt() {
+		return revCnt;
+	}
+
+	public void setRevCnt(int revCnt) {
+		this.revCnt = revCnt;
+	}
+
 	public int getPg_no() {
 		return pg_no;
 	}
@@ -238,50 +280,38 @@ public class Product implements Serializable {
 		this.quantity = quantity;
 	}
 
-	// 개별 상품 테이블 컬럼
-	private int prd_no; 				// 상품구분번호
-	private int sel_no; 				// 판매자 식별번호
-	private String  prd_category; 		// 카테고리 타입, 코드테이블 사용
-	private String prd_name; 			// 상품이름
-	private int prd_org_price; 			// 정상가
-	private int prd_price; 				// 판매가
-	private String prd_content; 		// 상품 상세 페이지 내용(텍스트)
-	private int prd_stock; 				// 재고
-	private int prd_ship_fee; 			// 배송비
-	private long prd_date; 				// 상품등록일
-	private int prd_hitcount; 			// 조회수
-	private int prd_sale_amount; 		// 판매량
-	private String prd_yn; 				// 판매여부
-	private int prd_star_avg; 			// 상품 당 평균 별점, 범위  0~5
-	
-	// 상품 대분류
-	private int pg_no; 					// 상품 대분류 식별번호
-	private String pg_name;				// 상품 대분류 이름
-	private byte[] pg_imgFile;          //상품목록 대표 썸네일 이미지파일
-	
-	// 상품 이미지
-	private String img_type;			// img 타입
-	private String encodedFile;			// encoded된 이미지파일
-	
-	// 상품 정렬 및 필터
-	private String kind;				// 정렬기준 1:낮은가격순, 2:높은가격순, 3:최신순
-	private List<String> brand;			// 브랜드별 필터
-	private List<String> status;		// 상품상태별 필터
-	private List<String> message;		// 메세지별 필터
-
-	public boolean isChecked() {
-		return isChecked;
+	@Override
+	public String toString() {
+		return "Product{" +
+				"prd_no=" + prd_no +
+				", sel_no=" + sel_no +
+				", sel_name=" + sel_name +
+				", prd_category='" + prd_category + '\'' +
+				", prd_name='" + prd_name + '\'' +
+				", prd_org_price=" + prd_org_price +
+				", prd_price=" + prd_price +
+				", prd_content='" + prd_content + '\'' +
+				", prd_stock=" + prd_stock +
+				", prd_ship_fee=" + prd_ship_fee +
+				", prd_date=" + prd_date +
+				", prd_hitcount=" + prd_hitcount +
+				", prd_sale_amount=" + prd_sale_amount +
+				", prd_yn='" + prd_yn + '\'' +
+				", prd_star_avg=" + prd_star_avg +
+				", sale_percent=" + sale_percent +
+				", revCnt=" + revCnt +
+				", pg_no=" + pg_no +
+				", pg_name='" + pg_name + '\'' +
+				", pg_imgFile=" + Arrays.toString(pg_imgFile) +
+				", img_type='" + img_type + '\'' +
+				", encodedFile='" + encodedFile + '\'' +
+				", kind='" + kind + '\'' +
+				", brand=" + brand +
+				", status=" + status +
+				", message=" + message +
+				", keyword='" + keyword + '\'' +
+				", quantity=" + quantity +
+				", isChecked=" + isChecked +
+				'}';
 	}
-
-	public void setChecked(boolean checked) {
-		isChecked = checked;
-	}
-
-	// 상품 리스트 검색(헤더)
-	private String keyword;				// 검색어
-	
-	// 상품 수량
-	private int quantity;				// 상품 수량
-	// 체크 상태를 나타내는 필드(찜)
-	private boolean isChecked;
 }

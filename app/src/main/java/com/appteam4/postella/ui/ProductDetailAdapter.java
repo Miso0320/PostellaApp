@@ -8,8 +8,15 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.appteam4.postella.dto.Product;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class ProductDetailAdapter extends FragmentStateAdapter {
     private Context context;
+
+    private List<Product> productList = new ArrayList<>();
 
     public ProductDetailAdapter(Context context) {
         super((FragmentActivity) context);
@@ -28,6 +35,12 @@ public class ProductDetailAdapter extends FragmentStateAdapter {
 
         return productDetailImageFragment;
     }
+
+    public void setList(List<Product> productList) {
+        this.productList = productList;
+        notifyDataSetChanged();
+    }
+
 
     @Override
     public int getItemCount() {
