@@ -1,6 +1,7 @@
 package com.appteam4.postella.ui;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -8,6 +9,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -23,7 +26,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.appteam4.postella.R;
 import com.appteam4.postella.databinding.FragmentReviewBinding;
 import com.appteam4.postella.dto.Review;
+import com.appteam4.postella.service.ReviewService;
+import com.appteam4.postella.service.ServiceProvider;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ReviewFragment extends Fragment {
     private static final String TAG = "ReviewFragment";
@@ -38,6 +49,9 @@ public class ReviewFragment extends Fragment {
 
         // 앱바 설정
         initMenu();
+
+        // 스피너 설정
+        initSpinner();
 
         // RecyclerView 초기화
         initRecyclerView();
@@ -73,6 +87,26 @@ public class ReviewFragment extends Fragment {
         getActivity().addMenuProvider(menuProvider, getViewLifecycleOwner(), Lifecycle.State.RESUMED);
     }
 
+    private void initSpinner() {
+        // 정렬 스피너
+        Spinner sortSpinner = binding.spinnerReviewSort;
+        ArrayAdapter sortAdapter = ArrayAdapter.createFromResource(
+                requireContext(), R.array.order_kind, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item
+        );
+
+        sortAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sortSpinner.setAdapter(sortAdapter);
+
+        // 별점 스피너
+        Spinner starSpinner = binding.spinnerStarSort;
+        ArrayAdapter starAdapter = ArrayAdapter.createFromResource(
+                requireContext(), R.array.star_rate_group, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item
+        );
+
+        starAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        starSpinner.setAdapter(starAdapter);
+    }
+
     private void initRecyclerView() {
         // RecyclerView에서 항목을 수직으로 배치하도록 설정
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(
@@ -91,7 +125,33 @@ public class ReviewFragment extends Fragment {
         // 어댑터 생성
         ReviewAdapter reviewAdapter = new ReviewAdapter();
 
-        for (int i = 1; i <= 5; i++) {
+        ReviewService reviewService = ServiceProvider.getReviewService(getContext());
+        int pg_no = 3;
+        int starRate = 1;
+        int kind = 1;
+
+        Call<List<Review>> call = reviewService.getReviewsForApp(pg_no, starRate, kind);
+
+        call.enqueue(new Callback<List<Review>>() {
+            @Override
+            public void onResponse(Call<List<Review>> call, Response<List<Review>> response) {
+                List<Review> list = response.body();
+                Log.i(TAG, "onResponse!!!!!!!!!!!!!!!!!!!1: " + list);
+
+                // 어댑터 데이터 세팅
+                reviewAdapter.setReviewList(list);
+
+                // RecyclerView에 어댑터 세팅
+                binding.reviewListView.setAdapter(reviewAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<List<Review>> call, Throwable t) {
+
+            }
+        });
+
+        /*for (int i = 1; i <= 5; i++) {
             Review review = new Review();
             review.setRevNo(i);
             review.setUsName("유저" + i);
@@ -106,7 +166,7 @@ public class ReviewFragment extends Fragment {
             reviewAdapter.addReview(review);
         }
 
-        binding.reviewListView.setAdapter(reviewAdapter);
+        binding.reviewListView.setAdapter(reviewAdapter);*/
     }
 
     private void hideBottomNavigation(boolean bool) {

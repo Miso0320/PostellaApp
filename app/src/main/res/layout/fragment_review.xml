@@ -72,8 +72,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:backgroundTint="@android:color/white"
-        android:background="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -132,15 +130,14 @@
             android:layout_weight="1" />
 
         <!-- 정렬순 -->
-        <Button
-            android:id="@+id/sort_button"
+        <Spinner
+            android:id="@+id/spinner_review_sort"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:drawableRight="@drawable/ic_expand_more_24dp"
-            android:paddingRight="5dp"
-            android:text="최신순"
-            android:textColor="@android:color/black" />
+            android:dropDownWidth="100dp"
+            android:layout_marginLeft="20dp"
+            android:minWidth="48dp"
+            android:minHeight="48dp" />
 
     </LinearLayout>
 
@@ -154,24 +151,13 @@
         app:layout_constraintTop_toBottomOf="@+id/upper_menu">
 
         <!-- 별점 버튼 -->
-        <Button
-            android:id="@+id/star_button"
+        <Spinner
+            android:id="@+id/spinner_star_sort"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:background="@android:color/transparent"
-            android:drawableRight="@drawable/ic_expand_more_24dp"
-            android:paddingLeft="0dp"
-            android:text="별점"
-            android:textColor="@android:color/black" />
-
-        <!-- 별점 선택 드롭다운 메뉴 -->
-        <!--<Spinner
-                android:id="@+id/star_dropdown"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:visibility="gone" />-->
+            android:dropDownWidth="100dp"
+            android:minWidth="48dp"
+            android:minHeight="48dp" />
 
     </LinearLayout>
 
@@ -179,10 +165,10 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/review_list_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="150dp"
         android:layout_marginRight="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rating_menu" />
