@@ -74,10 +74,10 @@ public class ReviewFragment extends Fragment {
 
             @Override
             public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
-                if(menuItem.getItemId() == R.id.dest_search) {
+                if (menuItem.getItemId() == R.id.dest_search) {
                     navController.navigate(R.id.dest_search, null);
                     return true;
-                } else if(menuItem.getItemId() == R.id.dest_cart) {
+                } else if (menuItem.getItemId() == R.id.dest_cart) {
                     navController.navigate(R.id.dest_cart, null);
                     return true;
                 }
@@ -126,17 +126,22 @@ public class ReviewFragment extends Fragment {
         ReviewAdapter reviewAdapter = new ReviewAdapter();
 
         ReviewService reviewService = ServiceProvider.getReviewService(getContext());
+
+        // 스피너 선택항목 값 가져오기
+        Spinner spinner = (Spinner) binding.spinnerReviewSort;
+        String selectedSort = spinner.getSelectedItem().toString();
+        Log.i(TAG, "selectedSort***************************************** " + selectedSort);
         int pg_no = 3;
         int starRate = 1;
         int kind = 1;
 
-        Call<List<Review>> call = reviewService.getReviewsForApp(pg_no, starRate, kind);
+        // 리뷰목록 가져오기
+        Call<List<Review>> reviewCall = reviewService.getReviewsForApp(pg_no, starRate, kind);
 
-        call.enqueue(new Callback<List<Review>>() {
+        reviewCall.enqueue(new Callback<List<Review>>() {
             @Override
             public void onResponse(Call<List<Review>> call, Response<List<Review>> response) {
                 List<Review> list = response.body();
-                Log.i(TAG, "onResponse!!!!!!!!!!!!!!!!!!!1: " + list);
 
                 // 어댑터 데이터 세팅
                 reviewAdapter.setReviewList(list);
@@ -147,26 +152,25 @@ public class ReviewFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<Review>> call, Throwable t) {
-
+                t.printStackTrace();
             }
         });
 
-        /*for (int i = 1; i <= 5; i++) {
-            Review review = new Review();
-            review.setRevNo(i);
-            review.setUsName("유저" + i);
-            review.setPrdName("상품" + i);
-            review.setRevContent("엽서가 넘 귀엽고 예뻐서 다음에 또 사고싶어요!");
-            review.setRevDate("2023. 09. 10");
-            review.setPrdNo(i);
-            review.setOdNo(i);
-            review.setOdDetailNo(i);
-            review.setRating(i);
+        // 선택된 리뷰개수 불러오기
+        Call<Integer> reviewCntCall = reviewService.getReviewCntForApp(pg_no, starRate);
 
-            reviewAdapter.addReview(review);
-        }
+        reviewCntCall.enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                int reviewCnt = response.body();
+                binding.reviewCount.setText("총 " + reviewCnt + "개");
+            }
 
-        binding.reviewListView.setAdapter(reviewAdapter);*/
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 
     private void hideBottomNavigation(boolean bool) {

@@ -20,4 +20,7 @@ public interface ReviewService {
     @GET("getReviewsForApp")
     Call<List<Review>> getReviewsForApp(@Query("pg_no") int pg_no, @Query("starRate") int starRate, @Query("kind") int kind);
 
+    @GET("getReviewCntForApp")
+    Call<Integer> getReviewCntForApp(@Query("pg_no") int pg_no, @Query("starRate") int starRate);
+
 }
