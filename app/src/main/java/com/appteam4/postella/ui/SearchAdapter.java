@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.appteam4.postella.R;
+import com.appteam4.postella.datastore.AppKeyValueStore;
 import com.appteam4.postella.dto.Product;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import java.util.List;
 public class SearchAdapter extends RecyclerView.Adapter<RecomendViewHolder> {
     private static final String TAG = "SearchAdapter";
     List<Product> list = new ArrayList<>();
+
     private OnItemClickListener onItemClickListener;
 
     @NonNull

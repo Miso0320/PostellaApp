@@ -3,25 +3,32 @@ package com.appteam4.postella.ui;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.appteam4.postella.R;
 import com.appteam4.postella.databinding.FragmentSearchBinding;
+import com.appteam4.postella.datastore.AppKeyValueStore;
 import com.appteam4.postella.dto.Product;
 import com.appteam4.postella.service.ProductGroupService;
 import com.appteam4.postella.service.ServiceProvider;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.nio.file.ClosedFileSystemException;
 import java.util.List;
 
 import retrofit2.Call;
@@ -57,6 +64,10 @@ public class SearchFragment extends Fragment {
         initSearchClick();
         //하단 네비게이션바 지우기
         hideBottomNavigation(true);
+        //최근 검색어 편집 및 추천 검색어 기능 초기화
+        initKeword();
+        //최근 검색어 recyclerView 초기화
+        initKeywordRecyclerView();
 
         return binding.getRoot();
     }
@@ -76,6 +87,8 @@ public class SearchFragment extends Fragment {
             }else{
                 // 상품목록프레그먼트로 이동
                 navController.navigate(R.id.action_dest_search_to_dest_prod_list, args);
+                // 검색어를 저장
+                AppKeyValueStore.addRecentSearchKeyword(requireContext(), searchKeyword);
             }
         });
     }
@@ -141,6 +154,87 @@ public class SearchFragment extends Fragment {
         }
     }
 
+    //최근검색어 편집
+    private void initKeword(){
+        //"전체삭제|닫기" 지우기
+        binding.txtLogDeleteAll.setVisibility(View.GONE);
+        binding.line.setVisibility(View.GONE);
+        binding.txtLogEditClose.setVisibility(View.GONE);
+        //"전체삭제|닫기"가 보이지 않을 때 편집 글씨가 오른쪽 끝에 가도록 마진 변경
+        if(binding.txtLogDeleteAll.getVisibility() == View.GONE){
+            // 현재 뷰의 레이아웃 파라미터 가져오기
+            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) binding.txtRecentKeyword.getLayoutParams();
+            // 오른쪽 마진 값을 변경
+            layoutParams.rightMargin = 700;
+            // 변경된 레이아웃 파라미터 설정
+            binding.txtRecentKeyword.setLayoutParams(layoutParams);
+        }
+        //"편집"글씨 클릭시 마진 변경 후 "전체삭제|닫기" 다시 보이게 하기
+        binding.txtLogEdit.setOnClickListener(v->{
+            // 현재 뷰의 레이아웃 파라미터 가져오기
+            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) binding.txtRecentKeyword.getLayoutParams();
+            // 오른쪽 마진 값을 변경
+            layoutParams.rightMargin =400;
+            // 변경된 레이아웃 파라미터 설정
+            binding.txtRecentKeyword.setLayoutParams(layoutParams);
+            binding.txtLogDeleteAll.setVisibility(View.VISIBLE);
+            binding.line.setVisibility(View.VISIBLE);
+            binding.txtLogEditClose.setVisibility(View.VISIBLE);
+        });
+        //닫기 글씨 클릭시 마진 변경 후 다시 "전체삭제|닫기" 지우기
+        binding.txtLogEditClose.setOnClickListener(v->{
+            // 현재 뷰의 레이아웃 파라미터 가져오기
+            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) binding.txtRecentKeyword.getLayoutParams();
+            // 오른쪽 마진 값을 변경
+            layoutParams.rightMargin = 700;
+            // 변경된 레이아웃 파라미터 설정
+            binding.txtRecentKeyword.setLayoutParams(layoutParams);
+            binding.txtLogDeleteAll.setVisibility(View.GONE);
+            binding.line.setVisibility(View.GONE);
+            binding.txtLogEditClose.setVisibility(View.GONE);
+        });
+        //추천검색어 info버튼 클릭시 스낵바 보이게 하기
+        binding.btnInfo.setOnClickListener(v->{
+            Snackbar snackbar = Snackbar.make(binding.btnInfo, "최근 검색어와 연관된 검색어를 추천해드려요.", Snackbar.LENGTH_LONG);
+            View snackbarView = snackbar.getView();
+
+            // 스낵바 레이아웃 파라미터 설정
+            CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) snackbarView.getLayoutParams();
+            params.setAnchorId(R.id.btn_info); // 원하는 뷰를 설정하여 연결
+            params.gravity = Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL; // 원하는 위치로 설정 (아래 중앙)
+            snackbarView.setLayoutParams(params);
+
+            snackbar.show();
+        });
+    }
+    private void initKeywordRecyclerView(){
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        binding.recyclerSearchLog.setLayoutManager(layoutManager);
+
+        // 어댑터 생성
+        SearchKeywordAdapter searchKeywordAdapter = new SearchKeywordAdapter();
+
+        // AppKeyValueStore에서 목록 받기
+        List<String> recentSearchKeywords = AppKeyValueStore.getRecentSearchKeywords(requireContext());
+        Log.i(TAG, "initKeywordRecyclerView: " + recentSearchKeywords.toString());
+        if(recentSearchKeywords != null){
+            Log.i(TAG, "initKeywordRecyclerView: 실행으하");
+            // 어댑터 데이터 생성하기
+            searchKeywordAdapter.setList(recentSearchKeywords);
+            Log.i(TAG, "initKeywordRecyclerView: 어뎁터 생성 완료");
+            // RecyclerView에 어댑터 세팅
+            binding.recyclerSearchLog.setAdapter(searchKeywordAdapter);
+            Log.i(TAG, "initKeywordRecyclerView: 어뎁터 세팅 완료");
+            // RecyclerView를 보이도록 설정
+            binding.recyclerSearchLog.setVisibility(View.VISIBLE);
+            Log.i(TAG, "initKeywordRecyclerView: 보여랏!");
+        }else{
+            Log.i(TAG, "onResponse: 리스트가 없엉!!");
+        }
+        // RecyclerView에 어댑터 세팅
+        // 어댑터에 데이터가 설정된 후 notifyDataSetChanged() 호출
+        binding.recyclerSearchLog.setAdapter(searchKeywordAdapter);
+    }
     @Override
     public void onPause() {
         super.onPause();
