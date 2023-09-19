@@ -1,16 +1,27 @@
 package com.appteam4.postella.ui;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
-import com.appteam4.postella.R;
+import androidx.fragment.app.Fragment;
+
 import com.appteam4.postella.databinding.FragmentProductDetailImageBinding;
+import com.appteam4.postella.dto.Image;
+import com.appteam4.postella.service.NetworkInfo;
+import com.appteam4.postella.service.ProductDetailService;
+import com.appteam4.postella.service.ServiceProvider;
 import com.bumptech.glide.Glide;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ProductDetailImageFragment extends Fragment {
     private static final String TAG = "ProductDetailImageFragm";
@@ -32,25 +43,34 @@ public class ProductDetailImageFragment extends Fragment {
     }
 
     private void initUIByPageNo(int pageNo) {
-        String[] images = new String[] {
-                "https://cdn.pixabay.com/photo/2019/12/26/10/44/horse-4720178_1280.jpg",
-                "https://cdn.pixabay.com/photo/2020/11/04/15/29/coffee-beans-5712780_1280.jpg",
-                "https://cdn.pixabay.com/photo/2020/03/08/21/41/landscape-4913841_1280.jpg",
-                "https://cdn.pixabay.com/photo/2020/09/02/18/03/girl-5539094_1280.jpg",
-                "https://cdn.pixabay.com/photo/2014/03/03/16/15/mosque-279015_1280.jpg"
-        };
+        // 어댑터 생성
+        ProductDetailAdapter productDetailAdapter = new ProductDetailAdapter(getContext());
 
-        //binding.imageSlider.setImageResource(R.drawable.ic_home_24dp);
+        // API 서버에서 썸네일 이미지 목록 받기
+        ProductDetailService productDetailService = ServiceProvider.getProductDetailService(getContext());
 
-        // pageNo가 배열을 넘어설 때 처리
-        if (pageNo < 0) {
-            pageNo = 0;
-        } else if (pageNo >= images.length) {
-            pageNo = images.length - 1;
-        }
-        
-        Glide.with(this)
-                .load(images[pageNo]) // pageNo에 해당하는 이미지 URL 로드
-                .into(binding.imageSlider);
+        Call<List<Image>> call = productDetailService.loadProductImage(3);
+        call.enqueue(new Callback<List<Image>>() {
+            @Override
+            public void onResponse(Call<List<Image>> call, Response<List<Image>> response) {
+                List<Image> images = response.body();
+                // 이미지 URL을 저장할 배열
+                String[] imageArray = new String[images.size()];
+
+                // 각 이미지를 별도의 ImageView에 로드하기
+                for(int i = 0; i < images.size(); i++) {
+                    Image image = images.get(i);
+                    String imageUrl = NetworkInfo.BASE_URL + image.getImg_url();
+                    imageArray[i] = imageUrl;
+                }
+                
+                // 이미지 슬라이더에 이미지 추가
+                Glide.with(ProductDetailImageFragment.this).load(imageArray[pageNo-1]).into(binding.imageSlider);
+            }
+            @Override
+            public void onFailure(Call<List<Image>> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 }

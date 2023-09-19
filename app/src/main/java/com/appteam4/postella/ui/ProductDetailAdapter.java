@@ -15,8 +15,9 @@ import java.util.List;
 
 public class ProductDetailAdapter extends FragmentStateAdapter {
     private Context context;
-
     private List<Product> productList = new ArrayList<>();
+    private int size;
+
 
     public ProductDetailAdapter(Context context) {
         super((FragmentActivity) context);
@@ -30,7 +31,8 @@ public class ProductDetailAdapter extends FragmentStateAdapter {
         ProductDetailImageFragment productDetailImageFragment = new ProductDetailImageFragment();
         Bundle bundle = new Bundle();
         // position은 0부터 시작하기 때문에 position+1 필요
-        bundle.putInt("pageNo", (position+1));
+        bundle.putInt("pageNo", (position + 1));
+        size = position + 1;
         productDetailImageFragment.setArguments(bundle);
 
         return productDetailImageFragment;
@@ -40,7 +42,6 @@ public class ProductDetailAdapter extends FragmentStateAdapter {
         this.productList = productList;
         notifyDataSetChanged();
     }
-
 
     @Override
     public int getItemCount() {

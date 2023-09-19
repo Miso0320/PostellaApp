@@ -199,4 +199,6 @@ public class ProdDetailFragment extends Fragment {
         super.onPause();
         hideBottomNavigation(false);
     }
+
+
 }
