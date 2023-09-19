@@ -89,6 +89,12 @@ public class ProdDetailFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        hideBottomNavigation(true);
+    }
+
     private void initMenu() {
         MenuProvider menuProvider = new MenuProvider() {
             @Override
@@ -132,7 +138,6 @@ public class ProdDetailFragment extends Fragment {
     }
 
     private void initLoadInfo(int pg_no, int imgCnt) {
-        Log.i(TAG, "initLoadInfo: " + imgCnt);
         // API 서버에서 목록 받기
         ProductDetailService productDetailService = ServiceProvider.getProductDetailService(getContext());
         Call<Product> callProdDetail = productDetailService.getDetailView(pg_no);
@@ -209,9 +214,8 @@ public class ProdDetailFragment extends Fragment {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onStop() {
+        super.onStop();
         hideBottomNavigation(false);
     }
-
 }
