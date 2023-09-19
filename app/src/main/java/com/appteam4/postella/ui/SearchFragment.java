@@ -17,6 +17,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.appteam4.postella.R;
@@ -40,6 +41,16 @@ public class SearchFragment extends Fragment {
     private static final String TAG = "SearchFragment";
     private FragmentSearchBinding binding;
     private NavController navController;
+    private boolean isEdit=false;
+
+    private SearchAdapter.OnItemClickListener onItemClickListener;
+
+    private SearchKeywordViewHolder searchKeywordViewHolder;
+
+    //SearchKeywordViewHolder 참조 설정
+    public void setSearchKeywordViewHolder(SearchKeywordViewHolder searchKeywordViewHolder){
+        this.searchKeywordViewHolder = searchKeywordViewHolder;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,9 +76,11 @@ public class SearchFragment extends Fragment {
         //하단 네비게이션바 지우기
         hideBottomNavigation(true);
         //최근 검색어 편집 및 추천 검색어 기능 초기화
-        initKeword();
+        initKeyword();
         //최근 검색어 recyclerView 초기화
         initKeywordRecyclerView();
+        setSearchKeywordViewHolder(this.searchKeywordViewHolder);
+
 
         return binding.getRoot();
     }
@@ -142,7 +155,8 @@ public class SearchFragment extends Fragment {
             }
         });
     }
-
+    
+    //하단 네비게이션 바 지우기 여부
     private void hideBottomNavigation(boolean bool) {
         BottomNavigationView bottomNavigation = getActivity().findViewById(R.id.bottom_navigation_view);
         if (bool == true) {
@@ -154,8 +168,11 @@ public class SearchFragment extends Fragment {
         }
     }
 
-    //최근검색어 편집
-    private void initKeword(){
+    //최근검색어 클릭이벤트 및 편집 클릭이벤트 처리
+    private void initKeyword(){
+        AppKeyValueStore.remove(requireContext(),"editMode");
+        AppKeyValueStore.put(requireContext(),"editMode","off");
+        //SearchViewHolder에서 최근검색어를 클릭했을 때 삭제 여부(편집모드에서만 삭제)
         //"전체삭제|닫기" 지우기
         binding.txtLogDeleteAll.setVisibility(View.GONE);
         binding.line.setVisibility(View.GONE);
@@ -174,12 +191,20 @@ public class SearchFragment extends Fragment {
             // 현재 뷰의 레이아웃 파라미터 가져오기
             LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) binding.txtRecentKeyword.getLayoutParams();
             // 오른쪽 마진 값을 변경
-            layoutParams.rightMargin =400;
+            layoutParams.rightMargin =350;
             // 변경된 레이아웃 파라미터 설정
             binding.txtRecentKeyword.setLayoutParams(layoutParams);
             binding.txtLogDeleteAll.setVisibility(View.VISIBLE);
             binding.line.setVisibility(View.VISIBLE);
             binding.txtLogEditClose.setVisibility(View.VISIBLE);
+            //편집 모드 ON
+            AppKeyValueStore.remove(requireContext(),"editMode");
+            AppKeyValueStore.put(requireContext(),"editMode","on");
+        });
+        binding.txtLogDeleteAll.setOnClickListener(v->{
+            AppKeyValueStore.clearRecentSearchKeywords(requireContext());
+            navController.navigate(R.id.action_dest_search_self);
+            navController.clearBackStack(R.id.dest_search);
         });
         //닫기 글씨 클릭시 마진 변경 후 다시 "전체삭제|닫기" 지우기
         binding.txtLogEditClose.setOnClickListener(v->{
@@ -192,6 +217,10 @@ public class SearchFragment extends Fragment {
             binding.txtLogDeleteAll.setVisibility(View.GONE);
             binding.line.setVisibility(View.GONE);
             binding.txtLogEditClose.setVisibility(View.GONE);
+            AppKeyValueStore.remove(requireContext(),"editMode");
+            AppKeyValueStore.put(requireContext(),"editMode","off");
+            navController.navigate(R.id.action_dest_search_self);
+            navController.clearBackStack(R.id.dest_search);
         });
         //추천검색어 info버튼 클릭시 스낵바 보이게 하기
         binding.btnInfo.setOnClickListener(v->{
@@ -206,8 +235,37 @@ public class SearchFragment extends Fragment {
 
             snackbar.show();
         });
+        binding.btnRecoSensitivity.setOnClickListener(v->{
+            Bundle bundle = new Bundle();
+            bundle.putString("keyword", "감성엽서");
+            AppKeyValueStore.addRecentSearchKeyword(requireContext(),"감성엽서");
+            navController.navigate(R.id.action_dest_search_to_dest_prod_list, bundle);
+        });
+        binding.btnRecoInterior.setOnClickListener(v->{
+            Bundle bundle = new Bundle();
+            bundle.putString("keyword", "인테리어 엽서");
+            AppKeyValueStore.addRecentSearchKeyword(requireContext(),"인테리어 엽서");
+            navController.navigate(R.id.action_dest_search_to_dest_prod_list, bundle);
+        });
+        binding.btnRecoMong.setOnClickListener(v->{
+            Bundle bundle = new Bundle();
+            bundle.putString("keyword", "꼬몽이 엽서");
+            AppKeyValueStore.addRecentSearchKeyword(requireContext(),"꼬몽이 엽서");
+            navController.navigate(R.id.action_dest_search_to_dest_prod_list, bundle);
+        });
+        binding.btnRecoPhoto.setOnClickListener(v->{
+            Bundle bundle = new Bundle();
+            bundle.putString("keyword", "포토 엽서");
+            AppKeyValueStore.addRecentSearchKeyword(requireContext(),"포토 엽서");
+            navController.navigate(R.id.action_dest_search_to_dest_prod_list, bundle);
+        });
+        binding.btnRecoTeanager.setOnClickListener(v->{
+            Bundle bundle = new Bundle();
+            bundle.putString("keyword", "하이틴 엽서");
+            navController.navigate(R.id.action_dest_search_to_dest_prod_list, bundle);
+        });
     }
-    private void initKeywordRecyclerView(){
+    public void initKeywordRecyclerView(){
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         binding.recyclerSearchLog.setLayoutManager(layoutManager);
 
@@ -218,23 +276,27 @@ public class SearchFragment extends Fragment {
         List<String> recentSearchKeywords = AppKeyValueStore.getRecentSearchKeywords(requireContext());
         Log.i(TAG, "initKeywordRecyclerView: " + recentSearchKeywords.toString());
         if(recentSearchKeywords != null){
-            Log.i(TAG, "initKeywordRecyclerView: 실행으하");
+            //최근 검색어가 없을 때 UI 변경
+            if(recentSearchKeywords.size() == 0){
+                binding.txtNothing.setVisibility(View.VISIBLE);
+                binding.txtLogEdit.setVisibility(View.GONE);
+                binding.txtLogDeleteAll.setVisibility(View.GONE);
+                binding.line.setVisibility(View.GONE);
+                binding.txtLogEditClose.setVisibility(View.GONE);
+            }else{
+                binding.txtNothing.setVisibility(View.GONE);
+            }
             // 어댑터 데이터 생성하기
             searchKeywordAdapter.setList(recentSearchKeywords);
-            Log.i(TAG, "initKeywordRecyclerView: 어뎁터 생성 완료");
             // RecyclerView에 어댑터 세팅
             binding.recyclerSearchLog.setAdapter(searchKeywordAdapter);
-            Log.i(TAG, "initKeywordRecyclerView: 어뎁터 세팅 완료");
             // RecyclerView를 보이도록 설정
             binding.recyclerSearchLog.setVisibility(View.VISIBLE);
-            Log.i(TAG, "initKeywordRecyclerView: 보여랏!");
         }else{
-            Log.i(TAG, "onResponse: 리스트가 없엉!!");
+            Log.i(TAG, "initKeywordRecyclerView: 실행 나 업셔");
         }
-        // RecyclerView에 어댑터 세팅
-        // 어댑터에 데이터가 설정된 후 notifyDataSetChanged() 호출
-        binding.recyclerSearchLog.setAdapter(searchKeywordAdapter);
     }
+
     @Override
     public void onPause() {
         super.onPause();

@@ -131,6 +131,9 @@
         <action
             android:id="@+id/action_dest_search_to_dest_ad_detail_ad12"
             app:destination="@id/dest_ad_detail_ad1" />
+        <action
+            android:id="@+id/action_dest_search_self"
+            app:destination="@id/dest_search" />
     </fragment>
     <fragment
         android:id="@+id/dest_cart"

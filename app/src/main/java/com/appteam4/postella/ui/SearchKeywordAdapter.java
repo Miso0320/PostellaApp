@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.appteam4.postella.R;
@@ -17,6 +18,7 @@ public class SearchKeywordAdapter extends RecyclerView.Adapter<SearchKeywordView
     List<String> list = new ArrayList<>();
     private SearchFragment searchFragment;
     private OnItemClickListener onItemClickListener;
+    private NavController navController;
 
     public void setSearchFragment(SearchFragment searchFragment){this.searchFragment = searchFragment;}
     @NonNull
@@ -46,7 +48,7 @@ public class SearchKeywordAdapter extends RecyclerView.Adapter<SearchKeywordView
     public interface OnItemClickListener {
         void onItemClick(View itemView, int position);
     }
-    public void setOnItemClickListener(SearchKeywordAdapter.OnItemClickListener onItemClickListener) {
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
     public String getItem(int position) {return list.get(position);}

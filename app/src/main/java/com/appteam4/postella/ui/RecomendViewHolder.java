@@ -1,5 +1,8 @@
 package com.appteam4.postella.ui;
 
+import static androidx.core.content.ContentProviderCompat.requireContext;
+
+import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.appteam4.postella.R;
+import com.appteam4.postella.datastore.AppKeyValueStore;
 import com.appteam4.postella.dto.Product;
 import com.appteam4.postella.service.ProductGroupService;
 
@@ -37,7 +41,6 @@ public class RecomendViewHolder extends RecyclerView.ViewHolder {
             onItemClickListener.onItemClick(v, getAdapterPosition());
         });
     }
-
     public void setData(Product product){
         pg_no = product.getPg_no();
         ProductGroupService.loadImage(product.getPg_no(), imgProdAttach);

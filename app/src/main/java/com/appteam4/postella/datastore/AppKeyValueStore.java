@@ -75,4 +75,19 @@ public class AppKeyValueStore {
             return new ArrayList<>(); // 기본적으로 빈 리스트 반환
         }
     }
+    public static void removeRecentSearchKeyword(Context context, String keywordToRemove) {
+        // 기존 검색어 리스트를 불러옴
+        List<String> recentSearchKeywords = getRecentSearchKeywords(context);
+
+        // 검색어 리스트에서 특정 검색어를 삭제
+        recentSearchKeywords.remove(keywordToRemove);
+
+        // 검색어 리스트를 SharedPreferences에 저장
+        putRecentSearchKeywords(context, recentSearchKeywords);
+    }
+    public static void clearRecentSearchKeywords(Context context) {
+        // 빈 리스트를 생성하여 SharedPreferences에 저장
+        List<String> emptyList = new ArrayList<>();
+        putRecentSearchKeywords(context, emptyList);
+    }
 }
