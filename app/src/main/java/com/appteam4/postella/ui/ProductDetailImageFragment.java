@@ -35,21 +35,19 @@ public class ProductDetailImageFragment extends Fragment {
         // 페이지 번호 받기
         Bundle bundle = getArguments();
         int pageNo = bundle.getInt("pageNo");
+        int pg_no = bundle.getInt("pg_no");
 
         // 페이지별로 UI 세팅
-        initUIByPageNo(pageNo);
+        initUIByPageNo(pageNo, pg_no);
 
         return binding.getRoot();
     }
 
-    private void initUIByPageNo(int pageNo) {
-        // 어댑터 생성
-        ProductDetailAdapter productDetailAdapter = new ProductDetailAdapter(getContext());
-
+    private void initUIByPageNo(int pageNo, int pg_no) {
         // API 서버에서 썸네일 이미지 목록 받기
         ProductDetailService productDetailService = ServiceProvider.getProductDetailService(getContext());
 
-        Call<List<Image>> call = productDetailService.loadProductImage(3);
+        Call<List<Image>> call = productDetailService.loadProductImage(pg_no);
         call.enqueue(new Callback<List<Image>>() {
             @Override
             public void onResponse(Call<List<Image>> call, Response<List<Image>> response) {
@@ -65,7 +63,7 @@ public class ProductDetailImageFragment extends Fragment {
                 }
                 
                 // 이미지 슬라이더에 이미지 추가
-                Glide.with(ProductDetailImageFragment.this).load(imageArray[pageNo-1]).into(binding.imageSlider);
+                Glide.with(ProductDetailImageFragment.this).load(imageArray[pageNo]).into(binding.imageSlider);
             }
             @Override
             public void onFailure(Call<List<Image>> call, Throwable t) {

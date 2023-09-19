@@ -47,7 +47,6 @@ public class ProdDetailFragment extends Fragment {
     // 이미지 슬라이더 관련 필드
     private ViewPager2 viewPager2;
     private LinearLayout linearLayout;
-
     private TabLayout tabLayout;
 
     @Override
@@ -115,7 +114,7 @@ public class ProdDetailFragment extends Fragment {
 
     private void initLoadInfo(int pg_no) {
         // 어댑터 생성
-        ProductDetailAdapter productDetailAdapter = new ProductDetailAdapter(getContext());
+        ProductDetailAdapter productDetailAdapter = new ProductDetailAdapter(getContext(), pg_no);
         // API 서버에서 목록 받기
         ProductDetailService productDetailService = ServiceProvider.getProductDetailService(getContext());
         Call<Product> call = productDetailService.getDetailView(pg_no);

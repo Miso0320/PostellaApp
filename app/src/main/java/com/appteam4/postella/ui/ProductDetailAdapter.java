@@ -16,12 +16,12 @@ import java.util.List;
 public class ProductDetailAdapter extends FragmentStateAdapter {
     private Context context;
     private List<Product> productList = new ArrayList<>();
-    private int size;
+    private int pg_no;
 
-
-    public ProductDetailAdapter(Context context) {
+    public ProductDetailAdapter(Context context, int pg_no) {
         super((FragmentActivity) context);
         this.context = context;
+        this.pg_no = pg_no;
     }
 
     @NonNull
@@ -32,7 +32,7 @@ public class ProductDetailAdapter extends FragmentStateAdapter {
         Bundle bundle = new Bundle();
         // position은 0부터 시작하기 때문에 position+1 필요
         bundle.putInt("pageNo", (position + 1));
-        size = position + 1;
+        bundle.putInt("pg_no", pg_no);
         productDetailImageFragment.setArguments(bundle);
 
         return productDetailImageFragment;
