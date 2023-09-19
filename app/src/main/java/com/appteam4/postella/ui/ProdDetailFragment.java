@@ -48,6 +48,9 @@ public class ProdDetailFragment extends Fragment {
     private ViewPager2 viewPager2;
     private LinearLayout linearLayout;
     private TabLayout tabLayout;
+    
+    // 상품상세 이미지목록 개수
+    private int imgCnt;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,12 +65,10 @@ public class ProdDetailFragment extends Fragment {
         Bundle args = getArguments();
         if (args != null) {
             Product product = (Product) args.getSerializable("product");
-
             if (product != null) {
                 int pg_no = product.getPg_no();
-
-                // 상품상세정보 불러오기
-                initLoadInfo(pg_no);
+                // 상품상세 이미지 개수 받아오기
+                initImgCnt(pg_no);
             }
         }
 
@@ -76,8 +77,6 @@ public class ProdDetailFragment extends Fragment {
 
         // 하단 네비게이션바 숨기기
         hideBottomNavigation(true);
-
-        showBottomSheet();
 
         // 탭 메뉴 이동
         initTabPage();
@@ -112,12 +111,34 @@ public class ProdDetailFragment extends Fragment {
         getActivity().addMenuProvider(menuProvider, getViewLifecycleOwner(), Lifecycle.State.RESUMED);
     }
 
-    private void initLoadInfo(int pg_no) {
-        // 어댑터 생성
-        ProductDetailAdapter productDetailAdapter = new ProductDetailAdapter(getContext(), pg_no);
+    private void initImgCnt(int pg_no) {
         // API 서버에서 목록 받기
         ProductDetailService productDetailService = ServiceProvider.getProductDetailService(getContext());
-        Call<Product> call = productDetailService.getDetailView(pg_no);
+        Call<Integer> callCnt = productDetailService.loadProductImageCnt(pg_no);
+
+        callCnt.enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                imgCnt = response.body();
+                // 상품상세정보 불러오기
+                initLoadInfo(pg_no, imgCnt);
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
+    private void initLoadInfo(int pg_no, int imgCnt) {
+        Log.i(TAG, "initLoadInfo: " + imgCnt);
+        // API 서버에서 목록 받기
+        ProductDetailService productDetailService = ServiceProvider.getProductDetailService(getContext());
+        Call<Product> callProdDetail = productDetailService.getDetailView(pg_no);
+
+        // 어댑터 생성
+        ProductDetailAdapter productDetailAdapter = new ProductDetailAdapter(getContext(), pg_no, imgCnt);
 
         // 이미지 슬라이더 내용 추가
         binding.productImageSlider.setAdapter(productDetailAdapter);
@@ -130,11 +151,10 @@ public class ProdDetailFragment extends Fragment {
             }
         });
 
-        call.enqueue(new Callback<Product>() {
+        callProdDetail.enqueue(new Callback<Product>() {
             @Override
             public void onResponse(Call<Product> call, Response<Product> response) {
                 Product product = response.body();
-                Log.i(TAG, "onResponse:" + product);
                 binding.pgName.setText(product.getPg_name());
                 binding.discountRate.setText((String.valueOf(product.getSale_percent())) + "%");
                 binding.prdPrice.setText((String.valueOf(product.getPrd_price())) + "원");
@@ -153,18 +173,6 @@ public class ProdDetailFragment extends Fragment {
             }
         });
 
-        // 항목을 클릭했을 때 콜백 겍체를 등록
-/*        boardAdapter.setOnItemClickListener(new BoardAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View itemView, int position) {
-                Log.i(TAG, position +  " 항목 클릭됨");
-                Board board = boardAdapter.getItem(position);
-
-                Bundle args = new Bundle();
-                args.putSerializable("board", board);
-                navController.navigate(R.id.action_dest_list_to_dest_detail, args);
-            }
-        });*/
         // TabLayoutMediator 활성화하기
         tabLayoutMediator.attach();
     }
@@ -178,9 +186,6 @@ public class ProdDetailFragment extends Fragment {
             // 하단 네이게이션바 나타내기
             bottomNavigation.setVisibility(View.VISIBLE);
         }
-    }
-
-    private void showBottomSheet() {
     }
 
     private void initTabPage() {
@@ -208,6 +213,5 @@ public class ProdDetailFragment extends Fragment {
         super.onPause();
         hideBottomNavigation(false);
     }
-
 
 }

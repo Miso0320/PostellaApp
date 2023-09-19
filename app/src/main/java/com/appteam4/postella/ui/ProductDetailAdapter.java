@@ -16,12 +16,16 @@ import java.util.List;
 public class ProductDetailAdapter extends FragmentStateAdapter {
     private Context context;
     private List<Product> productList = new ArrayList<>();
+    // 상품그룹 식별번호
     private int pg_no;
+    // 상품상세 이미지목록 개수
+    private int imgCnt;
 
-    public ProductDetailAdapter(Context context, int pg_no) {
+    public ProductDetailAdapter(Context context, int pg_no, int imgCnt) {
         super((FragmentActivity) context);
         this.context = context;
         this.pg_no = pg_no;
+        this.imgCnt = imgCnt;
     }
 
     @NonNull
@@ -30,21 +34,17 @@ public class ProductDetailAdapter extends FragmentStateAdapter {
         // getItemCount()의 리턴값만큼 실행
         ProductDetailImageFragment productDetailImageFragment = new ProductDetailImageFragment();
         Bundle bundle = new Bundle();
-        // position은 0부터 시작하기 때문에 position+1 필요
-        bundle.putInt("pageNo", (position + 1));
+        // bundle 객체에 position 개수 넣기
+        bundle.putInt("pageNo", position);
+        // bundle 객체에 상품그룹 식별번호 넣기
         bundle.putInt("pg_no", pg_no);
         productDetailImageFragment.setArguments(bundle);
 
         return productDetailImageFragment;
     }
 
-    public void setList(List<Product> productList) {
-        this.productList = productList;
-        notifyDataSetChanged();
-    }
-
     @Override
     public int getItemCount() {
-        return 5;
+        return imgCnt;
     }
 }

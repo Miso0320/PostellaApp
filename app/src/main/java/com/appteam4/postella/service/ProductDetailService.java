@@ -2,8 +2,6 @@ package com.appteam4.postella.service;
 
 import android.widget.ImageView;
 
-import androidx.annotation.Nullable;
-
 import com.appteam4.postella.dto.Image;
 import com.appteam4.postella.dto.MyWish;
 import com.appteam4.postella.dto.Product;
@@ -24,6 +22,9 @@ public interface ProductDetailService {
 
     @GET("loadProductImage")
     Call<List<Image>> loadProductImage(@Query("pg_no") int pg_no);
+
+    @GET("loadProductImageCnt")
+    Call<Integer> loadProductImageCnt(@Query("pg_no") int pg_no);
 
     @POST("addWishForApp")
     Call<WishResult> addWish(@Body MyWish wish);

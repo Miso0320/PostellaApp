@@ -24,7 +24,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ProductDetailImageFragment extends Fragment {
-    private static final String TAG = "ProductDetailImageFragm";
+    private static final String TAG = "ProductDetailImageFragment";
     private FragmentProductDetailImageBinding binding;
 
     @Override
@@ -32,9 +32,11 @@ public class ProductDetailImageFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentProductDetailImageBinding.inflate(inflater);
 
-        // 페이지 번호 받기
+        // Bundle 객체 받아오기
         Bundle bundle = getArguments();
+        // 페이지 번호 받기
         int pageNo = bundle.getInt("pageNo");
+        // 상품그룹 식별번호 받기
         int pg_no = bundle.getInt("pg_no");
 
         // 페이지별로 UI 세팅
@@ -46,13 +48,13 @@ public class ProductDetailImageFragment extends Fragment {
     private void initUIByPageNo(int pageNo, int pg_no) {
         // API 서버에서 썸네일 이미지 목록 받기
         ProductDetailService productDetailService = ServiceProvider.getProductDetailService(getContext());
-
         Call<List<Image>> call = productDetailService.loadProductImage(pg_no);
+        
         call.enqueue(new Callback<List<Image>>() {
             @Override
             public void onResponse(Call<List<Image>> call, Response<List<Image>> response) {
                 List<Image> images = response.body();
-                // 이미지 URL을 저장할 배열
+                // 이미지 URL을 저장할 배열 선언
                 String[] imageArray = new String[images.size()];
 
                 // 각 이미지를 별도의 ImageView에 로드하기
