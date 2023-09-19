@@ -252,7 +252,7 @@ public class MainFragment extends Fragment {
 
                 Bundle args = new Bundle();
                 args.putSerializable("product", product);
-                navController.navigate(R.id.action_dest_main_to_dest_prod_detail);
+                navController.navigate(R.id.action_dest_main_to_dest_prod_detail, args);
             }
         });
     }

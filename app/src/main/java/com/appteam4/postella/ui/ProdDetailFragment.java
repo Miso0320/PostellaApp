@@ -59,8 +59,18 @@ public class ProdDetailFragment extends Fragment {
         // 앱바 설정
         initMenu();
 
-        // 상품상제정보 불러오기
-        initLoadInfo();
+        // Bundle에서 객체 받아오기
+        Bundle args = getArguments();
+        if (args != null) {
+            Product product = (Product) args.getSerializable("product");
+
+            if (product != null) {
+                int pg_no = product.getPg_no();
+
+                // 상품상세정보 불러오기
+                initLoadInfo(pg_no);
+            }
+        }
 
         // 취소선 추가
         binding.prdOrgPrice.setPaintFlags(binding.prdOrgPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
@@ -103,12 +113,12 @@ public class ProdDetailFragment extends Fragment {
         getActivity().addMenuProvider(menuProvider, getViewLifecycleOwner(), Lifecycle.State.RESUMED);
     }
 
-    private void initLoadInfo() {
+    private void initLoadInfo(int pg_no) {
         // 어댑터 생성
         ProductDetailAdapter productDetailAdapter = new ProductDetailAdapter(getContext());
         // API 서버에서 목록 받기
         ProductDetailService productDetailService = ServiceProvider.getProductDetailService(getContext());
-        Call<Product> call = productDetailService.getDetailView(3);
+        Call<Product> call = productDetailService.getDetailView(pg_no);
 
         // 이미지 슬라이더 내용 추가
         binding.productImageSlider.setAdapter(productDetailAdapter);

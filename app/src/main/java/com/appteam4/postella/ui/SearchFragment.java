@@ -125,7 +125,7 @@ public class SearchFragment extends Fragment {
 
                 Bundle args = new Bundle();
                 args.putSerializable("product", product);
-                navController.navigate(R.id.action_dest_search_to_dest_prod_detail2);
+                navController.navigate(R.id.action_dest_search_to_dest_prod_detail2, args);
             }
         });
     }
