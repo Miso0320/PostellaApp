@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.appteam4.postella.R;
 import com.appteam4.postella.dto.MyPageOrderList;
+import com.appteam4.postella.dto.Product;
 import com.appteam4.postella.service.MyPageOrderListService;
 import com.appteam4.postella.service.ProductGroupService;
 
@@ -29,10 +30,10 @@ public class MyPageOrderListHolder extends RecyclerView.ViewHolder {
     public MyPageOrderListHolder (@NonNull View itemView, MyPageOrderListAdapter.OnItemClickListener onItemClickListener) {
         super(itemView);
         //아이템 UI 얻기
-        orderListImage = (ImageView) itemView.findViewById(R.id.attach);
-        orderListTitle = (TextView) itemView.findViewById(R.id.title);
-        orderListPrice = (TextView) itemView.findViewById(R.id.price);
-        orderListStatus = (TextView) itemView.findViewById(R.id.status);
+        orderListImage = (ImageView) itemView.findViewById(R.id.order_attach);
+        orderListTitle = (TextView) itemView.findViewById(R.id.order_title);
+        orderListPrice = (TextView) itemView.findViewById(R.id.order_price);
+        orderListStatus = (TextView) itemView.findViewById(R.id.order_status);
 
         //클릭 이벤트 처리
         itemView.setOnClickListener(v -> {
@@ -42,13 +43,14 @@ public class MyPageOrderListHolder extends RecyclerView.ViewHolder {
     }
 
     public void setMyPageOrderListData(MyPageOrderList myPageOrderList) {
-        orderListNo = myPageOrderList.getOrderListNo();
-        orderListImage.setImageResource(R.drawable.photo1);
-        //MyPageOrderListService.loadImage(myPageOrderList.getOrderListNo(), orderListImage);
-        //상품 가격
+        orderListNo = myPageOrderList.getOd_no();
+        MyPageOrderListService.loadImage(myPageOrderList.getPrd_no(), orderListImage);
+
+        Log.i(TAG, "prd_no" + myPageOrderList.getPrd_no());
+
+        orderListTitle.setText(myPageOrderList.getPrd_name());
         DecimalFormat df = new DecimalFormat("#,###");
-        orderListTitle.setText(myPageOrderList.getOrderListTitle());
-        orderListPrice.setText(df.format(myPageOrderList.getOrderListPrice()));
-        orderListStatus.setText(myPageOrderList.getOrderListStatus());
+        orderListPrice.setText(df.format(myPageOrderList.getOd_detail_price()));
+        orderListStatus.setText(myPageOrderList.getOd_status());
     }
 }

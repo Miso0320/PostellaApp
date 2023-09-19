@@ -62,6 +62,7 @@ public class LoginFragment extends Fragment {
                         // 로그인 성공시 us_email us_password 공유 저장소에 저장
                         AppKeyValueStore.put(getContext(), "us_email", loginResult.getUs_email());
                         AppKeyValueStore.put(getContext(), "us_password", loginResult.getUs_password());
+                        AppKeyValueStore.put(getContext(), "us_no", Integer.toString(loginResult.getUs_no()));
 
                         // 메인 화면 이동
                         navController.navigate(R.id.dest_main);

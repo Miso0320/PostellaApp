@@ -3,6 +3,7 @@ package com.appteam4.postella.dto;
 public class LoginResult {
 
     private String result;
+    private int us_no;
     private String us_email;
     private String us_password;
 
@@ -10,6 +11,7 @@ public class LoginResult {
     public String toString() {
         return "LoginResult{" +
                 "result='" + result + '\'' +
+                ", us_no=" + us_no +
                 ", us_email='" + us_email + '\'' +
                 ", us_password='" + us_password + '\'' +
                 '}';
@@ -21,6 +23,14 @@ public class LoginResult {
 
     public void setResult(String result) {
         this.result = result;
+    }
+
+    public int getUs_no() {
+        return us_no;
+    }
+
+    public void setUs_no(int us_no) {
+        this.us_no = us_no;
     }
 
     public String getUs_email() {

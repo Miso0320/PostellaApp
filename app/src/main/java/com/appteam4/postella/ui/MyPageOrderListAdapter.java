@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.appteam4.postella.R;
 import com.appteam4.postella.dto.MyPageOrderList;
+import com.appteam4.postella.dto.Product;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +17,9 @@ import java.util.List;
 public class MyPageOrderListAdapter extends RecyclerView.Adapter<MyPageOrderListHolder> {
 
     private static final String TAG = "MyPageOrderListAdapter";
-    List<MyPageOrderList> orderList = new ArrayList<>();
+    private List<MyPageOrderList> list = new ArrayList<>();
     private OnItemClickListener onItemClickListener;
+    private MyPageOrderListFragment myPageOrderListFragment;
 
     @NonNull
     @Override
@@ -34,18 +36,22 @@ public class MyPageOrderListAdapter extends RecyclerView.Adapter<MyPageOrderList
     @Override
     public void onBindViewHolder(@NonNull MyPageOrderListHolder holder, int position) {
         // 해당 위치(position)의 Product 객체를 가져옴
-        MyPageOrderList myPageOrderList = orderList.get(position);
+        MyPageOrderList myPageOrderList = list.get(position);
         // ViewHolder에 데이터를 설정하여 화면에 표시
         holder.setMyPageOrderListData(myPageOrderList);
     }
 
     @Override
     public int getItemCount() {
-        return orderList.size();
+        return list.size();
     }
 
-    public void setList(List<MyPageOrderList> orderList){
-        this.orderList = orderList;
+    public void setList(List<MyPageOrderList> list){
+        this.list = list;
+    }
+
+    public MyPageOrderList getItem(int position) {
+        return list.get(position);
     }
 
     public interface OnItemClickListener {
@@ -56,11 +62,7 @@ public class MyPageOrderListAdapter extends RecyclerView.Adapter<MyPageOrderList
         this.onItemClickListener = onItemClickListener;
     }
 
-    public MyPageOrderList getItem(int position) {
-        return orderList.get(position);
-    }
-
-    public void addMyPageOrderList(MyPageOrderList myPageOrderList) {
-        orderList.add(myPageOrderList);
+    public void setMyPageOrderListFragment(MyPageOrderListFragment myPageOrderListFragment) {
+        this.myPageOrderListFragment = myPageOrderListFragment;
     }
 }
