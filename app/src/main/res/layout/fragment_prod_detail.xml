@@ -62,6 +62,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tab_menu_layout" />
 
+    <!-- 구매하기 및 찜하기 -->
     <LinearLayout
         android:id="@+id/bottom_payment_menu"
         android:layout_width="match_parent"

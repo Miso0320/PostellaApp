@@ -4,6 +4,15 @@ import androidx.lifecycle.ViewModel;
 
 public class ProductDetailViewModel extends ViewModel {
     private int imgCnt;
+    private int pgNo;
+
+    public int getPgNo() {
+        return pgNo;
+    }
+
+    public void setPgNo(int pgNo) {
+        this.pgNo = pgNo;
+    }
 
     public int getImgCnt() {
         return imgCnt;

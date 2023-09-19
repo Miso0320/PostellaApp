@@ -141,8 +141,8 @@ public class ReviewFragment extends Fragment {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onStop() {
+        super.onStop();
         hideBottomNavigation(false);
     }
 

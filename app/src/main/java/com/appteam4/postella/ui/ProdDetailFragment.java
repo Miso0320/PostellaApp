@@ -80,6 +80,7 @@ public class ProdDetailFragment extends Fragment {
             Product product = (Product) args.getSerializable("product");
             if (product != null) {
                 int pg_no = product.getPg_no();
+                viewModel.setPgNo(pg_no);
                 // 상품상세 이미지 개수 받아오기
                 initImgCnt(pg_no);
             }
@@ -142,7 +143,7 @@ public class ProdDetailFragment extends Fragment {
                 // 데이터를 ViewModel에 저장
                 viewModel.setImgCnt(imgCnt);
                 // 상품상세정보 불러오기
-                initLoadInfo(pg_no);
+                initLoadInfo();
             }
 
             @Override
@@ -152,9 +153,10 @@ public class ProdDetailFragment extends Fragment {
         });
     }
 
-    private void initLoadInfo(int pg_no) {
+    private void initLoadInfo() {
         // ViewModel에서 데이터 가져오기
         int imgCnt = viewModel.getImgCnt();
+        int pg_no = viewModel.getPgNo();
 
         // API 서버에서 목록 받기
         ProductDetailService productDetailService = ServiceProvider.getProductDetailService(getContext());
@@ -218,7 +220,14 @@ public class ProdDetailFragment extends Fragment {
                     .setLaunchSingleTop(true)
                     .build();
 
-            navController.navigate(R.id.dest_review, null, navOptions);
+            // 이미 받아온 데이터를 사용
+            if (viewModel.getImgCnt() > 0) {
+                // 데이터가 이미 있다면 데이터를 사용하고 프래그먼트 이동
+                navController.navigate(R.id.dest_review, null, navOptions);
+            } else {
+                // 데이터가 없다면 데이터를 받아오고 이후에 프래그먼트 이동
+                initImgCnt(viewModel.getPgNo());
+            }
         });
 
         binding.tabProductInquiries.setOnClickListener(v -> {
@@ -227,7 +236,14 @@ public class ProdDetailFragment extends Fragment {
                     .setLaunchSingleTop(true)
                     .build();
 
-            navController.navigate(R.id.dest_inquiry, null, navOptions);
+            // 이미 받아온 데이터를 사용
+            if (viewModel.getImgCnt() > 0) {
+                // 데이터가 이미 있다면 데이터를 사용하고 프래그먼트 이동
+                navController.navigate(R.id.dest_review, null, navOptions);
+            } else {
+                // 데이터가 없다면 데이터를 받아오고 이후에 프래그먼트 이동
+                initImgCnt(viewModel.getPgNo());
+            }
         });
     }
 
