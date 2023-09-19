@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
@@ -25,6 +26,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.appteam4.postella.R;
 import com.appteam4.postella.databinding.FragmentProdDetailBinding;
 import com.appteam4.postella.dto.Product;
+import com.appteam4.postella.dto.ProductDetailViewModel;
 import com.appteam4.postella.service.ProductDetailService;
 import com.appteam4.postella.service.ServiceProvider;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -51,6 +53,17 @@ public class ProdDetailFragment extends Fragment {
     
     // 상품상세 이미지목록 개수
     private int imgCnt;
+
+    // ViewModel에 데이터 저장
+    private ProductDetailViewModel viewModel;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // ViewModel 생성하기
+        viewModel = new ViewModelProvider(this).get(ProductDetailViewModel.class);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -126,8 +139,10 @@ public class ProdDetailFragment extends Fragment {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 imgCnt = response.body();
+                // 데이터를 ViewModel에 저장
+                viewModel.setImgCnt(imgCnt);
                 // 상품상세정보 불러오기
-                initLoadInfo(pg_no, imgCnt);
+                initLoadInfo(pg_no);
             }
 
             @Override
@@ -137,7 +152,10 @@ public class ProdDetailFragment extends Fragment {
         });
     }
 
-    private void initLoadInfo(int pg_no, int imgCnt) {
+    private void initLoadInfo(int pg_no) {
+        // ViewModel에서 데이터 가져오기
+        int imgCnt = viewModel.getImgCnt();
+
         // API 서버에서 목록 받기
         ProductDetailService productDetailService = ServiceProvider.getProductDetailService(getContext());
         Call<Product> callProdDetail = productDetailService.getDetailView(pg_no);
