@@ -93,7 +93,7 @@ public class ProdDetailFragment extends Fragment {
         hideBottomNavigation(true);
 
         // 탭 메뉴 이동
-        initTabPage();
+        initTabPage(args);
 
         return binding.getRoot();
     }
@@ -213,7 +213,7 @@ public class ProdDetailFragment extends Fragment {
         }
     }
 
-    private void initTabPage() {
+    private void initTabPage(Bundle args) {
         binding.tabProductReviews.setOnClickListener(v -> {
             NavOptions navOptions = new NavOptions.Builder()
                     .setPopUpTo(R.id.dest_review, false)
@@ -223,7 +223,7 @@ public class ProdDetailFragment extends Fragment {
             // 이미 받아온 데이터를 사용
             if (viewModel.getImgCnt() > 0) {
                 // 데이터가 이미 있다면 데이터를 사용하고 프래그먼트 이동
-                navController.navigate(R.id.dest_review, null, navOptions);
+                navController.navigate(R.id.dest_review, args, navOptions);
             } else {
                 // 데이터가 없다면 데이터를 받아오고 이후에 프래그먼트 이동
                 initImgCnt(viewModel.getPgNo());
@@ -239,7 +239,7 @@ public class ProdDetailFragment extends Fragment {
             // 이미 받아온 데이터를 사용
             if (viewModel.getImgCnt() > 0) {
                 // 데이터가 이미 있다면 데이터를 사용하고 프래그먼트 이동
-                navController.navigate(R.id.dest_review, null, navOptions);
+                navController.navigate(R.id.dest_review, args, navOptions);
             } else {
                 // 데이터가 없다면 데이터를 받아오고 이후에 프래그먼트 이동
                 initImgCnt(viewModel.getPgNo());

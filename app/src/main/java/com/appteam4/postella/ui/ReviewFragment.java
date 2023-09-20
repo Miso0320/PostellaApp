@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
@@ -25,6 +26,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.appteam4.postella.R;
 import com.appteam4.postella.databinding.FragmentReviewBinding;
+import com.appteam4.postella.dto.Product;
 import com.appteam4.postella.dto.Review;
 import com.appteam4.postella.service.ReviewService;
 import com.appteam4.postella.service.ServiceProvider;
@@ -41,6 +43,10 @@ public class ReviewFragment extends Fragment {
     private FragmentReviewBinding binding;
     NavController navController;
 
+    // 정렬순 구분값
+    int kind = 1;
+    int starRate = 0;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -50,11 +56,20 @@ public class ReviewFragment extends Fragment {
         // 앱바 설정
         initMenu();
 
-        // 스피너 설정
-        initSpinner();
+        // Bundle에서 객체 받아오기
+        Bundle args = getArguments();
+        if (args != null) {
+            Product product = (Product) args.getSerializable("product");
+            if (product != null) {
+                int pg_no = product.getPg_no();
 
-        // RecyclerView 초기화
-        initRecyclerView();
+                // RecyclerView 초기화
+                initRecyclerView(pg_no, kind, starRate);
+            }
+        }
+
+        // 스피너 설정
+        initSpinner(args);
 
         // 하단 네비게이션바 숨기기
         hideBottomNavigation(true);
@@ -87,7 +102,7 @@ public class ReviewFragment extends Fragment {
         getActivity().addMenuProvider(menuProvider, getViewLifecycleOwner(), Lifecycle.State.RESUMED);
     }
 
-    private void initSpinner() {
+    private void initSpinner(Bundle args) {
         // 정렬 스피너
         Spinner sortSpinner = binding.spinnerReviewSort;
         ArrayAdapter sortAdapter = ArrayAdapter.createFromResource(
@@ -105,9 +120,76 @@ public class ReviewFragment extends Fragment {
 
         starAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         starSpinner.setAdapter(starAdapter);
+
+        // 정렬 스피너 변경 이벤트 처리
+        sortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // 스피너 선택항목 값 가져오기
+                String selectedSort = sortSpinner.getSelectedItem().toString();
+                if (selectedSort.equals("최신순")) {
+                    kind = 1;
+                } else if (selectedSort.equals("별점순")) {
+                    kind = 2;
+                }
+
+                // 리뷰목록 갱신하기
+                if (args != null) {
+                    Product product = (Product) args.getSerializable("product");
+                    if (product != null) {
+                        int pg_no = product.getPg_no();
+
+                        // RecyclerView 초기화
+                        initRecyclerView(pg_no, kind, starRate);
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        // 정렬 스피너 변경 이벤트 처리
+        starSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // 스피너 선택항목 값 가져오기
+                String selectedStar = starSpinner.getSelectedItem().toString();
+                if (selectedStar.equals("전체별점")) {
+                    starRate = 0;
+                } else if (selectedStar.equals("1개")) {
+                    starRate = 1;
+                } else if (selectedStar.equals("2개")) {
+                    starRate = 2;
+                } else if (selectedStar.equals("3개")) {
+                    starRate = 3;
+                } else if (selectedStar.equals("4개")) {
+                    starRate = 4;
+                } else if (selectedStar.equals("5개")) {
+                    starRate = 5;
+                }
+
+                // 리뷰목록 갱신하기
+                if (args != null) {
+                    Product product = (Product) args.getSerializable("product");
+                    if (product != null) {
+                        int pg_no = product.getPg_no();
+
+                        // RecyclerView 초기화
+                        initRecyclerView(pg_no, kind, starRate);
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
     }
 
-    private void initRecyclerView() {
+    private void initRecyclerView(int pg_no, int kind, int starRate) {
         // RecyclerView에서 항목을 수직으로 배치하도록 설정
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(
                 getContext(), LinearLayoutManager.VERTICAL, false
@@ -126,14 +208,6 @@ public class ReviewFragment extends Fragment {
         ReviewAdapter reviewAdapter = new ReviewAdapter();
 
         ReviewService reviewService = ServiceProvider.getReviewService(getContext());
-
-        // 스피너 선택항목 값 가져오기
-        Spinner spinner = (Spinner) binding.spinnerReviewSort;
-        String selectedSort = spinner.getSelectedItem().toString();
-        Log.i(TAG, "selectedSort***************************************** " + selectedSort);
-        int pg_no = 3;
-        int starRate = 1;
-        int kind = 1;
 
         // 리뷰목록 가져오기
         Call<List<Review>> reviewCall = reviewService.getReviewsForApp(pg_no, starRate, kind);
