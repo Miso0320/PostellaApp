@@ -26,6 +26,9 @@ public interface ProductDetailService {
     @GET("loadProductImageCnt")
     Call<Integer> loadProductImageCnt(@Query("pg_no") int pg_no);
 
+    @GET("checkWishForApp")
+    Call<WishResult> checkWishForApp(@Query("pg_no") int pg_no, @Query("us_no") int us_no);
+
     @POST("addWishForApp")
     Call<WishResult> addWish(@Body MyWish wish);
 

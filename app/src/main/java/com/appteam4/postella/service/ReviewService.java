@@ -23,4 +23,9 @@ public interface ReviewService {
     @GET("getReviewCntForApp")
     Call<Integer> getReviewCntForApp(@Query("pg_no") int pg_no, @Query("starRate") int starRate);
 
+    @POST("addWishForApp")
+    Call<WishResult> addWish(@Body MyWish wish);
+
+    @POST("removeWishForApp")
+    Call<WishResult> removeWish(@Body MyWish wish);
 }
