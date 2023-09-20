@@ -13,14 +13,13 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface CartService {
-    @GET("getCartListForApp")
-    Call<List<Cart>> getCartList();
 
-    @GET("getCartsForApp")
-    Call<List<Cart>>getCarts(@Query("pg_no")int pg_no);
+    @GET("cart/getCartList")
+    Call<List<Cart>>getCartList(@Query("us_no") int us_no);
+
     @GET
-    static void loadImage(int cartNo, ImageView imageView) {
-        String url = NetworkInfo.BASE_URL + "getCarts?cartNo=" + cartNo;
+    static void loadImage(int prd_no, ImageView imageView) {
+        String url = NetworkInfo.BASE_URL + "cart/getThmbnailImg?prd_no=" + prd_no;
         Glide.with(imageView.getContext()).load(url).into(imageView);
     }
 }

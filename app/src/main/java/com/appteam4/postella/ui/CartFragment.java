@@ -26,6 +26,7 @@ import com.appteam4.postella.MainActivity;
 import com.appteam4.postella.R;
 import com.appteam4.postella.databinding.FragmentCartBinding;
 import com.appteam4.postella.databinding.ProdCartItemBinding;
+import com.appteam4.postella.datastore.AppKeyValueStore;
 import com.appteam4.postella.dto.Cart;
 import com.appteam4.postella.dto.MyPageOrderList;
 import com.appteam4.postella.service.CartService;
@@ -52,16 +53,9 @@ public class CartFragment extends Fragment {
         // 스피너 초기화
         initSpinner();
 
-        initBtnOrder();
         initRecyclerViewCart();
 
         return binding.getRoot();
-    }
-
-    private void initBtnOrder(){
-        binding.btnOrder.setOnClickListener(v->{
-            navController.navigate(R.id.action_dest_cart_to_dest_order);
-        });
     }
 
     private void initRecyclerViewCart() {
@@ -73,6 +67,50 @@ public class CartFragment extends Fragment {
         // Adapter 생성
         CartAdapter cartAdapter = new CartAdapter();
 
+        // 공유데이터에서 us_no가져오기
+        int us_no = Integer.parseInt(AppKeyValueStore.getValue(getContext(), "us_no"));
+
+        // API 서버에서 JSON 목록 받기
+        CartService cartService = ServiceProvider.getCart(getContext());
+        Call<List<Cart>> call = cartService.getCartList(us_no);
+        call.enqueue(new Callback<List<Cart>>() {
+            @Override
+            public void onResponse(Call<List<Cart>> call, Response<List<Cart>> response) {
+                // json -> List<Product>
+                List<Cart> cartList = response.body();
+                if (cartList != null) {
+                    // 어댑터 데이터 생성하기
+                    cartAdapter.setList(cartList);
+                    // RecyclerView에 어댑터 세팅
+                    binding.recyclerViewCart.setAdapter(cartAdapter);
+                } else {
+                    Log.i(TAG, "onResponse: 리스트가 널이여~");
+                }
+                // RecyclerView에 어댑터 세팅
+                // 어댑터에 데이터가 설정된 후 notifyDataSetChanged() 호출
+                //binding.recyclerViewCart.setAdapter(cartAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<List<Cart>> call, Throwable t) {
+                Log.i(TAG, "Cart API 호출 실패");
+            }
+        });
+
+        // 항목을 클릭 했을 때 콜백 객체를 등록
+        cartAdapter.setOnItemClickListener(new CartAdapter.CartOnItemClickListener() {
+            @Override
+            public void onItemClick(View itemView, int position) {
+                Cart cart = cartAdapter.getItem(position);
+                Log.i(TAG, cart.toString());
+
+                Bundle args = new Bundle();
+                args.putSerializable("cart", cart);
+                navController.navigate(R.id.action_dest_cart_to_dest_order);
+            }
+        });
+
+        /*// 더미데이터
         for (int i=1; i<=10; i++) {
             Cart cart = new Cart();
             cart.setCartNo(i);
@@ -85,49 +123,7 @@ public class CartFragment extends Fragment {
             cartAdapter.addCart(cart);
         }
 
-        binding.recyclerViewCart.setAdapter(cartAdapter);
-
-        /*// API 서버에서 JSON 목록 받기
-        CartService cartService = ServiceProvider.getCart(getContext());
-        Call<List<Cart>> call = cartService.getCartList();
-        call.enqueue(new Callback<List<Cart>>() {
-            @Override
-            public void onResponse(Call<List<Cart>> call, Response<List<Cart>> response) {
-                // json -> List<Product>
-                List<Cart> cartList = response.body();
-                if (cartList != null) {
-                    // 어댑터 데이터 생성하기
-                    cartAdapter.setList(cartList);
-                    // RecyclerView에 어댑터 세팅
-                    binding.recyclerViewCart.setAdapter(cartAdapter);
-                    // RecyclerView를 보이도록 설정
-                    binding.recyclerViewCart.setVisibility(View.VISIBLE);
-                } else {
-                    Log.i(TAG, "onResponse: 리스트가 널이여~");
-                }
-                // RecyclerView에 어댑터 세팅
-                // 어댑터에 데이터가 설정된 후 notifyDataSetChanged() 호출
-                binding.recyclerViewCart.setAdapter(cartAdapter);
-            }
-
-            @Override
-            public void onFailure(Call<List<Cart>> call, Throwable t) {
-                Log.i(TAG, "Cart API 호출 실패");
-            }
-        });
-
-        // 항목을 클릭 했을 때 콜백 객체를 등록
-        cartAdapter.setOnItemClickListener(new CartAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View itemView, int position) {
-                Cart cart = cartAdapter.getItem(position);
-                Log.i(TAG, cart.toString());
-
-                Bundle args = new Bundle();
-                args.putSerializable("cart", cart);
-                navController.navigate(R.id.action_dest_cart_to_dest_order);
-            }
-        });*/
+        binding.recyclerViewCart.setAdapter(cartAdapter);*/
     }
 
     private void initSpinner() {

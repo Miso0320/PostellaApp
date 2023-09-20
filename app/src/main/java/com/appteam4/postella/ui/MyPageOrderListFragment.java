@@ -77,39 +77,14 @@ public class MyPageOrderListFragment extends Fragment {
     }
 
     private void initRecyclerViewMyOrderList() {
-        /*// RecycleView 에서 항목을 수직으로 배치
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(
-                getContext(), LinearLayoutManager.VERTICAL, false
-        );
-        binding.recyclerViewMyOrderList.setLayoutManager(linearLayoutManager);
-
-        // adpter 생성
-        MyPageOrderListAdapter myPageOrderListAdapter = new MyPageOrderListAdapter();
-
-        for (int i = 1; i <= 10; i++) {
-            MyPageOrderList myPageOrderList = new MyPageOrderList();
-            myPageOrderList.setOrderListNo(i);
-            myPageOrderList.setOrderListTitle("상품" + i);
-            myPageOrderList.setOrderListPrice(1000 + i);
-            myPageOrderList.setOrderListStatus("배송중");
-
-            myPageOrderListAdapter.addMyPageOrderList(myPageOrderList);
-        }
-
-        binding.recyclerViewMyOrderList.setAdapter(myPageOrderListAdapter);*/
-
-        // RecyclerView에서 항목을 배치하도록 설정
-        //GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
-        //binding.recyclerMainView.setLayoutManager(layoutManager);
-
+        // 어댑터 생성
         MyPageOrderListAdapter orderListAdapter = new MyPageOrderListAdapter();
-
-        // API 서버에서 목록 받기
-        MyPageOrderListService myPageOrderListService = ServiceProvider.getMyPageOrderList(getContext());
 
         // 공유데이터에서 us_no가져오기
         int us_no = Integer.parseInt(AppKeyValueStore.getValue(getContext(), "us_no"));
 
+        // API 서버에서 목록 받기
+        MyPageOrderListService myPageOrderListService = ServiceProvider.getMyPageOrderList(getContext());
         Call<List<MyPageOrderList>> call = myPageOrderListService.getMyPageOrderList(us_no);
         call.enqueue(new Callback<List<MyPageOrderList>>() {
             @Override
@@ -122,9 +97,6 @@ public class MyPageOrderListFragment extends Fragment {
                     orderListAdapter.setList(list);
                     // RecyclerView에 어댑터 세팅
                     binding.recyclerViewMyOrderList.setAdapter(orderListAdapter);
-                    /*// RecyclerView를 보이도록 설정
-                    binding.recyclerViewMyOrderList.setVisibility(View.VISIBLE);*/
-                    Log.i(TAG, "onResponse: 리스트가 있긴함");
                 } else {
                     Log.i(TAG, "onResponse: 리스트가 널이여~");
                 }

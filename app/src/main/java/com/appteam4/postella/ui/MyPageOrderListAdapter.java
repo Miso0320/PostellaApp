@@ -19,7 +19,6 @@ public class MyPageOrderListAdapter extends RecyclerView.Adapter<MyPageOrderList
     private static final String TAG = "MyPageOrderListAdapter";
     private List<MyPageOrderList> list = new ArrayList<>();
     private OnItemClickListener onItemClickListener;
-    private MyPageOrderListFragment myPageOrderListFragment;
 
     @NonNull
     @Override
@@ -35,7 +34,7 @@ public class MyPageOrderListAdapter extends RecyclerView.Adapter<MyPageOrderList
 
     @Override
     public void onBindViewHolder(@NonNull MyPageOrderListHolder holder, int position) {
-        // 해당 위치(position)의 Product 객체를 가져옴
+        // 해당 위치(position)의 List<MyPageOrderList> 객체를 가져옴
         MyPageOrderList myPageOrderList = list.get(position);
         // ViewHolder에 데이터를 설정하여 화면에 표시
         holder.setMyPageOrderListData(myPageOrderList);
@@ -60,9 +59,5 @@ public class MyPageOrderListAdapter extends RecyclerView.Adapter<MyPageOrderList
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
-    }
-
-    public void setMyPageOrderListFragment(MyPageOrderListFragment myPageOrderListFragment) {
-        this.myPageOrderListFragment = myPageOrderListFragment;
     }
 }
