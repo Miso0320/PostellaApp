@@ -6,7 +6,7 @@ import java.util.Date;
 public class Cart implements Serializable {
     private int cartNo;
     private int CartImage;
-    private long od_date;
+    private long od_date;       //주문날짜
     private long cartArrivalDate;
     private int cartProdPrice;
     private int us_no; 			//사용자 식별번호

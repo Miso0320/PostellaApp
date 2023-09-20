@@ -10,6 +10,7 @@ public class MyPageOrderList implements Serializable {
     private int od_item_cnt;			// 주문상품 종류의 개수
     private long od_arrived_date;		// 구매자가 배송받은 날짜
     private int pg_no;
+    private String pg_name;
 
     private String prd_name;			// 상품명
     private int prd_no;					// 상품고유번호
@@ -18,6 +19,14 @@ public class MyPageOrderList implements Serializable {
     private int od_detail_no;			// 개별 상품 식별번호
     private String img_type;			// 이미지 MIME 타입
     private String encodedFile;			// 인코딩된 이미지
+
+    public String getPg_name() {
+        return pg_name;
+    }
+
+    public void setPg_name(String pg_name) {
+        this.pg_name = pg_name;
+    }
 
     public int getOd_no() {
         return od_no;
@@ -141,6 +150,7 @@ public class MyPageOrderList implements Serializable {
                 ", od_item_cnt=" + od_item_cnt +
                 ", od_arrived_date=" + od_arrived_date +
                 ", pg_no=" + pg_no +
+                ", pg_name='" + pg_name + '\'' +
                 ", prd_name='" + prd_name + '\'' +
                 ", prd_no=" + prd_no +
                 ", od_detail_qty=" + od_detail_qty +
