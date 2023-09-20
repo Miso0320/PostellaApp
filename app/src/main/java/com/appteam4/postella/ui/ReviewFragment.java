@@ -75,7 +75,7 @@ public class ReviewFragment extends Fragment {
         hideBottomNavigation(true);
 
         // 탭 메뉴 이동
-        initTabPage();
+        initTabPage(args);
 
         return binding.getRoot();
     }
@@ -258,14 +258,14 @@ public class ReviewFragment extends Fragment {
         }
     }
 
-    private void initTabPage() {
+    private void initTabPage(Bundle args) {
         binding.tabProductDetail.setOnClickListener(v -> {
             NavOptions navOptions = new NavOptions.Builder()
                     .setPopUpTo(R.id.dest_prod_detail, false)
                     .setLaunchSingleTop(true)
                     .build();
 
-            navController.navigate(R.id.dest_prod_detail, null, navOptions);
+            navController.navigate(R.id.dest_prod_detail, args, navOptions);
         });
 
         binding.tabProductInquiries.setOnClickListener(v -> {
@@ -274,7 +274,7 @@ public class ReviewFragment extends Fragment {
                     .setLaunchSingleTop(true)
                     .build();
 
-            navController.navigate(R.id.dest_inquiry, null, navOptions);
+            navController.navigate(R.id.dest_inquiry, args, navOptions);
         });
     }
 

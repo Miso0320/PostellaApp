@@ -27,6 +27,7 @@ import com.appteam4.postella.R;
 import com.appteam4.postella.databinding.FragmentInquryBinding;
 import com.appteam4.postella.databinding.FragmentReviewBinding;
 import com.appteam4.postella.dto.Inquiry;
+import com.appteam4.postella.dto.Product;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class InquryFragment extends Fragment {
@@ -43,8 +44,17 @@ public class InquryFragment extends Fragment {
         // 앱바 설정
         initMenu();
 
-        // RecyclerView 초기화
-        initRecyclerView();
+        // Bundle에서 객체 받아오기
+        Bundle args = getArguments();
+        if (args != null) {
+            Product product = (Product) args.getSerializable("product");
+            if (product != null) {
+                int pg_no = product.getPg_no();
+
+                // RecyclerView 초기화
+                initRecyclerView();
+            }
+        }
 
         // 하단 네비게이션바 숨기기
         hideBottomNavigation(true);
@@ -53,7 +63,7 @@ public class InquryFragment extends Fragment {
         //viewAnswer();
 
         // 탭 메뉴 이동
-        initTabPage();
+        initTabPage(args);
 
 
         return binding.getRoot();
@@ -149,14 +159,14 @@ public class InquryFragment extends Fragment {
         });
     }*/
 
-    private void initTabPage() {
+    private void initTabPage(Bundle args) {
         binding.tabProductDetail.setOnClickListener(v -> {
             NavOptions navOptions = new NavOptions.Builder()
                     .setPopUpTo(R.id.dest_prod_detail, false)
                     .setLaunchSingleTop(true)
                     .build();
 
-            navController.navigate(R.id.dest_prod_detail, null, navOptions);
+            navController.navigate(R.id.dest_prod_detail, args, navOptions);
         });
 
         binding.tabProductReviews.setOnClickListener(v -> {
@@ -165,7 +175,7 @@ public class InquryFragment extends Fragment {
                     .setLaunchSingleTop(true)
                     .build();
 
-            navController.navigate(R.id.dest_review, null, navOptions);
+            navController.navigate(R.id.dest_review, args, navOptions);
         });
 
         binding.btnInquiry.setOnClickListener(v -> {
