@@ -7,6 +7,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -41,7 +42,6 @@ public class SearchFragment extends Fragment {
     private static final String TAG = "SearchFragment";
     private FragmentSearchBinding binding;
     private NavController navController;
-    private boolean isEdit=false;
 
     private SearchAdapter.OnItemClickListener onItemClickListener;
 
@@ -170,13 +170,35 @@ public class SearchFragment extends Fragment {
 
     //최근검색어 클릭이벤트 및 편집 클릭이벤트 처리
     private void initKeyword(){
-        AppKeyValueStore.remove(requireContext(),"editMode");
-        AppKeyValueStore.put(requireContext(),"editMode","off");
-        //SearchViewHolder에서 최근검색어를 클릭했을 때 삭제 여부(편집모드에서만 삭제)
-        //"전체삭제|닫기" 지우기
-        binding.txtLogDeleteAll.setVisibility(View.GONE);
-        binding.line.setVisibility(View.GONE);
-        binding.txtLogEditClose.setVisibility(View.GONE);
+        NavOptions navOptions = new NavOptions.Builder()
+                .setPopUpTo(R.id.dest_review, false)
+                .setLaunchSingleTop(true)
+                .build();
+        //편집모드에서만 "전체삭제|닫기"보이기
+        String isEdit = AppKeyValueStore.getValue(requireContext(),"editMode");
+        if(isEdit.equals("off")){
+            binding.txtLogDeleteAll.setVisibility(View.GONE);
+            binding.line.setVisibility(View.GONE);
+            binding.txtLogEditClose.setVisibility(View.GONE);
+            //"전체삭제|닫기"가 보이지 않을 때 편집 글씨가 오른쪽 끝에 가도록 마진 변경
+            // 현재 뷰의 레이아웃 파라미터 가져오기
+            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) binding.txtRecentKeyword.getLayoutParams();
+            // 오른쪽 마진 값을 변경
+            layoutParams.rightMargin = 700;
+            // 변경된 레이아웃 파라미터 설정
+            binding.txtRecentKeyword.setLayoutParams(layoutParams);
+        }else if(isEdit.equals("on")){
+            binding.txtLogDeleteAll.setVisibility(View.VISIBLE);
+            binding.line.setVisibility(View.VISIBLE);
+            binding.txtLogEditClose.setVisibility(View.VISIBLE);
+            //"편집"글씨 클릭시 마진 변경 후 "전체삭제|닫기" 다시 보이게 하기
+            // 현재 뷰의 레이아웃 파라미터 가져오기
+            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) binding.txtRecentKeyword.getLayoutParams();
+            // 오른쪽 마진 값을 변경
+            layoutParams.rightMargin =350;
+            // 변경된 레이아웃 파라미터 설정
+            binding.txtRecentKeyword.setLayoutParams(layoutParams);
+        }
         //"전체삭제|닫기"가 보이지 않을 때 편집 글씨가 오른쪽 끝에 가도록 마진 변경
         if(binding.txtLogDeleteAll.getVisibility() == View.GONE){
             // 현재 뷰의 레이아웃 파라미터 가져오기
@@ -188,39 +210,20 @@ public class SearchFragment extends Fragment {
         }
         //"편집"글씨 클릭시 마진 변경 후 "전체삭제|닫기" 다시 보이게 하기
         binding.txtLogEdit.setOnClickListener(v->{
-            // 현재 뷰의 레이아웃 파라미터 가져오기
-            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) binding.txtRecentKeyword.getLayoutParams();
-            // 오른쪽 마진 값을 변경
-            layoutParams.rightMargin =350;
-            // 변경된 레이아웃 파라미터 설정
-            binding.txtRecentKeyword.setLayoutParams(layoutParams);
-            binding.txtLogDeleteAll.setVisibility(View.VISIBLE);
-            binding.line.setVisibility(View.VISIBLE);
-            binding.txtLogEditClose.setVisibility(View.VISIBLE);
             //편집 모드 ON
             AppKeyValueStore.remove(requireContext(),"editMode");
             AppKeyValueStore.put(requireContext(),"editMode","on");
+            navController.navigate(R.id.action_dest_search_self, null, navOptions);
         });
         binding.txtLogDeleteAll.setOnClickListener(v->{
             AppKeyValueStore.clearRecentSearchKeywords(requireContext());
-            navController.navigate(R.id.action_dest_search_self);
-            navController.clearBackStack(R.id.dest_search);
+            navController.navigate(R.id.action_dest_search_self, null, navOptions);
         });
         //닫기 글씨 클릭시 마진 변경 후 다시 "전체삭제|닫기" 지우기
         binding.txtLogEditClose.setOnClickListener(v->{
-            // 현재 뷰의 레이아웃 파라미터 가져오기
-            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) binding.txtRecentKeyword.getLayoutParams();
-            // 오른쪽 마진 값을 변경
-            layoutParams.rightMargin = 700;
-            // 변경된 레이아웃 파라미터 설정
-            binding.txtRecentKeyword.setLayoutParams(layoutParams);
-            binding.txtLogDeleteAll.setVisibility(View.GONE);
-            binding.line.setVisibility(View.GONE);
-            binding.txtLogEditClose.setVisibility(View.GONE);
             AppKeyValueStore.remove(requireContext(),"editMode");
             AppKeyValueStore.put(requireContext(),"editMode","off");
-            navController.navigate(R.id.action_dest_search_self);
-            navController.clearBackStack(R.id.dest_search);
+            navController.navigate(R.id.action_dest_search_self, null, navOptions);
         });
         //추천검색어 info버튼 클릭시 스낵바 보이게 하기
         binding.btnInfo.setOnClickListener(v->{
@@ -295,6 +298,13 @@ public class SearchFragment extends Fragment {
         }else{
             Log.i(TAG, "initKeywordRecyclerView: 실행 나 업셔");
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // AppBar 숨기기
+        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
     }
 
     @Override
