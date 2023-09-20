@@ -6,6 +6,7 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -26,6 +27,8 @@ public class RecomendViewHolder extends RecyclerView.ViewHolder {
     private TextView prodPrice;
     private TextView prodDiscount;
     private TextView prodName;
+    private RatingBar starAvg;
+    private TextView ratingScore;
 
     public RecomendViewHolder(@NonNull View itemView, SearchAdapter.OnItemClickListener onItemClickListener) {
         super(itemView);
@@ -34,7 +37,8 @@ public class RecomendViewHolder extends RecyclerView.ViewHolder {
         prodPrice = (TextView) itemView.findViewById(R.id.txt_reco_prod_price);
         prodDiscount = (TextView) itemView.findViewById(R.id.txt_reco_prod_discount);
         prodName = (TextView) itemView.findViewById(R.id.txt_reco_prod_name);
-
+        starAvg = (RatingBar)itemView.findViewById(R.id.reco_prod_rating);
+        ratingScore = (TextView)itemView.findViewById(R.id.reco_prod_ratingScore);
         //클릭 이벤트 처리
         itemView.setOnClickListener(v -> {
             Log.i(TAG, "prodNo : " + pg_no);
@@ -57,5 +61,8 @@ public class RecomendViewHolder extends RecyclerView.ViewHolder {
             prodDiscount.setText(String.valueOf(intSalePercent)+ "%");
         }
         prodName.setText(product.getPg_name());
+        starAvg.setRating(product.getPrd_star_avg());
+        DecimalFormat dfScore = new DecimalFormat("#.#");
+        ratingScore.setText(dfScore.format(product.getPrd_star_avg()));
     }
 }
