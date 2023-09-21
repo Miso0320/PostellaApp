@@ -176,55 +176,57 @@ public class SearchFragment extends Fragment {
                 .build();
         //편집모드에서만 "전체삭제|닫기"보이기
         String isEdit = AppKeyValueStore.getValue(requireContext(),"editMode");
-        if(isEdit.equals("off")){
-            binding.txtLogDeleteAll.setVisibility(View.GONE);
-            binding.line.setVisibility(View.GONE);
-            binding.txtLogEditClose.setVisibility(View.GONE);
+        if(isEdit != null) {
+            if (isEdit.equals("off")) {
+                binding.txtLogDeleteAll.setVisibility(View.GONE);
+                binding.line.setVisibility(View.GONE);
+                binding.txtLogEditClose.setVisibility(View.GONE);
+                //"전체삭제|닫기"가 보이지 않을 때 편집 글씨가 오른쪽 끝에 가도록 마진 변경
+                // 현재 뷰의 레이아웃 파라미터 가져오기
+                LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) binding.txtRecentKeyword.getLayoutParams();
+                // 오른쪽 마진 값을 변경
+                layoutParams.rightMargin = 700;
+                // 변경된 레이아웃 파라미터 설정
+                binding.txtRecentKeyword.setLayoutParams(layoutParams);
+            } else if (isEdit.equals("on")) {
+                binding.txtLogDeleteAll.setVisibility(View.VISIBLE);
+                binding.line.setVisibility(View.VISIBLE);
+                binding.txtLogEditClose.setVisibility(View.VISIBLE);
+                //"편집"글씨 클릭시 마진 변경 후 "전체삭제|닫기" 다시 보이게 하기
+                // 현재 뷰의 레이아웃 파라미터 가져오기
+                LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) binding.txtRecentKeyword.getLayoutParams();
+                // 오른쪽 마진 값을 변경
+                layoutParams.rightMargin = 350;
+                // 변경된 레이아웃 파라미터 설정
+                binding.txtRecentKeyword.setLayoutParams(layoutParams);
+            }
             //"전체삭제|닫기"가 보이지 않을 때 편집 글씨가 오른쪽 끝에 가도록 마진 변경
-            // 현재 뷰의 레이아웃 파라미터 가져오기
-            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) binding.txtRecentKeyword.getLayoutParams();
-            // 오른쪽 마진 값을 변경
-            layoutParams.rightMargin = 700;
-            // 변경된 레이아웃 파라미터 설정
-            binding.txtRecentKeyword.setLayoutParams(layoutParams);
-        }else if(isEdit.equals("on")){
-            binding.txtLogDeleteAll.setVisibility(View.VISIBLE);
-            binding.line.setVisibility(View.VISIBLE);
-            binding.txtLogEditClose.setVisibility(View.VISIBLE);
+            if (binding.txtLogDeleteAll.getVisibility() == View.GONE) {
+                // 현재 뷰의 레이아웃 파라미터 가져오기
+                LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) binding.txtRecentKeyword.getLayoutParams();
+                // 오른쪽 마진 값을 변경
+                layoutParams.rightMargin = 700;
+                // 변경된 레이아웃 파라미터 설정
+                binding.txtRecentKeyword.setLayoutParams(layoutParams);
+            }
             //"편집"글씨 클릭시 마진 변경 후 "전체삭제|닫기" 다시 보이게 하기
-            // 현재 뷰의 레이아웃 파라미터 가져오기
-            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) binding.txtRecentKeyword.getLayoutParams();
-            // 오른쪽 마진 값을 변경
-            layoutParams.rightMargin =350;
-            // 변경된 레이아웃 파라미터 설정
-            binding.txtRecentKeyword.setLayoutParams(layoutParams);
+            binding.txtLogEdit.setOnClickListener(v -> {
+                //편집 모드 ON
+                AppKeyValueStore.remove(requireContext(), "editMode");
+                AppKeyValueStore.put(requireContext(), "editMode", "on");
+                navController.navigate(R.id.action_dest_search_self, null, navOptions);
+            });
+            binding.txtLogDeleteAll.setOnClickListener(v -> {
+                AppKeyValueStore.clearRecentSearchKeywords(requireContext());
+                navController.navigate(R.id.action_dest_search_self, null, navOptions);
+            });
+            //닫기 글씨 클릭시 마진 변경 후 다시 "전체삭제|닫기" 지우기
+            binding.txtLogEditClose.setOnClickListener(v -> {
+                AppKeyValueStore.remove(requireContext(), "editMode");
+                AppKeyValueStore.put(requireContext(), "editMode", "off");
+                navController.navigate(R.id.action_dest_search_self, null, navOptions);
+            });
         }
-        //"전체삭제|닫기"가 보이지 않을 때 편집 글씨가 오른쪽 끝에 가도록 마진 변경
-        if(binding.txtLogDeleteAll.getVisibility() == View.GONE){
-            // 현재 뷰의 레이아웃 파라미터 가져오기
-            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) binding.txtRecentKeyword.getLayoutParams();
-            // 오른쪽 마진 값을 변경
-            layoutParams.rightMargin = 700;
-            // 변경된 레이아웃 파라미터 설정
-            binding.txtRecentKeyword.setLayoutParams(layoutParams);
-        }
-        //"편집"글씨 클릭시 마진 변경 후 "전체삭제|닫기" 다시 보이게 하기
-        binding.txtLogEdit.setOnClickListener(v->{
-            //편집 모드 ON
-            AppKeyValueStore.remove(requireContext(),"editMode");
-            AppKeyValueStore.put(requireContext(),"editMode","on");
-            navController.navigate(R.id.action_dest_search_self, null, navOptions);
-        });
-        binding.txtLogDeleteAll.setOnClickListener(v->{
-            AppKeyValueStore.clearRecentSearchKeywords(requireContext());
-            navController.navigate(R.id.action_dest_search_self, null, navOptions);
-        });
-        //닫기 글씨 클릭시 마진 변경 후 다시 "전체삭제|닫기" 지우기
-        binding.txtLogEditClose.setOnClickListener(v->{
-            AppKeyValueStore.remove(requireContext(),"editMode");
-            AppKeyValueStore.put(requireContext(),"editMode","off");
-            navController.navigate(R.id.action_dest_search_self, null, navOptions);
-        });
         //추천검색어 info버튼 클릭시 스낵바 보이게 하기
         binding.btnInfo.setOnClickListener(v->{
             Snackbar snackbar = Snackbar.make(binding.btnInfo, "최근 검색어와 연관된 검색어를 추천해드려요.", Snackbar.LENGTH_LONG);
