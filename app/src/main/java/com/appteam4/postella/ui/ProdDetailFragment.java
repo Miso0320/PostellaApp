@@ -108,16 +108,17 @@ public class ProdDetailFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
+        // 하단 네비게이션바 숨기기
         hideBottomNavigation(true);
     }
 
+    /**
+     *
+     * 앱바 설정
+     *
+     */
     private void initMenu() {
         MenuProvider menuProvider = new MenuProvider() {
             @Override
@@ -140,6 +141,14 @@ public class ProdDetailFragment extends Fragment {
         getActivity().addMenuProvider(menuProvider, getViewLifecycleOwner(), Lifecycle.State.RESUMED);
     }
 
+    /**
+     *
+     * 상품상세 이미지 개수 받아오기
+     *
+     * @param pg_no
+     * 			상품 그룹 번호
+     *
+     */
     private void initImgCnt(int pg_no) {
         // API 서버에서 목록 받기
         ProductDetailService productDetailService = ServiceProvider.getProductDetailService(getContext());
@@ -162,6 +171,11 @@ public class ProdDetailFragment extends Fragment {
         });
     }
 
+    /**
+     *
+     * 상품상세정보 불러오기
+     *
+     */
     private void initLoadInfo() {
         // ViewModel에서 데이터 가져오기
         int imgCnt = viewModel.getImgCnt();
@@ -215,6 +229,14 @@ public class ProdDetailFragment extends Fragment {
         wishListInOut(productDetailService, pg_no);
     }
 
+    /**
+     *
+     * 하단 네비게이션바 보이기/숨기기
+     *
+     * @param bool
+     * 			보이기/숨기기 결정값
+     *
+     */
     private void hideBottomNavigation(boolean bool) {
         BottomNavigationView bottomNavigation = getActivity().findViewById(R.id.bottom_navigation_view);
         if (bool == true) {
@@ -226,6 +248,14 @@ public class ProdDetailFragment extends Fragment {
         }
     }
 
+    /**
+     *
+     * 상단 탭메뉴 이동
+     *
+     * @param args
+     * 			Bundle 객체 전달
+     *
+     */
     private void initTabPage(Bundle args) {
         binding.tabProductReviews.setOnClickListener(v -> {
             NavOptions navOptions = new NavOptions.Builder()
@@ -252,7 +282,7 @@ public class ProdDetailFragment extends Fragment {
             // 이미 받아온 데이터를 사용
             if (viewModel.getImgCnt() > 0) {
                 // 데이터가 이미 있다면 데이터를 사용하고 프래그먼트 이동
-                navController.navigate(R.id.dest_review, args, navOptions);
+                navController.navigate(R.id.dest_inquiry, args, navOptions);
             } else {
                 // 데이터가 없다면 데이터를 받아오고 이후에 프래그먼트 이동
                 initImgCnt(viewModel.getPgNo());
@@ -419,6 +449,7 @@ public class ProdDetailFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
+        // 하단 네비게이션바 보이기
         hideBottomNavigation(false);
     }
 }

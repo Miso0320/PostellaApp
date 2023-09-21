@@ -63,7 +63,7 @@ public class ReviewFragment extends Fragment {
             if (product != null) {
                 int pg_no = product.getPg_no();
 
-                // RecyclerView 초기화
+                // 상품평 목록 RecyclerView 초기화
                 initRecyclerView(pg_no, kind, starRate);
             }
         }
@@ -80,6 +80,18 @@ public class ReviewFragment extends Fragment {
         return binding.getRoot();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        // 하단 네비게이션바 숨기기
+        hideBottomNavigation(true);
+    }
+
+    /**
+     *
+     * 앱바 설정
+     *
+     */
     private void initMenu() {
         MenuProvider menuProvider = new MenuProvider() {
             @Override
@@ -102,6 +114,14 @@ public class ReviewFragment extends Fragment {
         getActivity().addMenuProvider(menuProvider, getViewLifecycleOwner(), Lifecycle.State.RESUMED);
     }
 
+    /**
+     *
+     * 상품평 스피너 초기화
+     *
+     * @param args
+     * 			Bundle 객체 전달
+     *
+     */
     private void initSpinner(Bundle args) {
         // 정렬 스피너
         Spinner sortSpinner = binding.spinnerReviewSort;
@@ -189,6 +209,18 @@ public class ReviewFragment extends Fragment {
 
     }
 
+    /**
+     *
+     * 상품평 목록 RecyclerView 초기화
+     *
+     * @param pg_no
+     * 			상품 그룹 번호
+     * @param kind
+     * 			정렬순 결정값
+     * @param starRate
+     * 			별점별 필터링 구분값
+     *
+     */
     private void initRecyclerView(int pg_no, int kind, int starRate) {
         // RecyclerView에서 항목을 수직으로 배치하도록 설정
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(
@@ -247,6 +279,14 @@ public class ReviewFragment extends Fragment {
         });
     }
 
+    /**
+     *
+     * 하단 네비게이션바 보이기/숨기기
+     *
+     * @param bool
+     * 			보이기/숨기기 결정값
+     *
+     */
     private void hideBottomNavigation(boolean bool) {
         BottomNavigationView bottomNavigation = getActivity().findViewById(R.id.bottom_navigation_view);
         if (bool == true) {
@@ -258,6 +298,14 @@ public class ReviewFragment extends Fragment {
         }
     }
 
+    /**
+     *
+     * 상단 탭메뉴 이동
+     *
+     * @param args
+     * 			Bundle 객체 전달
+     *
+     */
     private void initTabPage(Bundle args) {
         binding.tabProductDetail.setOnClickListener(v -> {
             NavOptions navOptions = new NavOptions.Builder()
@@ -281,6 +329,7 @@ public class ReviewFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
+        // 하단 네비게이션바 보이기
         hideBottomNavigation(false);
     }
 

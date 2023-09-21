@@ -1,76 +1,70 @@
 package com.appteam4.postella.dto;
 
 public class Inquiry {
-    private int qnaNo;
-    private int usNo;
-    private int pgNo;
-    private int prdNo;
-    private String qContent;
-    private String qDate;
-    private String aContent;
-    private String aDate;
+    private int qna_no;            // 문의게시글 번호
+    private String q_content;      // 상품문의내용
+    private long q_date;           // 문의 작성 시간
+    private String a_content;      // 답변 작성 내용
+    private String status;         // 답변여부
+    private String us_name;        // 작성자명
 
-    public int getQnaNo() {
-        return qnaNo;
+    public int getQna_no() {
+        return qna_no;
     }
 
-    public void setQnaNo(int qnaNo) {
-        this.qnaNo = qnaNo;
+    public void setQna_no(int qna_no) {
+        this.qna_no = qna_no;
     }
 
-    public int getUsNo() {
-        return usNo;
+    public String getQ_content() {
+        return q_content;
     }
 
-    public void setUsNo(int usNo) {
-        this.usNo = usNo;
+    public void setQ_content(String q_content) {
+        this.q_content = q_content;
     }
 
-    public int getPgNo() {
-        return pgNo;
+    public long getQ_date() {
+        return q_date;
     }
 
-    public void setPgNo(int pgNo) {
-        this.pgNo = pgNo;
+    public void setQ_date(long q_date) {
+        this.q_date = q_date;
     }
 
-    public int getPrdNo() {
-        return prdNo;
+    public String getA_content() {
+        return a_content;
     }
 
-    public void setPrdNo(int prdNo) {
-        this.prdNo = prdNo;
+    public void setA_content(String a_content) {
+        this.a_content = a_content;
     }
 
-    public String getqContent() {
-        return qContent;
+    public String getStatus() {
+        return status;
     }
 
-    public void setqContent(String qContent) {
-        this.qContent = qContent;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public String getqDate() {
-        return qDate;
+    public String getUs_name() {
+        return us_name;
     }
 
-    public void setqDate(String qDate) {
-        this.qDate = qDate;
+    public void setUs_name(String us_name) {
+        this.us_name = us_name;
     }
 
-    public String getaContent() {
-        return aContent;
-    }
-
-    public void setaContent(String aContent) {
-        this.aContent = aContent;
-    }
-
-    public String getaDate() {
-        return aDate;
-    }
-
-    public void setaDate(String aDate) {
-        this.aDate = aDate;
+    @Override
+    public String toString() {
+        return "Inquiry{" +
+                "qna_no=" + qna_no +
+                ", q_content='" + q_content + '\'' +
+                ", q_date=" + q_date +
+                ", a_content='" + a_content + '\'' +
+                ", status='" + status + '\'' +
+                ", us_name='" + us_name + '\'' +
+                '}';
     }
 }

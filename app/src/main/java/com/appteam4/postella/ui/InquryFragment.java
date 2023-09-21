@@ -12,6 +12,7 @@ import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,7 +29,16 @@ import com.appteam4.postella.databinding.FragmentInquryBinding;
 import com.appteam4.postella.databinding.FragmentReviewBinding;
 import com.appteam4.postella.dto.Inquiry;
 import com.appteam4.postella.dto.Product;
+import com.appteam4.postella.dto.Review;
+import com.appteam4.postella.service.InquiryService;
+import com.appteam4.postella.service.ServiceProvider;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class InquryFragment extends Fragment {
     private static final String TAG = "InquryFragment";
@@ -52,23 +62,31 @@ public class InquryFragment extends Fragment {
                 int pg_no = product.getPg_no();
 
                 // RecyclerView 초기화
-                initRecyclerView();
+                initRecyclerView(pg_no);
             }
         }
 
         // 하단 네비게이션바 숨기기
         hideBottomNavigation(true);
 
-        // 답변 내용 클릭 시 표출
-        //viewAnswer();
-
         // 탭 메뉴 이동
         initTabPage(args);
-
 
         return binding.getRoot();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        // 하단 네비게이션바 숨기기
+        hideBottomNavigation(true);
+    }
+
+    /**
+     *
+     * 앱바 설정
+     *
+     */
     private void initMenu() {
         MenuProvider menuProvider = new MenuProvider() {
             @Override
@@ -78,10 +96,10 @@ public class InquryFragment extends Fragment {
 
             @Override
             public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
-                if(menuItem.getItemId() == R.id.dest_search) {
+                if (menuItem.getItemId() == R.id.dest_search) {
                     navController.navigate(R.id.dest_search, null);
                     return true;
-                } else if(menuItem.getItemId() == R.id.dest_cart) {
+                } else if (menuItem.getItemId() == R.id.dest_cart) {
                     navController.navigate(R.id.dest_cart, null);
                     return true;
                 }
@@ -91,40 +109,66 @@ public class InquryFragment extends Fragment {
         getActivity().addMenuProvider(menuProvider, getViewLifecycleOwner(), Lifecycle.State.RESUMED);
     }
 
-    private void initRecyclerView() {
+    /**
+     *
+     * 상품문의 목록 RecyclerView 초기화
+     *
+     * @param pg_no
+     * 			상품 그룹 번호
+     *
+     */
+    private void initRecyclerView(int pg_no) {
         // RecyclerView에서 항목을 수직으로 배치하도록 설정
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(
                 getContext(), LinearLayoutManager.VERTICAL, false
         );
-        binding.inquiryListView.setLayoutManager(linearLayoutManager);
+
+        // RecyclerView 찾기
+        RecyclerView recyclerView = binding.inquiryListView;
+        recyclerView.setLayoutManager(linearLayoutManager);
 
         // 구분선 추가하기
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
-                binding.inquiryListView.getContext(),
+                recyclerView.getContext(),
                 linearLayoutManager.getOrientation()
         );
 
-        binding.inquiryListView.addItemDecoration(dividerItemDecoration);
+        recyclerView.addItemDecoration(dividerItemDecoration);
 
         InquiryAdapter inquiryAdapter = new InquiryAdapter();
 
-        for (int i = 1; i <= 5; i++) {
-            Inquiry inquiry = new Inquiry();
-            inquiry.setQnaNo(i);
-            inquiry.setPrdNo(i);
-            inquiry.setPgNo(i);
-            inquiry.setUsNo(i);
-            inquiry.setqContent("꼬몽이 엽서는 대체 언제 새 시리즈가 나오나요?");
-            inquiry.setqDate("2023. 09. 11");
-            inquiry.setaContent("곧 추가될 예정입니다.");
-            inquiry.setaDate("2023. 09. 13");
+        InquiryService inquiryService = ServiceProvider.getInquiryService(getContext());
 
-            inquiryAdapter.addInquiry(inquiry);
-        }
+        // 상품문의목록 가져오기
+        Call<List<Inquiry>> inquiryCall = inquiryService.getQnaListForApp(pg_no);
 
-        binding.inquiryListView.setAdapter(inquiryAdapter);
+        inquiryCall.enqueue(new Callback<List<Inquiry>>() {
+            @Override
+            public void onResponse(Call<List<Inquiry>> call, Response<List<Inquiry>> response) {
+                List<Inquiry> list = response.body();
+
+                // 어댑터 데이터 세팅
+                inquiryAdapter.setInquiryList(list);
+
+                // RecyclerView에 어댑터 세팅
+                recyclerView.setAdapter(inquiryAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<List<Inquiry>> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 
+    /**
+     *
+     * 하단 네비게이션바 보이기/숨기기
+     *
+     * @param bool
+     * 			보이기/숨기기 결정값
+     *
+     */
     private void hideBottomNavigation(boolean bool) {
         BottomNavigationView bottomNavigation = getActivity().findViewById(R.id.bottom_navigation_view);
         if (bool == true) {
@@ -136,29 +180,14 @@ public class InquryFragment extends Fragment {
         }
     }
 
-    /*private void viewAnswer() {
-        LinearLayout linearLayout6 = binding.getRoot().findViewById(R.id.linearLayout6);
-
-        LinearLayout linearLayout = binding.getRoot().findViewById(R.id.linearLayout6);
-
-        linearLayout.setOnClickListener(v -> {
-            Log.i(TAG, "클릭클릭클릭!!");
-        });
-
-        linearLayout6.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i(TAG, "onClick: 선택됨!!!!");
-                // 다른 레이아웃을 동적으로 추가
-                TextView dynamicTextView = new TextView(requireContext());
-                dynamicTextView.setText("꼬몽이 엽서 곧 출시 예정입니다.");
-                //dynamicTextView.setTextAppearance(getContext(), R.);
-                dynamicTextView.setBackgroundColor(Color.GRAY);
-
-            }
-        });
-    }*/
-
+    /**
+     *
+     * 상단 탭메뉴 이동
+     *
+     * @param args
+     * 			Bundle 객체 전달
+     *
+     */
     private void initTabPage(Bundle args) {
         binding.tabProductDetail.setOnClickListener(v -> {
             NavOptions navOptions = new NavOptions.Builder()
@@ -186,6 +215,7 @@ public class InquryFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
+        // 하단 네비게이션바 보이기
         hideBottomNavigation(false);
     }
 }
