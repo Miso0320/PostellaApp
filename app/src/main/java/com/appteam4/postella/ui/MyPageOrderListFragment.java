@@ -81,35 +81,37 @@ public class MyPageOrderListFragment extends Fragment {
         MyPageOrderListAdapter orderListAdapter = new MyPageOrderListAdapter();
 
         // 공유데이터에서 us_no가져오기
-        int us_no = Integer.parseInt(AppKeyValueStore.getValue(getContext(), "us_no"));
-
-        // API 서버에서 목록 받기
-        MyPageOrderListService myPageOrderListService = ServiceProvider.getMyPageOrderList(getContext());
-        Call<List<MyPageOrderList>> call = myPageOrderListService.getMyPageOrderList(us_no);
-        call.enqueue(new Callback<List<MyPageOrderList>>() {
-            @Override
-            public void onResponse(Call<List<MyPageOrderList>> call, Response<List<MyPageOrderList>> response) {
-                // json -> List<Product>
-                List<MyPageOrderList> list = response.body();
-                Log.i(TAG, "list: " + list);
-                if (list != null) {
-                    // 어댑터 데이터 생성하기
-                    orderListAdapter.setList(list);
+        if(AppKeyValueStore.getValue(getContext(), "us_no")!=null){
+            int us_no = Integer.parseInt(AppKeyValueStore.getValue(getContext(), "us_no"));
+            // API 서버에서 목록 받기
+            MyPageOrderListService myPageOrderListService = ServiceProvider.getMyPageOrderList(getContext());
+            Call<List<MyPageOrderList>> call = myPageOrderListService.getMyPageOrderList(us_no);
+            call.enqueue(new Callback<List<MyPageOrderList>>() {
+                @Override
+                public void onResponse(Call<List<MyPageOrderList>> call, Response<List<MyPageOrderList>> response) {
+                    // json -> List<Product>
+                    List<MyPageOrderList> list = response.body();
+                    Log.i(TAG, "list: " + list);
+                    if (list != null) {
+                        // 어댑터 데이터 생성하기
+                        orderListAdapter.setList(list);
+                        // RecyclerView에 어댑터 세팅
+                        binding.recyclerViewMyOrderList.setAdapter(orderListAdapter);
+                    } else {
+                        Log.i(TAG, "onResponse: 리스트가 널이여~");
+                    }
                     // RecyclerView에 어댑터 세팅
-                    binding.recyclerViewMyOrderList.setAdapter(orderListAdapter);
-                } else {
-                    Log.i(TAG, "onResponse: 리스트가 널이여~");
+                    // 어댑터에 데이터가 설정된 후 notifyDataSetChanged() 호출
+                    //binding.recyclerViewMyOrderList.setAdapter(orderListAdapter);
                 }
-                // RecyclerView에 어댑터 세팅
-                // 어댑터에 데이터가 설정된 후 notifyDataSetChanged() 호출
-                //binding.recyclerViewMyOrderList.setAdapter(orderListAdapter);
-            }
 
-            @Override
-            public void onFailure(Call<List<MyPageOrderList>> call, Throwable t) {
-                Log.e(TAG, "API 호출 실패", t);
-            }
-        });
+                @Override
+                public void onFailure(Call<List<MyPageOrderList>> call, Throwable t) {
+                    Log.e(TAG, "API 호출 실패", t);
+                }
+            });
+        }
+
         // 항목 클릭시 콜백 메소드 등록
         orderListAdapter.setOnItemClickListener(new MyPageOrderListAdapter.OnItemClickListener() {
             @Override
