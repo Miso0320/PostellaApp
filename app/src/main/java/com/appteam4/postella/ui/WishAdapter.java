@@ -38,7 +38,9 @@ public class WishAdapter extends RecyclerView.Adapter<WishViewHolder> {
     }
 
     public interface OnItemClickListener {
-        void onItemClick(View itemView, int position);
+        void onPgImgClick(View itemView, int position);
+
+        void onDeleteBtnClick(View itemView, int position);
     }
 
     public void setOnItemClickListener(WishAdapter.OnItemClickListener onItemClickListener) {
@@ -55,5 +57,11 @@ public class WishAdapter extends RecyclerView.Adapter<WishViewHolder> {
         return wishList.get(position);
     }
 
+    public void removeItem(int position) {
+        if (wishList != null && position >= 0 && position < wishList.size()) {
+            wishList.remove(position);
+            notifyItemRemoved(position);
+        }
+    }
 
 }

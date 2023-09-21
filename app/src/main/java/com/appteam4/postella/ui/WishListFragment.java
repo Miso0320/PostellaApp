@@ -1,6 +1,12 @@
 package com.appteam4.postella.ui;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.core.view.MenuProvider;
@@ -11,18 +17,11 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.appteam4.postella.R;
 import com.appteam4.postella.databinding.FragmentWishListBinding;
 import com.appteam4.postella.datastore.AppKeyValueStore;
 import com.appteam4.postella.dto.MyWish;
+import com.appteam4.postella.dto.WishResult;
 import com.appteam4.postella.service.ServiceProvider;
 import com.appteam4.postella.service.WishService;
 
@@ -150,12 +149,30 @@ public class WishListFragment extends Fragment {
             // 이미지 선택 시 상품상세로 이동
             wishAdapter.setOnItemClickListener(new WishAdapter.OnItemClickListener() {
                 @Override
-                public void onItemClick(View itemView, int position) {
+                public void onPgImgClick(View itemView, int position) {
                     MyWish myWish = wishAdapter.getItem(position);
                     Bundle args = new Bundle();
                     args.putInt("pg_no", myWish.getPg_no());
 
                     navController.navigate(R.id.dest_prod_detail, args);
+                }
+
+                @Override
+                public void onDeleteBtnClick(View itemView, int position) {
+                    MyWish myWish = wishAdapter.getItem(position);
+                    Call<WishResult> deleteCall = wishService.removeWish(myWish);
+                    deleteCall.enqueue(new Callback<WishResult>() {
+                        @Override
+                        public void onResponse(Call<WishResult> call, Response<WishResult> response) {
+                            wishAdapter.removeItem(position);
+                            wishAdapter.notifyDataSetChanged();
+                        }
+
+                        @Override
+                        public void onFailure(Call<WishResult> call, Throwable t) {
+                            t.printStackTrace();
+                        }
+                    });
                 }
             });
         }
