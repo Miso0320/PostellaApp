@@ -21,7 +21,7 @@ public class Product implements Serializable {
 	private int prd_hitcount; 			// 조회수
 	private int prd_sale_amount; 		// 판매량
 	private String prd_yn; 				// 판매여부
-	private int prd_star_avg; 			// 상품 당 평균 별점, 범위  0~5
+	private float prd_star_avg; 			// 상품 당 평균 별점, 범위  0~5
 	private int sale_percent;			// 상품할인가
 	private int revCnt;					// 상품그룹 전체 리뷰수
 	
@@ -168,11 +168,11 @@ public class Product implements Serializable {
 		this.prd_yn = prd_yn;
 	}
 
-	public int getPrd_star_avg() {
+	public float getPrd_star_avg() {
 		return prd_star_avg;
 	}
 
-	public void setPrd_star_avg(int prd_star_avg) {
+	public void setPrd_star_avg(float prd_star_avg) {
 		this.prd_star_avg = prd_star_avg;
 	}
 

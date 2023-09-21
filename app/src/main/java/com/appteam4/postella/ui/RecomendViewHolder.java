@@ -62,7 +62,8 @@ public class RecomendViewHolder extends RecyclerView.ViewHolder {
         }
         prodName.setText(product.getPg_name());
         starAvg.setRating(product.getPrd_star_avg());
+        Log.i(TAG, "setData: " +  product.getPrd_star_avg());
         DecimalFormat dfScore = new DecimalFormat("#.#");
-        ratingScore.setText(dfScore.format(product.getPrd_star_avg()));
+        ratingScore.setText(String.valueOf(product.getPrd_star_avg()));
     }
 }
