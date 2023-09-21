@@ -2,7 +2,6 @@ package com.appteam4.postella.ui;
 
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,7 +30,6 @@ import com.appteam4.postella.datastore.AppKeyValueStore;
 import com.appteam4.postella.dto.MyWish;
 import com.appteam4.postella.dto.Product;
 import com.appteam4.postella.dto.ProductDetailViewModel;
-import com.appteam4.postella.dto.Wish;
 import com.appteam4.postella.dto.WishResult;
 import com.appteam4.postella.service.ProductDetailService;
 import com.appteam4.postella.service.ServiceProvider;
@@ -39,8 +37,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-
-import java.io.IOException;
 
 import retrofit2.Call;
 import retrofit2.Callback;

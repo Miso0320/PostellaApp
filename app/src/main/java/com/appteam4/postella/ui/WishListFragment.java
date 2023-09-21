@@ -2,19 +2,35 @@ package com.appteam4.postella.ui;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.appteam4.postella.R;
 import com.appteam4.postella.databinding.FragmentWishListBinding;
-import com.appteam4.postella.dto.Wish;
+import com.appteam4.postella.datastore.AppKeyValueStore;
+import com.appteam4.postella.dto.MyWish;
+import com.appteam4.postella.service.ServiceProvider;
+import com.appteam4.postella.service.WishService;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class WishListFragment extends Fragment {
 
@@ -28,6 +44,9 @@ public class WishListFragment extends Fragment {
         binding = FragmentWishListBinding.inflate(inflater);
         navController = NavHostFragment.findNavController(this);
 
+        // 앱바 설정
+        initMenu();
+
         // RecyclerView 초기화
         initRecyclerView();
 
@@ -35,6 +54,33 @@ public class WishListFragment extends Fragment {
         initBtnProdDetail();
 
         return binding.getRoot();
+    }
+
+    /**
+     *
+     * 앱바 설정
+     *
+     */
+    private void initMenu() {
+        MenuProvider menuProvider = new MenuProvider() {
+            @Override
+            public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+                menuInflater.inflate(R.menu.nav_menu_top, menu);
+            }
+
+            @Override
+            public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
+                if (menuItem.getItemId() == R.id.dest_search) {
+                    navController.navigate(R.id.dest_search, null);
+                    return true;
+                } else if (menuItem.getItemId() == R.id.dest_cart) {
+                    navController.navigate(R.id.dest_cart, null);
+                    return true;
+                }
+                return false;
+            }
+        };
+        getActivity().addMenuProvider(menuProvider, getViewLifecycleOwner(), Lifecycle.State.RESUMED);
     }
 
     private void initRecyclerView() {
@@ -49,21 +95,56 @@ public class WishListFragment extends Fragment {
                 binding.wishListView.getContext(),
                 linearLayoutManager.getOrientation()
         );
+
         binding.wishListView.addItemDecoration(dividerItemDecoration);
         
         // 어댑터 생성
         WishAdapter wishAdapter = new WishAdapter();
 
-        for (int i = 1; i <= 5; i++) {
-            Wish wish = new Wish();
-            wish.setPg_no(i);
-            wish.setPg_name("상품" + i);
-            wish.setPrd_price(i*2000);
+        WishService wishService = ServiceProvider.getWishService(getContext());
 
-            wishAdapter.addWish(wish);
+        // 로그인 여부 확인
+        String exist = AppKeyValueStore.getValue(getContext(), "us_no");
+        // 로그인 되어 있는 경우
+        if (exist != null) {
+            // 유저식별번호 받아오기
+            int us_no = Integer.parseInt(AppKeyValueStore.getValue(getContext(), "us_no"));
+
+            Call<List<MyWish>> wishCall = wishService.getWishListForApp(us_no);
+
+            wishCall.enqueue(new Callback<List<MyWish>>() {
+                @Override
+                public void onResponse(Call<List<MyWish>> call, Response<List<MyWish>> response) {
+                    List<MyWish> list = response.body();
+                    
+                    // 어댑터 데이터 세팅
+                    wishAdapter.setWishList(list);
+
+                    // RecyclerView에 어댑터 세팅
+                    binding.wishListView.setAdapter(wishAdapter);
+                }
+
+                @Override
+                public void onFailure(Call<List<MyWish>> call, Throwable t) {
+                    t.printStackTrace();
+                }
+            });
+
+            Call<Integer> cntCall = wishService.getWishCntForApp(us_no);
+
+            cntCall.enqueue(new Callback<Integer>() {
+                @Override
+                public void onResponse(Call<Integer> call, Response<Integer> response) {
+                    int wishCnt = response.body();
+                    binding.wishTotal.setText(String.valueOf(wishCnt));
+                }
+
+                @Override
+                public void onFailure(Call<Integer> call, Throwable t) {
+                    t.printStackTrace();
+                }
+            });
         }
-        binding.wishListView.setAdapter(wishAdapter);
-        
     }
 
     private void initBtnProdDetail() {

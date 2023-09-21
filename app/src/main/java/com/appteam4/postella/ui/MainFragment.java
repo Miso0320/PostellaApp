@@ -8,9 +8,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,7 +24,6 @@ import com.appteam4.postella.databinding.FragmentMainBinding;
 import com.appteam4.postella.datastore.AppKeyValueStore;
 import com.appteam4.postella.dto.MyWish;
 import com.appteam4.postella.dto.Product;
-import com.appteam4.postella.dto.Wish;
 import com.appteam4.postella.dto.WishResult;
 import com.appteam4.postella.service.ProductGroupService;
 import com.appteam4.postella.service.ServiceProvider;
@@ -35,7 +31,6 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-import java.nio.file.ClosedFileSystemException;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;

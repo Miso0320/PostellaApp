@@ -8,14 +8,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.appteam4.postella.R;
+import com.appteam4.postella.dto.MyWish;
 import com.appteam4.postella.dto.Review;
-import com.appteam4.postella.dto.Wish;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class WishAdapter extends RecyclerView.Adapter<WishViewHolder> {
-    private List<Wish> wishList = new ArrayList<>();
+    private List<MyWish> wishList = new ArrayList<>();
 
     @NonNull
     @Override
@@ -28,7 +28,7 @@ public class WishAdapter extends RecyclerView.Adapter<WishViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull WishViewHolder holder, int position) {
-        Wish wish = wishList.get(position);
+        MyWish wish = wishList.get(position);
         holder.setData(wish);
     }
 
@@ -37,11 +37,13 @@ public class WishAdapter extends RecyclerView.Adapter<WishViewHolder> {
         return wishList.size();
     }
 
-    public void setWishList(List<Review> reviewList) {
+    public void setWishList(List<MyWish> wishList) {
         this.wishList = wishList;
+        // 데이터가 변경된 것을 알리기
+        notifyDataSetChanged();
     }
 
-    public void addWish(Wish wish) {
+    public void addWish(MyWish wish) {
         wishList.add(wish);
     }
 }

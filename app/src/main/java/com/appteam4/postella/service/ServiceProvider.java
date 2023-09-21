@@ -17,6 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceProvider {
     private static final String TAG = "ServiceProvider";
+
     public static Retrofit getRetrofit(Context context) {
         OkHttpClient okHttpClinet = new OkHttpClient.Builder()
                 .addInterceptor(new Interceptor() {
@@ -32,7 +33,7 @@ public class ServiceProvider {
                         HttpUrl.Builder httpUrlBuilder = request.url().newBuilder();
                         String mid = AppKeyValueStore.getValue(context, "mid");
                         String mpassword = AppKeyValueStore.getValue(context, "mpassword");
-                        if(mid != null && mpassword != null){
+                        if (mid != null && mpassword != null) {
                             //쿼리스트링(mid로 이름을 주었을 경우 게시물 쓰기의 mid와 중복이 됨)
                             //인증 정보로 보낼 때 이름을 UserId로 변경
                             httpUrlBuilder.addQueryParameter("userId", mid);
@@ -41,7 +42,7 @@ public class ServiceProvider {
                         HttpUrl newUrl = httpUrlBuilder.build();
 
                         // 공통 헤더 설정------------------------------------
-                        Request updateRequest =request.newBuilder()
+                        Request updateRequest = request.newBuilder()
                                 .url(newUrl)
                                 //.addHeader("name1", "value1")
                                 //.addHeader("name2", "value2")
@@ -82,27 +83,33 @@ public class ServiceProvider {
         CartService cartService = getRetrofit(context).create(CartService.class);
         return cartService;
     }
-    
+
     public static UserService getUserService(Context context) {
         UserService userService = getRetrofit(context).create(UserService.class);
         return userService;
     }
-    
-    //상품상세
+
+    // 상품상세
     public static ProductDetailService getProductDetailService(Context context) {
         ProductDetailService productDetailService = getRetrofit(context).create(ProductDetailService.class);
         return productDetailService;
     }
-    
+
     // 상품평
     public static ReviewService getReviewService(Context context) {
         ReviewService reviewService = getRetrofit(context).create(ReviewService.class);
         return reviewService;
     }
-    
+
     // 상품문의
     public static InquiryService getInquiryService(Context context) {
         InquiryService inquiryService = getRetrofit(context).create(InquiryService.class);
         return inquiryService;
+    }
+
+    // 찜목록
+    public static WishService getWishService(Context context) {
+        WishService wishService = getRetrofit(context).create(WishService.class);
+        return wishService;
     }
 }
