@@ -57,9 +57,7 @@ public class WishListFragment extends Fragment {
     }
 
     /**
-     *
      * 앱바 설정
-     *
      */
     private void initMenu() {
         MenuProvider menuProvider = new MenuProvider() {
@@ -97,7 +95,7 @@ public class WishListFragment extends Fragment {
         );
 
         binding.wishListView.addItemDecoration(dividerItemDecoration);
-        
+
         // 어댑터 생성
         WishAdapter wishAdapter = new WishAdapter();
 
@@ -110,18 +108,21 @@ public class WishListFragment extends Fragment {
             // 유저식별번호 받아오기
             int us_no = Integer.parseInt(AppKeyValueStore.getValue(getContext(), "us_no"));
 
+            // 찜목록 받아오기
             Call<List<MyWish>> wishCall = wishService.getWishListForApp(us_no);
 
             wishCall.enqueue(new Callback<List<MyWish>>() {
                 @Override
                 public void onResponse(Call<List<MyWish>> call, Response<List<MyWish>> response) {
                     List<MyWish> list = response.body();
-                    
-                    // 어댑터 데이터 세팅
-                    wishAdapter.setWishList(list);
 
-                    // RecyclerView에 어댑터 세팅
-                    binding.wishListView.setAdapter(wishAdapter);
+                    if (list != null) {
+                        // 어댑터 데이터 세팅
+                        wishAdapter.setWishList(list);
+
+                        // RecyclerView에 어댑터 세팅
+                        binding.wishListView.setAdapter(wishAdapter);
+                    }
                 }
 
                 @Override
@@ -130,6 +131,7 @@ public class WishListFragment extends Fragment {
                 }
             });
 
+            // 찜목록 전체 개수 받아오기
             Call<Integer> cntCall = wishService.getWishCntForApp(us_no);
 
             cntCall.enqueue(new Callback<Integer>() {
@@ -142,6 +144,18 @@ public class WishListFragment extends Fragment {
                 @Override
                 public void onFailure(Call<Integer> call, Throwable t) {
                     t.printStackTrace();
+                }
+            });
+
+            // 이미지 선택 시 상품상세로 이동
+            wishAdapter.setOnItemClickListener(new WishAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(View itemView, int position) {
+                    MyWish myWish = wishAdapter.getItem(position);
+                    Bundle args = new Bundle();
+                    args.putInt("pg_no", myWish.getPg_no());
+
+                    navController.navigate(R.id.dest_prod_detail, args);
                 }
             });
         }

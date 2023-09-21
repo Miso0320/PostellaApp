@@ -82,13 +82,21 @@ public class ProdDetailFragment extends Fragment {
         // Bundle에서 객체 받아오기
         Bundle args = getArguments();
         if (args != null) {
-            Product product = (Product) args.getSerializable("product");
-            if (product != null) {
-                int pg_no = product.getPg_no();
+            if (args.getSerializable("product") != null) {
+                Product product = (Product) args.getSerializable("product");
+                if (product != null) {
+                    int pg_no = product.getPg_no();
+                    viewModel.setPgNo(pg_no);
+                    // 상품상세 이미지 개수 받아오기
+                    initImgCnt(pg_no);
+                }
+            } else {
+                int pg_no = args.getInt("pg_no");
                 viewModel.setPgNo(pg_no);
                 // 상품상세 이미지 개수 받아오기
                 initImgCnt(pg_no);
             }
+
         }
 
         // 취소선 추가
@@ -111,9 +119,7 @@ public class ProdDetailFragment extends Fragment {
     }
 
     /**
-     *
      * 앱바 설정
-     *
      */
     private void initMenu() {
         MenuProvider menuProvider = new MenuProvider() {
@@ -138,12 +144,9 @@ public class ProdDetailFragment extends Fragment {
     }
 
     /**
-     *
      * 상품상세 이미지 개수 받아오기
      *
-     * @param pg_no
-     * 			상품 그룹 번호
-     *
+     * @param pg_no 상품 그룹 번호
      */
     private void initImgCnt(int pg_no) {
         // API 서버에서 목록 받기
@@ -168,9 +171,7 @@ public class ProdDetailFragment extends Fragment {
     }
 
     /**
-     *
      * 상품상세정보 불러오기
-     *
      */
     private void initLoadInfo() {
         // ViewModel에서 데이터 가져오기
@@ -226,12 +227,9 @@ public class ProdDetailFragment extends Fragment {
     }
 
     /**
-     *
      * 하단 네비게이션바 보이기/숨기기
      *
-     * @param bool
-     * 			보이기/숨기기 결정값
-     *
+     * @param bool 보이기/숨기기 결정값
      */
     private void hideBottomNavigation(boolean bool) {
         BottomNavigationView bottomNavigation = getActivity().findViewById(R.id.bottom_navigation_view);
@@ -245,12 +243,9 @@ public class ProdDetailFragment extends Fragment {
     }
 
     /**
-     *
      * 상단 탭메뉴 이동
      *
-     * @param args
-     * 			Bundle 객체 전달
-     *
+     * @param args Bundle 객체 전달
      */
     private void initTabPage(Bundle args) {
         binding.tabProductReviews.setOnClickListener(v -> {

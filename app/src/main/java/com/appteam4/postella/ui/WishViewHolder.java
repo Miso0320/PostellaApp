@@ -1,5 +1,6 @@
 package com.appteam4.postella.ui;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,12 +21,23 @@ public class WishViewHolder extends RecyclerView.ViewHolder {
     private TextView prdDiscount;       // 할인율
     private TextView prdPrice;          // 판매가
 
-    public WishViewHolder(@NonNull View itemView) {
+    private WishAdapter.OnItemClickListener listener;
+
+    public WishViewHolder(@NonNull View itemView, WishAdapter.OnItemClickListener onItemClickListener) {
         super(itemView);
         // 아이템 UI 얻기
         this.pgName = itemView.findViewById(R.id.pg_name);
         this.prdDiscount = itemView.findViewById(R.id.prd_discount);
         this.prdPrice = itemView.findViewById(R.id.prd_price);
+
+        this.listener = listener;
+        pgImg = itemView.findViewById(R.id.pg_img);
+
+        // 클릭 이벤트 처리(이미지 선택 시 상품상세로 이동)
+        pgImg.setOnClickListener(v -> {
+            onItemClickListener.onItemClick(v, getAdapterPosition());
+        });
+
     }
 
     public void setData(MyWish wish) {
