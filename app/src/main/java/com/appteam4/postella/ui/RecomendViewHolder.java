@@ -29,6 +29,7 @@ public class RecomendViewHolder extends RecyclerView.ViewHolder {
     private TextView prodName;
     private RatingBar starAvg;
     private TextView ratingScore;
+    private TextView numOfReviews;
 
     public RecomendViewHolder(@NonNull View itemView, SearchAdapter.OnItemClickListener onItemClickListener) {
         super(itemView);
@@ -39,6 +40,8 @@ public class RecomendViewHolder extends RecyclerView.ViewHolder {
         prodName = (TextView) itemView.findViewById(R.id.txt_reco_prod_name);
         starAvg = (RatingBar)itemView.findViewById(R.id.reco_prod_rating);
         ratingScore = (TextView)itemView.findViewById(R.id.reco_prod_ratingScore);
+        numOfReviews = (TextView)itemView.findViewById(R.id.reco_prod_ratingCountByProduct);
+
         //클릭 이벤트 처리
         itemView.setOnClickListener(v -> {
             Log.i(TAG, "prodNo : " + pg_no);
@@ -65,5 +68,6 @@ public class RecomendViewHolder extends RecyclerView.ViewHolder {
         Log.i(TAG, "setData: " +  product.getPrd_star_avg());
         DecimalFormat dfScore = new DecimalFormat("#.#");
         ratingScore.setText(String.valueOf(product.getPrd_star_avg()));
+        numOfReviews.setText("(" + String.valueOf(product.getPrd_review_num()) + ")");
     }
 }

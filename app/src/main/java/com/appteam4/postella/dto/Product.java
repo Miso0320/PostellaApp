@@ -21,7 +21,8 @@ public class Product implements Serializable {
 	private int prd_hitcount; 			// 조회수
 	private int prd_sale_amount; 		// 판매량
 	private String prd_yn; 				// 판매여부
-	private float prd_star_avg; 			// 상품 당 평균 별점, 범위  0~5
+	private float prd_star_avg; 		// 상품 당 평균 별점, 범위  0~5
+	private int prd_review_num;			// 상품 리뷰수
 	private int sale_percent;			// 상품할인가
 	private int revCnt;					// 상품그룹 전체 리뷰수
 	
@@ -280,12 +281,20 @@ public class Product implements Serializable {
 		this.quantity = quantity;
 	}
 
+	public int getPrd_review_num() {
+		return prd_review_num;
+	}
+
+	public void setPrd_review_num(int prd_review_num) {
+		this.prd_review_num = prd_review_num;
+	}
+
 	@Override
 	public String toString() {
 		return "Product{" +
 				"prd_no=" + prd_no +
 				", sel_no=" + sel_no +
-				", sel_name=" + sel_name +
+				", sel_name='" + sel_name + '\'' +
 				", prd_category='" + prd_category + '\'' +
 				", prd_name='" + prd_name + '\'' +
 				", prd_org_price=" + prd_org_price +
@@ -298,6 +307,7 @@ public class Product implements Serializable {
 				", prd_sale_amount=" + prd_sale_amount +
 				", prd_yn='" + prd_yn + '\'' +
 				", prd_star_avg=" + prd_star_avg +
+				", prd_review_num=" + prd_review_num +
 				", sale_percent=" + sale_percent +
 				", revCnt=" + revCnt +
 				", pg_no=" + pg_no +
