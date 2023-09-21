@@ -26,9 +26,9 @@ public class CartHolder extends RecyclerView.ViewHolder {
     private ImageView cartImage;
     private TextView cartTitle;
     private TextView cartPrice;
-    private TextView cartArrivalDate;
+    private TextView cartPrdName;
     private TextView cartProdPrice;
-    private TextView cartShipFee;
+    private TextView cartQty;
 
     public CartHolder(@NonNull View itemView, CartAdapter.CartOnItemClickListener onItemClickListener) {
         super(itemView);
@@ -36,9 +36,9 @@ public class CartHolder extends RecyclerView.ViewHolder {
         cartImage = (ImageView) itemView.findViewById(R.id.img_cart_attach);
         cartTitle = (TextView) itemView.findViewById(R.id.cart_title);
         cartPrice = (TextView) itemView.findViewById(R.id.cart_price);
-        cartArrivalDate = (TextView) itemView.findViewById(R.id.cart_arrival_date);
+        cartPrdName = (TextView) itemView.findViewById(R.id.cart_prd_name);
         cartProdPrice = (TextView) itemView.findViewById(R.id.cart_total_price);
-        cartShipFee = (TextView) itemView.findViewById(R.id.cart_ship_fee);
+        cartQty = (TextView) itemView.findViewById(R.id.cart_qty);
 
         //클릭 이벤트 처리
         itemView.setOnClickListener(v -> {
@@ -50,17 +50,19 @@ public class CartHolder extends RecyclerView.ViewHolder {
     public void setCartData(Cart cart) {
         cartNo = cart.getCartNo();
         CartService.loadImage(cart.getPrd_no(), cartImage);
-        cartTitle.setText(cart.getPrd_name());
+        cartTitle.setText(cart.getPg_name());
+        cartPrdName.setText(cart.getPrd_name());
 
         DecimalFormat df = new DecimalFormat("#,###");
-        cartPrice.setText(df.format(cart.getPrd_price()));
+        cartPrice.setText(df.format(cart.getPrd_price()) + "원");
 
-        Date date = new Date(cart.getCartArrivalDate());
+        /*Date date = new Date(cart.getCartArrivalDate());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
         String strDate = sdf.format(date);
-        cartArrivalDate.setText(strDate);
+        cartArrivalDate.setText(strDate);*/
 
-        cartProdPrice.setText(df.format(cart.getPrd_price()));
-        cartShipFee.setText(df.format(cart.getPrd_ship_fee()));
+        int totalPrice = cart.getPrd_price() * cart.getCrt_qty();
+        cartProdPrice.setText("총 " + df.format(totalPrice) + "원");
+        cartQty.setText(df.format(cart.getCrt_qty()));
     }
 }

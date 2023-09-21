@@ -50,9 +50,6 @@ public class CartFragment extends Fragment {
         binding = FragmentCartBinding.inflate(inflater);
         navController = NavHostFragment.findNavController(this);
 
-        // 스피너 초기화
-        initSpinner();
-
         initRecyclerViewCart();
 
         return binding.getRoot();
@@ -126,32 +123,5 @@ public class CartFragment extends Fragment {
         }
 
         binding.recyclerViewCart.setAdapter(cartAdapter);*/
-    }
-
-    private void initSpinner() {
-        ProdCartItemBinding prodCartItemBinding = ProdCartItemBinding.inflate(getLayoutInflater());
-        LinearLayout linearLayout = prodCartItemBinding.spinnerLayout;
-        Spinner spinner = linearLayout.findViewById(R.id.cart_spinner_count);
-
-        //Spinner spinner = binding.recyclerViewCart.findViewById(R.id.cart_spinner_count);
-        Log.i(TAG, "스피터: " + spinner);
-        ArrayAdapter adapter = ArrayAdapter.createFromResource(
-                requireContext(), R.array.cart_prod_count, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item
-        );
-
-        adapter.setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
     }
 }

@@ -3,15 +3,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="220dp">
+    android:layout_height="145dp">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/materialCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         app:cardCornerRadius="10dp"
         app:cardElevation="5dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,18 +21,18 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="130dp"
             android:background="@color/white"
             android:orientation="horizontal"
             android:padding="10dp">
 
             <CheckBox
                 android:id="@+id/btn_prod_checkbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:onClick="onCheckboxClicked"
-                android:text="" />
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginRight="-3dp"
+                android:onClick="onCheckboxClicked" />
 
             <ImageView
                 android:id="@+id/img_cart_attach"
@@ -44,76 +44,148 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
+                android:layout_height="110dp"
+                android:gravity="left"
+                android:layout_marginLeft="5dp"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="right"
+                    android:gravity="left|center_vertical"
                     android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/cart_title"
+                        android:layout_width="170dp"
+                        android:layout_height="wrap_content"
+                        android:gravity=""
+                        android:layout_marginTop="3dp"
+                        android:text="Title"
+                        android:textAppearance="?attr/textAppearanceHeadline6"
+                        android:maxLines="1"
+                        android:ellipsize="end" />
 
                     <ImageButton
                         android:id="@+id/btn_del"
                         android:contentDescription="삭제"
                         style="@style/Widget.MaterialComponents.Button.TextButton"
                         android:layout_width="50dp"
-                        android:layout_height="10dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="15dp"
                         android:src="@drawable/ic_close_24dp" />
 
                 </LinearLayout>
 
-                <TextView
+               <!-- <TextView
                     android:id="@+id/cart_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="Title"
-                    android:textAppearance="?attr/textAppearanceBody2" />
+                    android:textAppearance="?attr/textAppearanceBody2" />-->
 
                 <TextView
-                    android:id="@+id/cart_price"
-                    android:layout_width="match_parent"
+                    android:id="@+id/cart_prd_name"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Price"
+                    android:layout_marginTop="2dp"
+                    android:text="옵션이름"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     android:textAppearance="?attr/textAppearanceBody1"
-                    android:textColor="#11D5EF" />
+                    android:textColor="#858585" />
 
-                <View
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="bottom">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center"
+                            android:layout_gravity="bottom"
+                            android:layout_marginBottom="5dp">
+
+                            <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/decreaseButton"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:textColor="@color/black"
+                                android:textSize="20sp"
+                                android:paddingTop="4dp"
+                                android:text="-" />
+
+                            <TextView
+                                android:id="@+id/cart_qty"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="1"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginEnd="5dp"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+
+                            <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/increaseButton"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:textColor="@color/black"
+                                android:text="+" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="end|bottom"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp">
+
+                            <TextView
+                                android:id="@+id/cart_price"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="-7dp"
+                                android:layout_marginBottom="3dp"
+                                android:text="가격"
+                                android:textAppearance="?attr/textAppearanceListItemSmall"/>
+
+                            <TextView
+                                android:id="@+id/cart_total_price"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="총 가격"
+                                android:textAppearance="?attr/textAppearanceListItemSmall" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+
+
+
+                <!--<View
                     android:layout_width="170dp"
                     android:layout_height="1dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
-                    android:background="#CCCCCC" />
+                    android:background="#CCCCCC" />-->
 
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginLeft="10dp">
 
-                    <TextView
-                        android:id="@+id/cart_arrival_date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="(월)9/11도착 예정"
-                        android:textSize="10sp"
-                        android:layout_marginRight="5dp"/>
 
-                    <TextView
-                        android:id="@+id/cart_tip_message"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="(밤12시 전 주문시)"
-                        android:textSize="10sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
+                <!--<LinearLayout
                     android:id="@+id/spinner_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -134,14 +206,14 @@
                         android:entries="@array/cart_prod_count"
                         android:layout_width="60dp"
                         android:layout_height="15dp" />
-                </LinearLayout>
+                </LinearLayout>-->
 
             </LinearLayout>
 
 
         </LinearLayout>
 
-        <LinearLayout
+        <!--<LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
@@ -149,7 +221,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginBottom="10dp">
 
-            <LinearLayout
+            &lt;!&ndash;<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
@@ -201,9 +273,9 @@
                     android:text="50,000원 이상 주문 시 전 상품 무료 배송"
                     android:textColor="@android:color/holo_red_light" />
 
-            </LinearLayout>
+            </LinearLayout>&ndash;&gt;
 
-        </LinearLayout>
+        </LinearLayout>-->
 
     </com.google.android.material.card.MaterialCardView>
 
