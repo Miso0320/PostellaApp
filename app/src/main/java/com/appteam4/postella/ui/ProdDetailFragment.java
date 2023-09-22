@@ -281,43 +281,6 @@ public class ProdDetailFragment extends Fragment {
         });
     }
 
-
-    private void wishListExist(ProductDetailService productDetailService, int pg_no) {
-        // 로그인 여부 확인
-        String exist = AppKeyValueStore.getValue(getContext(), "us_no");
-        // 찜목록 추가/삭제 버튼
-        CheckBox checkBox = (CheckBox) binding.checkboxFavorite;
-
-        // 로그인 되어 있는 경우
-        if (exist != null) {
-            // 유저식별번호 받아오기
-            int us_no = Integer.parseInt(AppKeyValueStore.getValue(getContext(), "us_no"));
-
-            // 처음에 체크여부 보여주기
-            Call<WishResult> initCall = productDetailService.checkWishForApp(pg_no, us_no);
-
-            initCall.enqueue(new Callback<WishResult>() {
-                @Override
-                public void onResponse(Call<WishResult> call, Response<WishResult> response) {
-                    WishResult wishResult = response.body();
-                    String result = wishResult.getResult();
-
-                    /// 기존 찜목록에 상품이 있는 경우 체크 상태
-                    if ("true".equals(result)) {
-                        checkBox.setChecked(true);
-                    } else {
-                        checkBox.setChecked(false);
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<WishResult> call, Throwable t) {
-                    t.printStackTrace();
-                }
-            });
-        }
-    }
-
     private void wishListInOut(ProductDetailService productDetailService, int pg_no) {
         // 로그인 여부 확인
         String exist = AppKeyValueStore.getValue(getContext(), "us_no");

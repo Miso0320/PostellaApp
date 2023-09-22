@@ -3,7 +3,6 @@ package com.appteam4.postella.service;
 import android.content.Context;
 
 import com.appteam4.postella.datastore.AppKeyValueStore;
-import com.appteam4.postella.ui.MainAdapter;
 
 import java.io.IOException;
 
@@ -112,5 +111,11 @@ public class ServiceProvider {
     public static WishService getWishService(Context context) {
         WishService wishService = getRetrofit(context).create(WishService.class);
         return wishService;
+    }
+
+    // 주문결제
+    public static OrderService getOrderService(Context context) {
+        OrderService orderService = getRetrofit(context).create(OrderService.class);
+        return orderService;
     }
 }

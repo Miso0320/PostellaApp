@@ -228,9 +228,9 @@ public class OrderFragment extends Fragment {
     }
 
     private void initLoadInfo(List<MyPageOrderList> orderList) {
-        // 주문상품 펼치기/접기 선택 내용
+        // 주문상품 펼치기/접기 선택 레이아웃
         LinearLayout linearLayout = binding.orderList;
-        // 주문상품 펼치기/접기로 숨겨지는 내용
+        // 주문상품 펼치기/접기로 숨겨지는 레이아웃
         RecyclerView orderListLayout = binding.orderRecyclerView;
 
         // 주문상품 접기/펼치기 이벤트 처리
