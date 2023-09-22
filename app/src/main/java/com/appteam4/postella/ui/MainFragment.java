@@ -291,9 +291,10 @@ public class MainFragment extends Fragment {
                     if (response.isSuccessful()) {
                         if(wishResult != null){
                             String result = wishResult.getResult();
-                            if(result == "success"){
+                            // 찜 목록에서 상품을 추가한 상태로 업데이트
+                            Snackbar snackbar = Snackbar.make(getView(), "상품을 나의 찜목록에 담았어요! 바로가기", Snackbar.LENGTH_SHORT);
+                            if(result.equals("success")){
                                 // 찜 목록에서 상품을 추가한 상태로 업데이트
-                                Snackbar snackbar = Snackbar.make(getView(), "상품을 나의 찜목록에 담았어요! 바로가기", Snackbar.LENGTH_SHORT);
                                 snackbar.setAction("바로가기", new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
@@ -304,16 +305,9 @@ public class MainFragment extends Fragment {
                                 });
                                 snackbar.show();
                             }else{
-                                Snackbar snackbar = Snackbar.make(getView(), "이미 추가된 상품입니다! 바로가기", Snackbar.LENGTH_SHORT);
-                                snackbar.setAction("바로가기", new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        // 바로가기 클릭 시 찜목록 프래그먼트로 이동
-                                        NavController navController = NavHostFragment.findNavController(MainFragment.this);
-                                        navController.navigate(R.id.action_dest_main_to_dest_wish_list);
-                                    }
-                                });
-                                snackbar.show();
+                                if (snackbar != null && snackbar.isShown()) {
+                                    snackbar.dismiss();
+                                }
                             }
                         }
                     }else {
@@ -350,6 +344,8 @@ public class MainFragment extends Fragment {
                     // API 요청이 성공했을 때의 처리
                     if (response.isSuccessful()) {
                         Log.i(TAG, "onResponse: 삭제 여부" + wishResult.getResult());
+                        Snackbar snackbar = Snackbar.make(getView(), "찜목록에서 상품을 삭제하였습니다!", Snackbar.LENGTH_SHORT);
+                        snackbar.show();
                     } else {
                         Log.i(TAG, "onResponse: 왜안되는교" + call.toString());
                     }
