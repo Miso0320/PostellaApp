@@ -36,6 +36,8 @@ public interface ProductGroupService {
     Call<WishResult> addWish(@Body MyWish wish);
     @POST("removeWishForApp")
     Call<WishResult> removeWish(@Body MyWish wish);
+    @GET("getWishListForApp")
+    Call<List<MyWish>> getWishList(@Query("us_no")int us_no);
     @GET
     static void loadImage(int pg_no, ImageView imageView) {
         String url = NetworkInfo.BASE_URL + "productGroup?pg_no=" + pg_no;
