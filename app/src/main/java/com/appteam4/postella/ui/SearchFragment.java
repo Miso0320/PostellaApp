@@ -214,6 +214,7 @@ public class SearchFragment extends Fragment {
                 //편집 모드 ON
                 AppKeyValueStore.remove(requireContext(), "editMode");
                 AppKeyValueStore.put(requireContext(), "editMode", "on");
+                Log.i(TAG, "initKeyword: 실행");
                 navController.navigate(R.id.action_dest_search_self, null, navOptions);
             });
             binding.txtLogDeleteAll.setOnClickListener(v -> {

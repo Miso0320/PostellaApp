@@ -76,6 +76,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainViewHolder> {
                         Log.i(TAG, "onCheckedChanged: " + product);
                         // 체크되었을 때, addWish 함수 호출
                         mainFragment.addWish(product);
+
                     } else {
                         Log.i(TAG, "onCheckedChanged: 실행한다 체쿠");
                         // 체크 해제되었을 때, removeWish 함수 호출

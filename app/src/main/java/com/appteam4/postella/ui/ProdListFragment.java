@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.appteam4.postella.R;
 import com.appteam4.postella.databinding.FragmentProdListBinding;
+import com.appteam4.postella.datastore.AppKeyValueStore;
 import com.appteam4.postella.dto.MyWish;
 import com.appteam4.postella.dto.Product;
 import com.appteam4.postella.dto.WishResult;
@@ -257,88 +258,99 @@ public class ProdListFragment extends Fragment {
 
     //찜 추가 요청
     public void addWish(Product product) {
-        // 찜 추가 API 요청 보내기
-        MyWish wish = new MyWish(); // 적절한 Wish 객체 생성 (상품 ID를 전달)
-        wish.setPg_no(product.getPg_no());
-        wish.setUs_no(121);
-        ProductGroupService productGroupService = ServiceProvider.getProductList(getContext());
-        Call<WishResult> call = productGroupService.addWish(wish);
-        call.enqueue(new Callback<WishResult>() {
-            @Override
-            public void onResponse(Call<WishResult> call, Response<WishResult> response) {
-                WishResult wishResult = response.body(); // WishResult 객체 가져오기
-                // API 요청이 성공했을 때의 처리
-                if (response.isSuccessful()) {
-                    if(wishResult != null){
-                        String result = wishResult.getResult();
-                        if(result.equals("success")){
-                            // 찜 목록에서 상품을 추가한 상태로 업데이트
-                            Snackbar snackbar = Snackbar.make(getView(), "상품을 나의 찜목록에 담았어요! 바로가기", Snackbar.LENGTH_SHORT);
-                            snackbar.setAction("바로가기", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    // 바로가기 클릭 시 찜목록 프래그먼트로 이동
-                                    NavController navController = NavHostFragment.findNavController(ProdListFragment.this);
-                                    navController.navigate(R.id.action_dest_prod_list_to_dest_wish_list3);
-                                }
-                            });
-                            snackbar.show();
-                        }else if(result.equals("fail")){
-                            Snackbar snackbar = Snackbar.make(getView(), "이미 추가된 상품입니다! 바로가기", Snackbar.LENGTH_SHORT);
-                            snackbar.setAction("바로가기", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    // 바로가기 클릭 시 찜목록 프래그먼트로 이동
-                                    NavController navController = NavHostFragment.findNavController(ProdListFragment.this);
-                                    navController.navigate(R.id.action_dest_prod_list_to_dest_wish_list3);
-                                }
-                            });
-                            snackbar.show();
+        if(AppKeyValueStore.getValue(getContext(), "us_no")!=null){
+            int us_no = Integer.parseInt(AppKeyValueStore.getValue(getContext(), "us_no"));
+            // 찜 추가 API 요청 보내기
+            MyWish wish = new MyWish(); // 적절한 Wish 객체 생성 (상품 ID를 전달)
+            wish.setPg_no(product.getPg_no());
+            wish.setUs_no(us_no);
+            ProductGroupService productGroupService = ServiceProvider.getProductList(getContext());
+            Call<WishResult> call = productGroupService.addWish(wish);
+            call.enqueue(new Callback<WishResult>() {
+                @Override
+                public void onResponse(Call<WishResult> call, Response<WishResult> response) {
+                    WishResult wishResult = response.body(); // WishResult 객체 가져오기
+                    // API 요청이 성공했을 때의 처리
+                    if (response.isSuccessful()) {
+                        if(wishResult != null){
+                            String result = wishResult.getResult();
+                            if(result.equals("success")){
+                                // 찜 목록에서 상품을 추가한 상태로 업데이트
+                                Snackbar snackbar = Snackbar.make(getView(), "상품을 나의 찜목록에 담았어요! 바로가기", Snackbar.LENGTH_SHORT);
+                                snackbar.setAction("바로가기", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        // 바로가기 클릭 시 찜목록 프래그먼트로 이동
+                                        NavController navController = NavHostFragment.findNavController(ProdListFragment.this);
+                                        navController.navigate(R.id.action_dest_prod_list_to_dest_wish_list3);
+                                    }
+                                });
+                                snackbar.show();
+                            }else if(result.equals("fail")){
+                                Snackbar snackbar = Snackbar.make(getView(), "이미 추가된 상품입니다! 바로가기", Snackbar.LENGTH_SHORT);
+                                snackbar.setAction("바로가기", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        // 바로가기 클릭 시 찜목록 프래그먼트로 이동
+                                        NavController navController = NavHostFragment.findNavController(ProdListFragment.this);
+                                        navController.navigate(R.id.action_dest_prod_list_to_dest_wish_list3);
+                                    }
+                                });
+                                snackbar.show();
+                            }
                         }
+                    }else {
+                        Log.i(TAG, "onResponse: 왜안되는교" + response.isSuccessful());
                     }
-                }else {
-                    Log.i(TAG, "onResponse: 왜안되는교" + response.isSuccessful());
                 }
-            }
-            @Override
-            public void onFailure(Call<WishResult> call, Throwable t) {
-                // API 요청 실패 시 예외 처리
-                Log.e(TAG, "API 호출 실패", t);
-                // 오류 메시지를 얻어와서 로그로 출력
-                String errorMessage = t.getMessage(); // 예외 메시지 얻기
-                Log.e(TAG, "API 오류 메시지: " + errorMessage);
-            }
-        });
+                @Override
+                public void onFailure(Call<WishResult> call, Throwable t) {
+                    // API 요청 실패 시 예외 처리
+                    Log.e(TAG, "API 호출 실패", t);
+                    // 오류 메시지를 얻어와서 로그로 출력
+                    String errorMessage = t.getMessage(); // 예외 메시지 얻기
+                    Log.e(TAG, "API 오류 메시지: " + errorMessage);
+                }
+            });
+
+        }else {
+            navController.navigate(R.id.action_dest_main_to_dest_login);
+        }
     }
     //찜 삭제 요청
     public void removeWish(Product product) {
-        // 찜 추가 API 요청 보내기
-        MyWish wish = new MyWish(); // 적절한 Wish 객체 생성 (상품 ID를 전달)
-        wish.setPg_no(product.getPg_no());
-        wish.setUs_no(121);
-        ProductGroupService productGroupService = ServiceProvider.getProductList(getContext());
-        Call<WishResult> call = productGroupService.removeWish(wish);
-        call.enqueue(new Callback<WishResult>() {
-            @Override
-            public void onResponse(Call<WishResult> call, Response<WishResult> response) {
-                WishResult wishResult = response.body();
-                // API 요청이 성공했을 때의 처리
-                if (response.isSuccessful()) {
-                    Log.i(TAG, "onResponse: 삭제 여부" + wishResult.getResult());
-                }else {
-                    Log.i(TAG, "onResponse: 왜안되는교" + call.toString());
+        if (AppKeyValueStore.getValue(getContext(), "us_no") != null) {
+            int us_no = Integer.parseInt(AppKeyValueStore.getValue(getContext(), "us_no"));
+            // 찜 추가 API 요청 보내기
+            MyWish wish = new MyWish(); // 적절한 Wish 객체 생성 (상품 ID를 전달)
+            wish.setPg_no(product.getPg_no());
+            wish.setUs_no(us_no);
+            ProductGroupService productGroupService = ServiceProvider.getProductList(getContext());
+            Call<WishResult> call = productGroupService.removeWish(wish);
+            call.enqueue(new Callback<WishResult>() {
+                @Override
+                public void onResponse(Call<WishResult> call, Response<WishResult> response) {
+                    WishResult wishResult = response.body();
+                    // API 요청이 성공했을 때의 처리
+                    if (response.isSuccessful()) {
+                        Log.i(TAG, "onResponse: 삭제 여부" + wishResult.getResult());
+                    } else {
+                        Log.i(TAG, "onResponse: 왜안되는교" + call.toString());
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<WishResult> call, Throwable t) {
-                // API 요청 실패 시 예외 처리
-                Log.e(TAG, "API 호출 실패", t);
-                // 오류 메시지를 얻어와서 로그로 출력
-                String errorMessage = t.getMessage(); // 예외 메시지 얻기
-                Log.e(TAG, "API 오류 메시지: " + errorMessage);
-            }
-        });
+                @Override
+                public void onFailure(Call<WishResult> call, Throwable t) {
+                    // API 요청 실패 시 예외 처리
+                    Log.e(TAG, "API 호출 실패", t);
+                    // 오류 메시지를 얻어와서 로그로 출력
+                    String errorMessage = t.getMessage(); // 예외 메시지 얻기
+                    Log.e(TAG, "API 오류 메시지: " + errorMessage);
+                }
+            });
+        }else {
+            navController.navigate(R.id.action_dest_main_to_dest_login);
+        }
     }
     
 }

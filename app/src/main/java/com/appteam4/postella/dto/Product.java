@@ -25,6 +25,10 @@ public class Product implements Serializable {
 	private int prd_review_num;			// 상품 리뷰수
 	private int sale_percent;			// 상품할인가
 	private int revCnt;					// 상품그룹 전체 리뷰수
+
+	//상품 찜 여부
+	private int isWished;				// 찜 추가 여부(0:추가X, 1:추가O)
+	private int us_no;					// 찜 추가한 회원 번호
 	
 	// 상품 대분류
 	private int pg_no; 					// 상품 대분류 식별번호
@@ -289,6 +293,22 @@ public class Product implements Serializable {
 		this.prd_review_num = prd_review_num;
 	}
 
+	public int getIsWished() {
+		return isWished;
+	}
+
+	public void setIsWished(int isWished) {
+		this.isWished = isWished;
+	}
+
+	public int getUs_no() {
+		return us_no;
+	}
+
+	public void setUs_no(int us_no) {
+		this.us_no = us_no;
+	}
+
 	@Override
 	public String toString() {
 		return "Product{" +
@@ -310,6 +330,8 @@ public class Product implements Serializable {
 				", prd_review_num=" + prd_review_num +
 				", sale_percent=" + sale_percent +
 				", revCnt=" + revCnt +
+				", isWished=" + isWished +
+				", us_no=" + us_no +
 				", pg_no=" + pg_no +
 				", pg_name='" + pg_name + '\'' +
 				", pg_imgFile=" + Arrays.toString(pg_imgFile) +

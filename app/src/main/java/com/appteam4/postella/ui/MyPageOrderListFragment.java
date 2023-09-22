@@ -132,6 +132,7 @@ public class MyPageOrderListFragment extends Fragment {
 
     private void initBtnLogout() {
         binding.btnLogout.setOnClickListener(v -> {
+            AppKeyValueStore.remove(getContext(),"us_no");
             AppKeyValueStore.remove(getContext(), "us_email");
             AppKeyValueStore.remove(getContext(), "us_password");
             navController.navigate(R.id.dest_main);
