@@ -114,8 +114,6 @@ public class WishListFragment extends Fragment {
                 public void onResponse(Call<List<MyWish>> call, Response<List<MyWish>> response) {
                     List<MyWish> list = response.body();
 
-                    Log.i(TAG, "위시리스트**************" + list);
-
                     if (list != null) {
                         // 어댑터 데이터 세팅
                         wishAdapter.setWishList(list);
@@ -187,9 +185,9 @@ public class WishListFragment extends Fragment {
                         @Override
                         public void onResponse(Call<String> call, Response<String> response) {
                             String result = response.body();
-                            
+
                             // 카트에 상품이 이미 존재하는 경우
-                            if(result.equals("true")) {
+                            if (result.equals("true")) {
                                 Snackbar snackbar = Snackbar.make(getView(), "상품이 이미 장바구니에 담겨있어요!", Snackbar.LENGTH_SHORT);
                                 snackbar.setAction("바로가기", new View.OnClickListener() {
                                     @Override
