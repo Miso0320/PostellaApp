@@ -38,6 +38,7 @@ public class AppKeyValueStore {
                 .remove(key)
                 .apply();
     }
+
     public static void addRecentSearchKeyword(Context context, String keyword) {
         // 기존 검색어 리스트를 불러옴
         List<String> recentSearchKeywords = getRecentSearchKeywords(context);

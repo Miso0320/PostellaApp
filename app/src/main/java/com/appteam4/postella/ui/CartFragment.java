@@ -2,9 +2,7 @@ package com.appteam4.postella.ui;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
+
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -15,20 +13,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.appteam4.postella.MainActivity;
+
+
 import com.appteam4.postella.R;
 import com.appteam4.postella.databinding.FragmentCartBinding;
-import com.appteam4.postella.databinding.ProdCartItemBinding;
+
 import com.appteam4.postella.datastore.AppKeyValueStore;
 import com.appteam4.postella.dto.Cart;
-import com.appteam4.postella.dto.MyPageOrderList;
+
 import com.appteam4.postella.service.CartService;
 import com.appteam4.postella.service.ServiceProvider;
 
@@ -43,6 +36,8 @@ public class CartFragment extends Fragment {
     private static final String TAG = "CartFragment";
     private FragmentCartBinding binding;
     private NavController navController;
+
+    private RecyclerView recyclerView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,7 +64,7 @@ public class CartFragment extends Fragment {
             int us_no = Integer.parseInt(AppKeyValueStore.getValue(getContext(), "us_no"));
 
             // API 서버에서 JSON 목록 받기
-            CartService cartService = ServiceProvider.getCart(getContext());
+            CartService cartService = ServiceProvider.getCartService(getContext());
             Call<List<Cart>> call = cartService.getCartList(us_no);
             call.enqueue(new Callback<List<Cart>>() {
                 @Override
@@ -105,23 +100,37 @@ public class CartFragment extends Fragment {
 
                 Bundle args = new Bundle();
                 args.putSerializable("cart", cart);
-                navController.navigate(R.id.action_dest_cart_to_dest_order);
+                navController.navigate(R.id.action_dest_cart_to_dest_prod_detail);
+            }
+
+            @Override
+            public void btnMinusClick(View itemView, int position) {
+                // 해당 위치의 아이템을 가져옴
+                Cart cart = cartAdapter.getItem(position);
+                CartService cartService = ServiceProvider.getCartService(getContext());
+
+                int us_no = Integer.parseInt(AppKeyValueStore.getValue(getContext(), "us_no"));
+                int prd_no = cart.getPrd_no();
+
+                int currentCnt = cart.getCrt_qty();
+                currentCnt--;
+                cart.setCrt_qty(currentCnt);
+
+                // DB업데이트
+                Call<Void> call = cartService.updateCart(currentCnt, us_no, prd_no);
+                call.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                    }
+                });
+
+                // RecyclerView를 업데이트하여 변경된 데이터를 반영
+                cartAdapter.notifyItemChanged(position);
             }
         });
-
-        /*// 더미데이터
-        for (int i=1; i<=10; i++) {
-            Cart cart = new Cart();
-            cart.setCartNo(i);
-            cart.setCartTitle("장바구니" + i);
-            cart.setCartPrice(2000 + i);
-            //cart.setCartArrivalDate(20230914);
-
-            cart.setCartProdPrice(2000 + i);
-
-            cartAdapter.addCart(cart);
-        }
-
-        binding.recyclerViewCart.setAdapter(cartAdapter);*/
     }
 }

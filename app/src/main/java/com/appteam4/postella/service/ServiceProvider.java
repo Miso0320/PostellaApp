@@ -79,7 +79,8 @@ public class ServiceProvider {
         return myPageOrderListService;
     }
 
-    public static CartService getCart(Context context) {
+    // 장바구니
+    public static CartService getCartService(Context context) {
         CartService cartService = getRetrofit(context).create(CartService.class);
         return cartService;
     }
