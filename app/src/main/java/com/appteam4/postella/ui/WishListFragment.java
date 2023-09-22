@@ -107,12 +107,14 @@ public class WishListFragment extends Fragment {
             int us_no = Integer.parseInt(AppKeyValueStore.getValue(getContext(), "us_no"));
 
             // 찜목록 받아오기
-            Call<List<MyWish>> wishCall = wishService.getWishListForApp(us_no);
+            Call<List<MyWish>> wishCall = wishService.getWishListsForApp(us_no);
 
             wishCall.enqueue(new Callback<List<MyWish>>() {
                 @Override
                 public void onResponse(Call<List<MyWish>> call, Response<List<MyWish>> response) {
                     List<MyWish> list = response.body();
+
+                    Log.i(TAG, "위시리스트**************" + list);
 
                     if (list != null) {
                         // 어댑터 데이터 세팅

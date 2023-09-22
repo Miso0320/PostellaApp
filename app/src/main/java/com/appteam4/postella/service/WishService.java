@@ -17,8 +17,8 @@ import retrofit2.http.Query;
 
 public interface WishService {
     /* 찜목록 전체 받아오기 */
-    @GET("getWishListForApp")
-    Call<List<MyWish>> getWishListForApp(@Query("us_no") int us_no);
+    @GET("getWishListsForApp")
+    Call<List<MyWish>> getWishListsForApp(@Query("us_no") int us_no);
     
     /* 찜목록 전체개수 받아오기 */
     @GET("getWishCntForApp")
