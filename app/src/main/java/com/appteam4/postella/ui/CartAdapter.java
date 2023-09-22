@@ -4,6 +4,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -63,6 +64,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartHolder> {
     public interface CartOnItemClickListener {
         void onItemClick(View itemView, int position);
         void btnMinusClick(View itemView, int position);
+        void btnPlusClick(View itemView, int position);
+        void btnCheckBoxClick(CheckBox checkBox, int position);
     }
 
     public void setOnItemClickListener(CartOnItemClickListener cartOnItemClickListener) {

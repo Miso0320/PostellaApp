@@ -3,6 +3,7 @@ package com.appteam4.postella.ui;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,6 +33,8 @@ public class CartHolder extends RecyclerView.ViewHolder {
     private TextView cartProdPrice;
     private TextView cartQty;
     private AppCompatButton btnMinus;
+    private AppCompatButton btnPlus;
+    private CheckBox btnProdCheckbox;
 
     public CartHolder(@NonNull View itemView, CartAdapter.CartOnItemClickListener onItemClickListener) {
         super(itemView);
@@ -43,15 +46,24 @@ public class CartHolder extends RecyclerView.ViewHolder {
         this.cartProdPrice = (TextView) itemView.findViewById(R.id.cart_total_price);
         this.cartQty = (TextView) itemView.findViewById(R.id.cart_qty);
         this.btnMinus = (AppCompatButton) itemView.findViewById(R.id.btn_minus);
+        this.btnPlus = (AppCompatButton) itemView.findViewById(R.id.btn_plus);
+        this.btnProdCheckbox = (CheckBox) itemView.findViewById(R.id.btn_prod_checkbox);
 
         //클릭 이벤트 처리
         itemView.setOnClickListener(v -> {
-            Log.i(TAG, "cartNo : " + cartNo);
             onItemClickListener.onItemClick(v, getAdapterPosition());
         });
 
         btnMinus.setOnClickListener(v -> {
             onItemClickListener.btnMinusClick(v, getAdapterPosition());
+        });
+
+        btnPlus.setOnClickListener(v -> {
+            onItemClickListener.btnPlusClick(v, getAdapterPosition());
+        });
+
+        btnProdCheckbox.setOnClickListener(v -> {
+            onItemClickListener.btnPlusClick(btnProdCheckbox, getAdapterPosition());
         });
     }
 

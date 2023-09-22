@@ -13,7 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.CheckBox;
 
 
 import com.appteam4.postella.R;
@@ -25,6 +25,7 @@ import com.appteam4.postella.dto.Cart;
 import com.appteam4.postella.service.CartService;
 import com.appteam4.postella.service.ServiceProvider;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -36,8 +37,8 @@ public class CartFragment extends Fragment {
     private static final String TAG = "CartFragment";
     private FragmentCartBinding binding;
     private NavController navController;
+    private List<Boolean> checkBoxList = new ArrayList<>();
 
-    private RecyclerView recyclerView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -79,9 +80,6 @@ public class CartFragment extends Fragment {
                     } else {
                         Log.i(TAG, "onResponse: 리스트가 널이여~");
                     }
-                    // RecyclerView에 어댑터 세팅
-                    // 어댑터에 데이터가 설정된 후 notifyDataSetChanged() 호출
-                    //binding.recyclerViewCart.setAdapter(cartAdapter);
                 }
 
                 @Override
@@ -131,6 +129,54 @@ public class CartFragment extends Fragment {
                 // RecyclerView를 업데이트하여 변경된 데이터를 반영
                 cartAdapter.notifyItemChanged(position);
             }
+
+            @Override
+            public void btnPlusClick(View itemView, int position) {
+                // 해당 위치의 아이템을 가져옴
+                Cart cart = cartAdapter.getItem(position);
+                CartService cartService = ServiceProvider.getCartService(getContext());
+
+                int us_no = Integer.parseInt(AppKeyValueStore.getValue(getContext(), "us_no"));
+                int prd_no = cart.getPrd_no();
+
+                int currentCnt = cart.getCrt_qty();
+                currentCnt++;
+                cart.setCrt_qty(currentCnt);
+
+                // DB업데이트
+                Call<Void> call = cartService.updateCart(currentCnt, us_no, prd_no);
+                call.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                    }
+                });
+
+                // RecyclerView를 업데이트하여 변경된 데이터를 반영
+                cartAdapter.notifyItemChanged(position);
+            }
+
+            @Override
+            public void btnCheckBoxClick(CheckBox checkBox, int position) {
+                // 리스트에 포지션과 체크여부를 저장
+                checkBoxList.set(position, checkBox.isChecked());
+
+                /*binding.btnCheckAll.setOnClickListener(v -> {
+                    // 모든 체크박스를 선택 상태로 변경
+                    for (int i = 0; i < checkBoxList.size(); i++) {
+                        checkBoxList.set(i, true);
+                    }
+                    // RecyclerView를 업데이트하여 변경된 데이터를 반영
+                    cartAdapter.notifyDataSetChanged();
+                });*/
+
+                // RecyclerView를 업데이트하여 변경된 데이터를 반영
+                cartAdapter.notifyItemChanged(position);
+            }
         });
+
     }
 }
