@@ -41,6 +41,8 @@ public class WishAdapter extends RecyclerView.Adapter<WishViewHolder> {
         void onPgImgClick(View itemView, int position);
 
         void onDeleteBtnClick(View itemView, int position);
+
+        void onCartBtnClick(View itemView, int position);
     }
 
     public void setOnItemClickListener(WishAdapter.OnItemClickListener onItemClickListener) {

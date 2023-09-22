@@ -1,6 +1,7 @@
 package com.appteam4.postella.ui;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -170,6 +171,23 @@ public class WishListFragment extends Fragment {
 
                         @Override
                         public void onFailure(Call<WishResult> call, Throwable t) {
+                            t.printStackTrace();
+                        }
+                    });
+                }
+
+                @Override
+                public void onCartBtnClick(View itemView, int position) {
+                    MyWish myWish = wishAdapter.getItem(position);
+                    Call<Void> addCartCall = wishService.addCartForApp(myWish.getPrd_no(), us_no);
+                    addCartCall.enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response) {
+                            Log.i(TAG, "성공이지롱~~~~~~~~~~~~~~~~~");
+                        }
+
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) {
                             t.printStackTrace();
                         }
                     });

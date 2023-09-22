@@ -24,6 +24,7 @@ public class WishViewHolder extends RecyclerView.ViewHolder {
     private TextView prdDiscount;       // 할인율
     private TextView prdPrice;          // 판매가
     private Button deleteBtn;           // 삭제버튼
+    private Button addCartBtn;           // 장바구니 추가버튼
 
     private WishAdapter.OnItemClickListener listener;
 
@@ -50,6 +51,13 @@ public class WishViewHolder extends RecyclerView.ViewHolder {
         // 클릭 이벤트 처리(삭제 버튼)
         deleteBtn.setOnClickListener(v -> {
             onItemClickListener.onDeleteBtnClick(v, getAdapterPosition());
+        });
+
+        // 장바구니 추가버튼
+        this.addCartBtn = itemView.findViewById(R.id.btn_add_cart);
+
+        addCartBtn.setOnClickListener(v -> {
+            onItemClickListener.onCartBtnClick(v, getAdapterPosition());
         });
 
     }

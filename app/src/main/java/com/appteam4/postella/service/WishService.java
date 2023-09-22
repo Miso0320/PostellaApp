@@ -27,7 +27,11 @@ public interface WishService {
     /* 찜목록 삭제하기 */
     @POST("removeWishForApp")
     Call<WishResult> removeWish(@Body MyWish wish);
-    
+
+    /* 장바구니 추가하기 */
+    @POST("addCartForApp")
+    Call<Void> addCartForApp(@Query("prd_no") int prd_no, @Query("us_no") int us_no);
+
     /* 찜목록 상품 썸네일 받아오기 */
     @GET
     static void loadImage(int prd_no, ImageView imageView) {
