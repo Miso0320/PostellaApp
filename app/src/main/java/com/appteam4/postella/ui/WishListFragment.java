@@ -51,9 +51,6 @@ public class WishListFragment extends Fragment {
         // RecyclerView 초기화
         initRecyclerView();
 
-        // 상세가기(임시버튼)
-        initBtnProdDetail();
-
         return binding.getRoot();
     }
 
@@ -183,35 +180,45 @@ public class WishListFragment extends Fragment {
                 @Override
                 public void onCartBtnClick(View itemView, int position) {
                     MyWish myWish = wishAdapter.getItem(position);
-                    Call<Void> addCartCall = wishService.addCartForApp(myWish.getPrd_no(), us_no);
-                    addCartCall.enqueue(new Callback<Void>() {
+                    Call<String> addCartCall = wishService.addCartForApp(myWish.getPrd_no(), us_no);
+                    addCartCall.enqueue(new Callback<String>() {
                         @Override
-                        public void onResponse(Call<Void> call, Response<Void> response) {
-                            Snackbar snackbar = Snackbar.make(getView(), "상품을 장바구니에 담았어요!", Snackbar.LENGTH_SHORT);
-                            snackbar.setAction("바로가기", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    // 바로가기 클릭 시 찜목록 프래그먼트로 이동
-                                    NavController navController = NavHostFragment.findNavController(WishListFragment.this);
-                                    navController.navigate(R.id.dest_cart);
-                                }
-                            });
-                            snackbar.show();
+                        public void onResponse(Call<String> call, Response<String> response) {
+                            String result = response.body();
+                            
+                            // 카트에 상품이 이미 존재하는 경우
+                            if(result.equals("true")) {
+                                Snackbar snackbar = Snackbar.make(getView(), "상품이 이미 장바구니에 담겨있어요!", Snackbar.LENGTH_SHORT);
+                                snackbar.setAction("바로가기", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        // 바로가기 클릭 시 찜목록 프래그먼트로 이동
+                                        NavController navController = NavHostFragment.findNavController(WishListFragment.this);
+                                        navController.navigate(R.id.dest_cart);
+                                    }
+                                });
+                                snackbar.show();
+                            } else {    // 기존 카트에 상품이 없는 경우 새로 추가
+                                Snackbar snackbar = Snackbar.make(getView(), "상품을 장바구니에 담았어요!", Snackbar.LENGTH_SHORT);
+                                snackbar.setAction("바로가기", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        // 바로가기 클릭 시 찜목록 프래그먼트로 이동
+                                        NavController navController = NavHostFragment.findNavController(WishListFragment.this);
+                                        navController.navigate(R.id.dest_cart);
+                                    }
+                                });
+                                snackbar.show();
+                            }
                         }
 
                         @Override
-                        public void onFailure(Call<Void> call, Throwable t) {
+                        public void onFailure(Call<String> call, Throwable t) {
                             t.printStackTrace();
                         }
                     });
                 }
             });
         }
-    }
-
-    private void initBtnProdDetail() {
-        binding.wishQty.setOnClickListener(v -> {
-            navController.navigate(R.id.action_dest_wish_list_to_dest_prod_detail);
-        });
     }
 }

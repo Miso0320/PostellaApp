@@ -30,7 +30,7 @@ public interface WishService {
 
     /* 장바구니 추가하기 */
     @POST("addCartForApp")
-    Call<Void> addCartForApp(@Query("prd_no") int prd_no, @Query("us_no") int us_no);
+    Call<String> addCartForApp(@Query("prd_no") int prd_no, @Query("us_no") int us_no);
 
     /* 찜목록 상품 썸네일 받아오기 */
     @GET
