@@ -25,6 +25,7 @@ import com.appteam4.postella.dto.MyWish;
 import com.appteam4.postella.dto.WishResult;
 import com.appteam4.postella.service.ServiceProvider;
 import com.appteam4.postella.service.WishService;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -167,6 +168,9 @@ public class WishListFragment extends Fragment {
                         public void onResponse(Call<WishResult> call, Response<WishResult> response) {
                             wishAdapter.removeItem(position);
                             wishAdapter.notifyDataSetChanged();
+
+                            Snackbar snackbar = Snackbar.make(getView(), "상품을 장바구니에서 삭제했어요!", Snackbar.LENGTH_SHORT);
+                            snackbar.show();
                         }
 
                         @Override
@@ -183,7 +187,16 @@ public class WishListFragment extends Fragment {
                     addCartCall.enqueue(new Callback<Void>() {
                         @Override
                         public void onResponse(Call<Void> call, Response<Void> response) {
-                            Log.i(TAG, "성공이지롱~~~~~~~~~~~~~~~~~");
+                            Snackbar snackbar = Snackbar.make(getView(), "상품을 장바구니에 담았어요!", Snackbar.LENGTH_SHORT);
+                            snackbar.setAction("바로가기", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    // 바로가기 클릭 시 찜목록 프래그먼트로 이동
+                                    NavController navController = NavHostFragment.findNavController(WishListFragment.this);
+                                    navController.navigate(R.id.dest_cart);
+                                }
+                            });
+                            snackbar.show();
                         }
 
                         @Override
