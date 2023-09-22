@@ -200,23 +200,6 @@ public class SearchFragment extends Fragment {
                 // 변경된 레이아웃 파라미터 설정
                 binding.txtRecentKeyword.setLayoutParams(layoutParams);
             }
-            //"전체삭제|닫기"가 보이지 않을 때 편집 글씨가 오른쪽 끝에 가도록 마진 변경
-            if (binding.txtLogDeleteAll.getVisibility() == View.GONE) {
-                // 현재 뷰의 레이아웃 파라미터 가져오기
-                LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) binding.txtRecentKeyword.getLayoutParams();
-                // 오른쪽 마진 값을 변경
-                layoutParams.rightMargin = 700;
-                // 변경된 레이아웃 파라미터 설정
-                binding.txtRecentKeyword.setLayoutParams(layoutParams);
-            }
-            //"편집"글씨 클릭시 마진 변경 후 "전체삭제|닫기" 다시 보이게 하기
-            binding.txtLogEdit.setOnClickListener(v -> {
-                //편집 모드 ON
-                AppKeyValueStore.remove(requireContext(), "editMode");
-                AppKeyValueStore.put(requireContext(), "editMode", "on");
-                Log.i(TAG, "initKeyword: 실행");
-                navController.navigate(R.id.action_dest_search_self, null, navOptions);
-            });
             binding.txtLogDeleteAll.setOnClickListener(v -> {
                 AppKeyValueStore.clearRecentSearchKeywords(requireContext());
                 navController.navigate(R.id.action_dest_search_self, null, navOptions);
@@ -228,6 +211,14 @@ public class SearchFragment extends Fragment {
                 navController.navigate(R.id.action_dest_search_self, null, navOptions);
             });
         }
+        //"편집"글씨 클릭시 마진 변경 후 "전체삭제|닫기" 다시 보이게 하기
+        binding.txtLogEdit.setOnClickListener(v -> {
+            Log.i(TAG, "initKeyword: 실행");
+            //편집 모드 ON
+            AppKeyValueStore.remove(requireContext(), "editMode");
+            AppKeyValueStore.put(requireContext(), "editMode", "on");
+            navController.navigate(R.id.action_dest_search_self, null, navOptions);
+        });
         //추천검색어 info버튼 클릭시 스낵바 보이게 하기
         binding.btnInfo.setOnClickListener(v->{
             Snackbar snackbar = Snackbar.make(binding.btnInfo, "최근 검색어와 연관된 검색어를 추천해드려요.", Snackbar.LENGTH_LONG);
