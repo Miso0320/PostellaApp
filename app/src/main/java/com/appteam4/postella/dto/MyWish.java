@@ -2,6 +2,7 @@ package com.appteam4.postella.dto;
 
 public class MyWish {
     private int pg_no;                // 상품그룹 식별번호
+    private int prd_no;                // 상품옵션 식별번호
     private String pg_name;           // 상품그룹명
     private int prd_org_price;        // 원가
     private int prd_price;            // 판매가
@@ -14,6 +15,14 @@ public class MyWish {
 
     public void setPg_no(int pg_no) {
         this.pg_no = pg_no;
+    }
+
+    public int getPrd_no() {
+        return prd_no;
+    }
+
+    public void setPrd_no(int prd_no) {
+        this.prd_no = prd_no;
     }
 
     public String getPg_name() {
@@ -60,6 +69,7 @@ public class MyWish {
     public String toString() {
         return "MyWish{" +
                 "pg_no=" + pg_no +
+                ", prd_no=" + prd_no +
                 ", pg_name='" + pg_name + '\'' +
                 ", prd_org_price=" + prd_org_price +
                 ", prd_price=" + prd_price +

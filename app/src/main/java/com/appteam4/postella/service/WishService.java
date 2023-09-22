@@ -30,8 +30,8 @@ public interface WishService {
     
     /* 찜목록 상품 썸네일 받아오기 */
     @GET
-    static void loadImage(int pg_no, ImageView imageView) {
-        String url = NetworkInfo.BASE_URL + "productGroup?pg_no=" + pg_no;
+    static void loadImage(int prd_no, ImageView imageView) {
+        String url = NetworkInfo.BASE_URL + "getPrdImgForApp?prd_no=" + prd_no;
         Glide.with(imageView.getContext()).load(url).into(imageView);
     }
 }

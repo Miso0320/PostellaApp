@@ -1,5 +1,6 @@
 package com.appteam4.postella.ui;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -16,6 +17,7 @@ public class WishViewHolder extends RecyclerView.ViewHolder {
     private static final String TAG = "WishViewHolder";
     private int pgNo;                   // 상품그룹 식별번호
     private int usNo;                   // 유저식별번호
+    private int prdNo;                  // 상품옵션 번호
     private ImageView pgImg;            // 상품이미지
     private TextView wishQty;           // 찜목록 전체 개수
     private TextView pgName;            // 상품명
@@ -59,7 +61,7 @@ public class WishViewHolder extends RecyclerView.ViewHolder {
         this.prdPrice.setText(String.valueOf(wish.getPrd_price()) + "원");
 
         // 상품 썸네일 이미지 받아오기
-        WishService.loadImage(wish.getPg_no(), pgImg);
+        WishService.loadImage(wish.getPrd_no(), pgImg);
     }
 
 }
