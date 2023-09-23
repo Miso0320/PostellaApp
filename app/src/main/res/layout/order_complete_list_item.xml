@@ -37,7 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/pg_name"
@@ -47,6 +47,17 @@
                     android:maxLines="2"
                     android:text="내 친구 아기고양이 시리즈 아기고양이와 아기살쾡이가 만나게 되는 그 날 어떻게 될까 vol. 12"
                     android:textSize="16sp" />
+
+                <!-- 상품옵션명 -->
+                <TextView
+                    android:id="@+id/prd_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="내 친구 아기고양이 시리즈"
+                    android:textSize="14sp"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@android:color/darker_gray"/>
+
             </LinearLayout>
 
         </LinearLayout>
@@ -71,14 +82,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/material_divider">
-
-        <!-- 상품옵션명 -->
-        <TextView
-            android:id="@+id/prd_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="내 친구 아기고양이 시리즈"
-            android:textSize="14sp" />
 
         <!-- 상품금액 -->
         <TextView
