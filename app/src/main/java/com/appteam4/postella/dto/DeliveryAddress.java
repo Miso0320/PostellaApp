@@ -1,6 +1,8 @@
 package com.appteam4.postella.dto;
 
-public class DeliveryAddress {
+import java.io.Serializable;
+
+public class DeliveryAddress implements Serializable {
     private int da_no;                // 주소 식별번호
     private String da_type;           // 구매자인지 판매자인지 확인, 구매자:C, 판매자:S
     private Integer us_no;            // 유저식별번호

@@ -1,6 +1,8 @@
 package com.appteam4.postella.dto;
 
-public class Inquiry {
+import java.io.Serializable;
+
+public class Inquiry implements Serializable {
     private int qna_no;            // 문의게시글 번호
     private String q_content;      // 상품문의내용
     private long q_date;           // 문의 작성 시간

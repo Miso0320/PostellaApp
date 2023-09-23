@@ -3,7 +3,9 @@ package com.appteam4.postella.dto;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-public class Review {
+import java.io.Serializable;
+
+public class Review implements Serializable {
     private int rev_no;                     // 리뷰 번호
     private String us_name;                 // 주문자 이름
     private String prd_name;                // 상품 옵션 이름
