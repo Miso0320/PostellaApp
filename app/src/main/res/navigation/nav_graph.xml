@@ -35,6 +35,9 @@
         <action
             android:id="@+id/action_dest_main_to_dest_login"
             app:destination="@id/dest_login" />
+        <action
+            android:id="@+id/action_dest_main_to_dest_ad_detail_ad1"
+            app:destination="@id/dest_ad_detail_ad1" />
     </fragment>
     <fragment
         android:id="@+id/dest_prod_list"

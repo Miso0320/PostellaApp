@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    tools:context=".ui.AdPopUpFragment">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="0dp">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="550dp"
+                app:srcCompat="@drawable/ad_pop_up" />
+
+            <ImageButton
+                android:id="@+id/btn_pop_up_close_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|end"
+                android:layout_margin="20dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/baseline_cancel_presentation_24" />
+
+        </FrameLayout>
+        <CheckBox
+            android:id="@+id/chk_no_for_a_day"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:text="오늘 1일 동안 보지않기" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="0dp"
+            android:layout_margin="0dp">
+
+            <Button
+                android:id="@+id/btn_go_detail_ad"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:backgroundTint="@android:color/white"
+                android:drawableRight="@drawable/baseline_keyboard_arrow_right_24"
+                android:text="자세히 보기"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btn_pop_up_close_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:text="닫기" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

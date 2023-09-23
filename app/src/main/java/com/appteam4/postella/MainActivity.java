@@ -1,5 +1,7 @@
 package com.appteam4.postella;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -20,6 +22,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.appteam4.postella.databinding.ActivityMainBinding;
 import com.appteam4.postella.datastore.AppKeyValueStore;
+import com.appteam4.postella.ui.AdPopUpFragment;
 import com.appteam4.postella.ui.MainFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -59,6 +62,16 @@ public class MainActivity extends AppCompatActivity {
         initAppbar();
         //drawerlayout 메뉴 추가하기
         initDrawerLayout();
+
+        // SharedPreferences에서 체크박스 상태 확인
+        SharedPreferences preferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        boolean hideAdToday = preferences.getBoolean("hide_ad_today", false);
+        
+        //체크박스가 true가 아닐 때에만 광고 보이게 하기
+        if (!hideAdToday) {
+            // 광고를 표시하는 로직 추가
+            showAd();
+        }
 
     }
     private void initAppbar() {
@@ -206,6 +219,12 @@ public class MainActivity extends AppCompatActivity {
     // 선택한 메뉴 아이템을 반환하는 메서드(카테고리 탭 선택을 위함)
     public int getSelectedMenuItem(){
         return selectedMenuItem;
+    }
+
+    //광고 팝업창 띄우기
+    private void showAd(){
+        AdPopUpFragment adPopUpFragment = new AdPopUpFragment();
+        adPopUpFragment.show(getSupportFragmentManager(), "ad_popup");
     }
 
     @Override
