@@ -155,6 +155,9 @@
         <action
             android:id="@+id/action_dest_order_to_dest_mypage_order_list"
             app:destination="@id/dest_mypage_order_list" />
+        <action
+            android:id="@+id/action_dest_order_to_dest_payment"
+            app:destination="@id/dest_payment" />
     </fragment>
     <fragment
         android:id="@+id/dest_login"
@@ -212,4 +215,9 @@
             android:id="@+id/action_dest_filter_to_dest_prod_list"
             app:destination="@id/dest_prod_list" />
     </fragment>
+    <fragment
+        android:id="@+id/dest_payment"
+        android:name="com.appteam4.postella.ui.PaymentFragment"
+        android:label="fragment_payment"
+        tools:layout="@layout/fragment_payment" />
 </navigation>
