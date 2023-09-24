@@ -1,5 +1,6 @@
 package com.appteam4.postella.ui;
 
+import android.app.FragmentTransaction;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -34,6 +35,7 @@ import com.appteam4.postella.dto.WishResult;
 import com.appteam4.postella.service.ProductDetailService;
 import com.appteam4.postella.service.ServiceProvider;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -61,6 +63,11 @@ public class ProdDetailFragment extends Fragment {
 
     // ViewModel에 데이터 저장
     private ProductDetailViewModel viewModel;
+
+    // bottom sheet
+    private View bottomSheetView;
+    private BottomSheetBehavior bottomSheetBehavior;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -96,8 +103,15 @@ public class ProdDetailFragment extends Fragment {
                 // 상품상세 이미지 개수 받아오기
                 initImgCnt(pg_no);
             }
-
         }
+
+        // bottom sheet
+        ProdDetailBottomSheetFragment prodDetailBottomSheetFragment = new ProdDetailBottomSheetFragment();
+
+        // 버튼 클릭 시 bottom sheet를 보이도록 설정
+        binding.btnBuy.setOnClickListener(v -> {
+            prodDetailBottomSheetFragment.show(getChildFragmentManager(), prodDetailBottomSheetFragment.getTag());
+        });
 
         // 취소선 추가
         binding.prdOrgPrice.setPaintFlags(binding.prdOrgPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
@@ -398,7 +412,6 @@ public class ProdDetailFragment extends Fragment {
             });
         }
     }
-
 
     @Override
     public void onStop() {
