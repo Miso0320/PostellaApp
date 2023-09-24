@@ -221,6 +221,6 @@
     <fragment
         android:id="@+id/dest_payment"
         android:name="com.appteam4.postella.ui.PaymentFragment"
-        android:label="주문결제"
+        android:label="주문완료"
         tools:layout="@layout/fragment_payment" />
 </navigation>

@@ -399,8 +399,9 @@
                         android:layout_marginRight="2dp"
                         android:padding="0dp"
                         android:text="무통장입금"
+                        android:textColor="#FFA83D"
+                        android:textStyle="bold"
                         app:strokeColor="#7E57C2" />
-                    <!-- android:backgroundTint="#7E57C2" -->
 
                     <Button
                         android:id="@+id/account_transfer"
@@ -409,7 +410,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="2dp"
                         android:padding="0dp"
-                        android:text="계좌이체" />
+                        android:text="계좌이체"
+                        android:textColor="#7E57C2" />
 
                     <Button
                         android:id="@+id/card_pay"

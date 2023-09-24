@@ -1,5 +1,7 @@
 package com.appteam4.postella.ui;
 
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
@@ -21,6 +24,7 @@ import com.appteam4.postella.databinding.FragmentOrderBinding;
 import com.appteam4.postella.datastore.AppKeyValueStore;
 import com.appteam4.postella.dto.DeliveryAddress;
 import com.appteam4.postella.dto.MyPageOrderList;
+import com.appteam4.postella.dto.Payment;
 import com.appteam4.postella.service.OrderService;
 import com.appteam4.postella.service.ServiceProvider;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -41,6 +45,9 @@ public class OrderFragment extends Fragment {
     private static final String TAG = "OrderFragment";
     private FragmentOrderBinding binding;
     NavController navController;
+    private DeliveryAddress deliveryAddress;
+    // 새로운 Bundle 객체 생성
+    Bundle bundle = new Bundle();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,14 +55,14 @@ public class OrderFragment extends Fragment {
         binding = FragmentOrderBinding.inflate(inflater);
         navController = NavHostFragment.findNavController(this);
 
-        // Bundle 객체 생성
-        Bundle bundle = new Bundle();
+        // 이전 페이지에서 받아온 Bundle
+        Bundle args = getArguments();
 
         // 스피너 설정
         initSpinner(bundle);
 
         // RecyclerView 초기화
-        initRecyclerView(bundle);
+        initRecyclerView(bundle, args);
 
         // 결제수단 선택
         initPayMethod(bundle);
@@ -121,67 +128,166 @@ public class OrderFragment extends Fragment {
     }
 
     private void initPayMethod(Bundle bundle) {
+        // 무통장입금
         LinearLayout depositLayout = binding.depositLayout;
+        // 계좌이체
         LinearLayout bankLayout = binding.bankSelectLayout;
+        // 신용/체크카드
         LinearLayout cardLayout = binding.cardLayout;
+        // 휴대폰
         LinearLayout phoneLayout = binding.phoneLayout;
+
+        // 결제 내용 저장을 위한 객체 선언
+        Payment payment = new Payment();
+        payment.setPay_method("무통장입금");
 
         binding.makeDeposit.setOnClickListener(v -> {
             if (bankLayout.getVisibility() == View.VISIBLE) {
                 bankLayout.setVisibility(View.GONE);
+                
+                // 메뉴 선택 표시 해제
+                binding.accountTransfer.setTextColor(Color.parseColor("#7E57C2"));
+                binding.accountTransfer.setTypeface(null, Typeface.NORMAL);
             }
             if (cardLayout.getVisibility() == View.VISIBLE) {
                 cardLayout.setVisibility(View.GONE);
+
+                // 메뉴 선택 표시 해제
+                binding.cardPay.setTextColor(Color.parseColor("#7E57C2"));
+                binding.cardPay.setTypeface(null, Typeface.NORMAL);
+
             }
             if (phoneLayout.getVisibility() == View.VISIBLE) {
                 phoneLayout.setVisibility(View.GONE);
+
+                // 메뉴 선택 표시 해제
+                binding.phonePay.setTextColor(Color.parseColor("#7E57C2"));
+                binding.phonePay.setTypeface(null, Typeface.NORMAL);
+
             }
             depositLayout.setVisibility(View.VISIBLE);
-            //makeDeposit.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.your_desired_button_background_color));
-            //makeDeposit.setTextColor(ContextCompat.getColor(getContext(), R.color.your_desired_button_text_color));
+
+            payment.setPay_method("무통장입금");
+
+            // 결제방법 상세
+            String depositBank = binding.spinnerDeposit.getSelectedItem().toString();
+            payment.setPay_detail(depositBank);
+
+            // 메뉴 선택 표시
+            binding.makeDeposit.setTextColor(Color.parseColor("#FFA83D"));
+            binding.makeDeposit.setTypeface(null, Typeface.BOLD);
+
         });
 
         binding.accountTransfer.setOnClickListener(v -> {
             if (depositLayout.getVisibility() == View.VISIBLE) {
                 depositLayout.setVisibility(View.GONE);
+
+                // 메뉴 선택 표시 해제
+                binding.makeDeposit.setTextColor(Color.parseColor("#7E57C2"));
+                binding.makeDeposit.setTypeface(null, Typeface.NORMAL);
             }
             if (cardLayout.getVisibility() == View.VISIBLE) {
                 cardLayout.setVisibility(View.GONE);
+
+                // 메뉴 선택 표시 해제
+                binding.cardPay.setTextColor(Color.parseColor("#7E57C2"));
+                binding.cardPay.setTypeface(null, Typeface.NORMAL);
             }
             if (phoneLayout.getVisibility() == View.VISIBLE) {
                 phoneLayout.setVisibility(View.GONE);
+
+                // 메뉴 선택 표시 해제
+                binding.phonePay.setTextColor(Color.parseColor("#7E57C2"));
+                binding.phonePay.setTypeface(null, Typeface.NORMAL);
             }
             bankLayout.setVisibility(View.VISIBLE);
+
+            payment.setPay_method("계좌이체");
+
+            // 결제방법 상세
+            String bankKind = binding.spinnerBank.getSelectedItem().toString();
+            payment.setPay_detail(bankKind);
+
+            // 메뉴 선택 표시
+            binding.accountTransfer.setTextColor(Color.parseColor("#FFA83D"));
+            binding.accountTransfer.setTypeface(null, Typeface.BOLD);
         });
 
         binding.cardPay.setOnClickListener(v -> {
             if (depositLayout.getVisibility() == View.VISIBLE) {
                 depositLayout.setVisibility(View.GONE);
+
+                // 메뉴 선택 표시 해제
+                binding.makeDeposit.setTextColor(Color.parseColor("#7E57C2"));
+                binding.makeDeposit.setTypeface(null, Typeface.NORMAL);
             }
             if (bankLayout.getVisibility() == View.VISIBLE) {
                 bankLayout.setVisibility(View.GONE);
+
+                // 메뉴 선택 표시 해제
+                binding.accountTransfer.setTextColor(Color.parseColor("#7E57C2"));
+                binding.accountTransfer.setTypeface(null, Typeface.NORMAL);
             }
             if (phoneLayout.getVisibility() == View.VISIBLE) {
                 phoneLayout.setVisibility(View.GONE);
+
+                // 메뉴 선택 표시 해제
+                binding.phonePay.setTextColor(Color.parseColor("#7E57C2"));
+                binding.phonePay.setTypeface(null, Typeface.NORMAL);
             }
             cardLayout.setVisibility(View.VISIBLE);
+
+            payment.setPay_method("신용/체크카드");
+
+            // 결제방법 상세
+            String selectedCard = binding.spinnerCard.getSelectedItem().toString();
+            payment.setPay_detail(selectedCard);
+
+            // 메뉴 선택 표시
+            binding.cardPay.setTextColor(Color.parseColor("#FFA83D"));
+            binding.cardPay.setTypeface(null, Typeface.BOLD);
         });
 
         binding.phonePay.setOnClickListener(v -> {
             if (depositLayout.getVisibility() == View.VISIBLE) {
                 depositLayout.setVisibility(View.GONE);
+
+                // 메뉴 선택 표시 해제
+                binding.makeDeposit.setTextColor(Color.parseColor("#7E57C2"));
+                binding.makeDeposit.setTypeface(null, Typeface.NORMAL);
             }
             if (bankLayout.getVisibility() == View.VISIBLE) {
                 bankLayout.setVisibility(View.GONE);
+
+                // 메뉴 선택 표시 해제
+                binding.accountTransfer.setTextColor(Color.parseColor("#7E57C2"));
+                binding.accountTransfer.setTypeface(null, Typeface.NORMAL);
             }
             if (cardLayout.getVisibility() == View.VISIBLE) {
                 cardLayout.setVisibility(View.GONE);
+
+                // 메뉴 선택 표시 해제
+                binding.cardPay.setTextColor(Color.parseColor("#7E57C2"));
+                binding.cardPay.setTypeface(null, Typeface.NORMAL);
             }
             phoneLayout.setVisibility(View.VISIBLE);
+
+            payment.setPay_method("휴대폰");
+
+            // 결제방법 상세
+            String phoneKind = binding.spinnerPhone.getSelectedItem().toString();
+            payment.setPay_detail(phoneKind);
+
+            // 메뉴 선택 표시
+            binding.phonePay.setTextColor(Color.parseColor("#FFA83D"));
+            binding.phonePay.setTypeface(null, Typeface.BOLD);
         });
+
+        bundle.putSerializable("payment", (Serializable) payment);
     }
 
-    private void initRecyclerView(Bundle bundle) {
+    private void initRecyclerView(Bundle bundle, Bundle args) {
         // RecyclerView에서 항목을 수직으로 배치하도록 설정
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(
                 getContext(), LinearLayoutManager.VERTICAL, false
@@ -201,7 +307,7 @@ public class OrderFragment extends Fragment {
 
             //bundle.putSerializable("cart", (Serializable) dtoList);
             // 장바구니 체크항목 받아오기
-            //List<Cart> cartList = (List<Cart>) bundle.getSerializable("cart");
+            //List<Cart> cartList = (List<Cart>) args.getSerializable("cart");
 
             // MyPageOrderList에 필요한 정보 저장
             List<MyPageOrderList> orderList = new ArrayList<>();
@@ -237,22 +343,8 @@ public class OrderFragment extends Fragment {
             binding.orderRecyclerView.setAdapter(orderAdapter);
 
             // 주문결제 정보 불러오기
-            initLoadInfo(orderList, us_no, bundle);
+            initLoadInfo(orderList, us_no, args);
 
-            // 주문완료 페이지로 이동
-            ExtendedFloatingActionButton btnPayment = binding.btnPayment;
-
-            btnPayment.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    NavOptions navOptions = new NavOptions.Builder()
-                            .setPopUpTo(R.id.dest_inquiry, false)
-                            .setLaunchSingleTop(true)
-                            .build();
-
-                    navController.navigate(R.id.dest_payment, bundle, navOptions);
-                }
-            });
         }
     }
 
@@ -275,13 +367,13 @@ public class OrderFragment extends Fragment {
                 }
             }
         });
-        
+
         // 받는사람 정보
         Call<DeliveryAddress> addressCall = orderService.selectDeliveryForApp(us_no);
         addressCall.enqueue(new Callback<DeliveryAddress>() {
             @Override
             public void onResponse(Call<DeliveryAddress> call, Response<DeliveryAddress> response) {
-                DeliveryAddress deliveryAddress = response.body();
+                deliveryAddress = response.body();
 
                 // 받는 사람 이름
                 binding.daName.setText(deliveryAddress.getDa_name());
@@ -292,7 +384,8 @@ public class OrderFragment extends Fragment {
                 // 상세주소
                 binding.daDetailAdr.setText(deliveryAddress.getDa_detail_adr());
 
-                bundle.putSerializable("deliveryAddress", (Serializable) deliveryAddress);
+                movePayment(deliveryAddress);
+
             }
 
             @Override
@@ -335,6 +428,7 @@ public class OrderFragment extends Fragment {
         String limitDate = year + "년 " + month + "월 " + day + "일 " + hour + "시 " + minute + "분";
 
         binding.depositLimit.setText(limitDate);
+
     }
 
 
@@ -352,6 +446,26 @@ public class OrderFragment extends Fragment {
             // 하단 네이게이션바 나타내기
             bottomNavigation.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void movePayment(DeliveryAddress address) {
+        // bundle에 배송지정보 넣기
+        bundle.putSerializable("deliveryAddress", (Serializable) deliveryAddress);
+
+        // 주문완료 페이지로 이동
+        ExtendedFloatingActionButton btnPayment = binding.btnPayment;
+
+        btnPayment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavOptions navOptions = new NavOptions.Builder()
+                        .setPopUpTo(R.id.dest_inquiry, false)
+                        .setLaunchSingleTop(true)
+                        .build();
+
+                navController.navigate(R.id.dest_payment, bundle, navOptions);
+            }
+        });
     }
 
     @Override
