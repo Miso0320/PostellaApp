@@ -21,6 +21,7 @@ import com.appteam4.postella.dto.MyPageOrderList;
 import com.appteam4.postella.dto.Payment;
 import com.appteam4.postella.ui.PaymentAdapter;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class PaymentFragment extends Fragment {
@@ -69,6 +70,9 @@ public class PaymentFragment extends Fragment {
             // 주문정보 받아오기
             List<MyPageOrderList> orderList = (List<MyPageOrderList>) bundle.getSerializable("orderList");
 
+            // 한화 통화 형식을 사용
+            DecimalFormat df = new DecimalFormat("#,###");
+
             // 총 주문금액
             int totalPirce = 0;
             for(MyPageOrderList order : orderList) {
@@ -81,7 +85,7 @@ public class PaymentFragment extends Fragment {
             }
             
             // 결제금액
-            binding.finalTotalPrice.setText(String.valueOf(totalPirce + deliverFee));
+            binding.finalTotalPrice.setText(df.format(totalPirce + deliverFee));
             
             paymentAdapter.setOrderList(orderList);
 

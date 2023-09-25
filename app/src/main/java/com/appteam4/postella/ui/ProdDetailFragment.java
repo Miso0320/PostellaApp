@@ -40,6 +40,10 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Locale;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -68,6 +72,9 @@ public class ProdDetailFragment extends Fragment {
     private View bottomSheetView;
     private BottomSheetBehavior bottomSheetBehavior;
 
+    // 상품그룹식별번호
+    private int pg_no;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -92,13 +99,13 @@ public class ProdDetailFragment extends Fragment {
             if (args.getSerializable("product") != null) {
                 Product product = (Product) args.getSerializable("product");
                 if (product != null) {
-                    int pg_no = product.getPg_no();
+                    pg_no = product.getPg_no();
                     viewModel.setPgNo(pg_no);
                     // 상품상세 이미지 개수 받아오기
                     initImgCnt(pg_no);
                 }
             } else {
-                int pg_no = args.getInt("pg_no");
+                pg_no = args.getInt("pg_no");
                 viewModel.setPgNo(pg_no);
                 // 상품상세 이미지 개수 받아오기
                 initImgCnt(pg_no);
@@ -106,7 +113,7 @@ public class ProdDetailFragment extends Fragment {
         }
 
         // bottom sheet
-        ProdDetailBottomSheetFragment prodDetailBottomSheetFragment = new ProdDetailBottomSheetFragment();
+        ProdDetailBottomSheetFragment prodDetailBottomSheetFragment = new ProdDetailBottomSheetFragment(pg_no);
 
         // 버튼 클릭 시 bottom sheet를 보이도록 설정
         binding.btnBuy.setOnClickListener(v -> {
@@ -214,13 +221,17 @@ public class ProdDetailFragment extends Fragment {
             @Override
             public void onResponse(Call<Product> call, Response<Product> response) {
                 Product product = response.body();
+
+                // 한화 통화 형식을 사용
+                DecimalFormat df = new DecimalFormat("#,###");
+
                 binding.pgName.setText(product.getPg_name());
                 binding.discountRate.setText((String.valueOf(product.getSale_percent())) + "%");
-                binding.prdPrice.setText((String.valueOf(product.getPrd_price())) + "원");
-                binding.prdOrgPrice.setText((String.valueOf(product.getPrd_org_price())) + "원");
+                binding.prdPrice.setText(df.format(product.getPrd_price()) + "원");
+                binding.prdOrgPrice.setText(df.format(product.getPrd_org_price()) + "원");
                 binding.productRating.setRating(product.getPrd_star_avg());
                 binding.reviewCount.setText("(" + String.valueOf((product.getRevCnt())) + ")");
-                binding.shippingFee.setText(String.valueOf(product.getPrd_ship_fee()));
+                binding.shippingFee.setText(df.format(product.getPrd_ship_fee()));
                 binding.sellerName.setText(product.getSel_name());
 
                 // 이미지 받아오기
@@ -236,8 +247,6 @@ public class ProdDetailFragment extends Fragment {
         // TabLayoutMediator 활성화하기
         tabLayoutMediator.attach();
 
-        // 찜목록 추가 및 삭제
-        wishListInOut(productDetailService, pg_no);
     }
 
     /**
@@ -293,124 +302,6 @@ public class ProdDetailFragment extends Fragment {
                 initImgCnt(viewModel.getPgNo());
             }
         });
-    }
-
-    private void wishListInOut(ProductDetailService productDetailService, int pg_no) {
-        // 로그인 여부 확인
-        String exist = AppKeyValueStore.getValue(getContext(), "us_no");
-        // 찜목록 추가/삭제 버튼
-        CheckBox checkBox = (CheckBox) binding.checkboxFavorite;
-        // 로그인 되어 있는 경우
-        if (exist != null) {
-            // 유저식별번호 받아오기
-            int us_no = Integer.parseInt(AppKeyValueStore.getValue(getContext(), "us_no"));
-
-            MyWish myWish = new MyWish();
-            myWish.setUs_no(us_no);
-            myWish.setPg_no(pg_no);
-
-            // 처음에 체크여부 보여주기
-            Call<WishResult> initCall = productDetailService.checkWishForApp(pg_no, us_no);
-
-            initCall.enqueue(new Callback<WishResult>() {
-                @Override
-                public void onResponse(Call<WishResult> call, Response<WishResult> response) {
-                    WishResult wishResult = response.body();
-                    String result = wishResult.getResult();
-                    /// 기존 찜목록에 상품이 있는 경우 체크 상태
-                    if (!result.equals("true")) {
-                        checkBox.setChecked(true);
-                    } else {
-                        checkBox.setChecked(false);
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<WishResult> call, Throwable t) {
-                    t.printStackTrace();
-                }
-            });
-
-            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                        Call<WishResult> call = productDetailService.addWish(myWish);
-                        call.enqueue(new Callback<WishResult>() {
-                            @Override
-                            public void onResponse(Call<WishResult> call, Response<WishResult> response) {
-                                // WishResult 객체 가져오기
-                                WishResult wishResult = response.body();
-                                if (wishResult != null) {
-                                    String result = wishResult.getResult();
-                                    // 기존 찜목록에 상품이 없는 경우 상품추가하기
-                                    if (result.equals("success")) {
-                                        // 스낵바 띄우기
-                                        Snackbar snackbar = Snackbar.make(getView(), "상품을 나의 찜목록에 담았어요!", Snackbar.LENGTH_SHORT);
-                                        snackbar.setAction("바로가기", new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View view) {
-                                                /// 바로가기 클릭 시 찜목록으로 이동
-                                                navController.navigate(R.id.dest_wish_list);
-                                            }
-                                        });
-                                        snackbar.show();
-                                    } else {
-                                        Snackbar snackbar = Snackbar.make(getView(), "이미 추가된 상품입니다!", Snackbar.LENGTH_SHORT);
-                                        snackbar.setAction("바로가기", new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View view) {
-                                                // 바로가기 클릭 시 찜목록으로 이동
-                                                navController.navigate(R.id.dest_wish_list);
-                                            }
-                                        });
-                                        snackbar.show();
-                                    }
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<WishResult> call, Throwable t) {
-                                t.printStackTrace();
-                            }
-                        });
-                    } else {
-
-                        Call<WishResult> callRemove = productDetailService.removeWish(myWish);
-                        callRemove.enqueue(new Callback<WishResult>() {
-                            @Override
-                            public void onResponse(Call<WishResult> call, Response<WishResult> response) {
-                            }
-
-                            @Override
-                            public void onFailure(Call<WishResult> call, Throwable t) {
-                                t.printStackTrace();
-                            }
-                        });
-
-                    }
-                }
-            });
-        } else {    // 로그인되지 않은 경우
-            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    // 찜목록 체크해제
-                    checkBox.setChecked(false);
-
-                    // 스낵바 띄우기
-                    Snackbar snackbar = Snackbar.make(getView(), "로그인이 필요한 서비스입니다.", Snackbar.LENGTH_SHORT);
-                    snackbar.setAction("로그인하러가기", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            /// 바로가기 클릭 시 찜목록으로 이동
-                            navController.navigate(R.id.dest_login);
-                        }
-                    });
-                    snackbar.show();
-                }
-            });
-        }
     }
 
     @Override

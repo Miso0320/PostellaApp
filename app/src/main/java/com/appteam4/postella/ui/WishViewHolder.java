@@ -1,6 +1,5 @@
 package com.appteam4.postella.ui;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -12,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.appteam4.postella.R;
 import com.appteam4.postella.dto.MyWish;
 import com.appteam4.postella.service.WishService;
+
+import java.text.DecimalFormat;
 
 public class WishViewHolder extends RecyclerView.ViewHolder {
     private static final String TAG = "WishViewHolder";
@@ -63,10 +64,13 @@ public class WishViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setData(MyWish wish) {
+        // 한화 통화 형식을 사용
+        DecimalFormat df = new DecimalFormat("#,###");
+
         this.pgNo = wish.getPg_no();
         this.pgName.setText(wish.getPg_name());
         this.prdDiscount.setText(String.valueOf(wish.getSale_percent()) + "%");
-        this.prdPrice.setText(String.valueOf(wish.getPrd_price()) + "원");
+        this.prdPrice.setText(df.format(wish.getPrd_price()) + "원");
 
         // 상품 썸네일 이미지 받아오기
         WishService.loadImage(wish.getPrd_no(), pgImg);

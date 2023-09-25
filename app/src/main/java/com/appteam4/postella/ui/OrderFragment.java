@@ -31,6 +31,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -305,7 +306,6 @@ public class OrderFragment extends Fragment {
             // 유저식별번호 받아오기
             int us_no = Integer.parseInt(AppKeyValueStore.getValue(getContext(), "us_no"));
 
-            //bundle.putSerializable("cart", (Serializable) dtoList);
             // 장바구니 체크항목 받아오기
             //List<Cart> cartList = (List<Cart>) args.getSerializable("cart");
 
@@ -397,24 +397,27 @@ public class OrderFragment extends Fragment {
         // 주문상품 총 개수
         binding.productQty.setText(String.valueOf(orderList.size()));
 
+        // 한화 통화 형식을 사용
+        DecimalFormat df = new DecimalFormat("#,###");
+
         // 총 상품금액
         int total = 0;
         for (MyPageOrderList order : orderList) {
             total += order.getOd_detail_price();
         }
-        binding.totalPriceAmount.setText(String.valueOf(total) + "원");
+        binding.totalPriceAmount.setText(df.format(total) + "원");
 
         // 배송비
         int deliverFee = 3000;
         if (total >= 50000) {
             deliverFee = 0;
         }
-        binding.deliveryFee.setText(String.valueOf(deliverFee) + "원");
+        binding.deliveryFee.setText(df.format(deliverFee) + "원");
 
         // 총 결제금액
         int finalTotal = 0;
         finalTotal = total + deliverFee;
-        binding.finalTotalPrice.setText(String.valueOf(finalTotal) + "원");
+        binding.finalTotalPrice.setText(df.format(finalTotal) + "원");
 
         // 입금기한
         Calendar calendar = Calendar.getInstance();
