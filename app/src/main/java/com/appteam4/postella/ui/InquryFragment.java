@@ -33,6 +33,7 @@ import com.appteam4.postella.dto.Review;
 import com.appteam4.postella.service.InquiryService;
 import com.appteam4.postella.service.ServiceProvider;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import java.util.List;
 
@@ -44,6 +45,13 @@ public class InquryFragment extends Fragment {
     private static final String TAG = "InquryFragment";
     private FragmentInquryBinding binding;
     NavController navController;
+
+    // bottom sheet
+    private View bottomSheetView;
+    private BottomSheetBehavior bottomSheetBehavior;
+
+    // 상품그룹식별번호
+    private int pg_no;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,12 +67,20 @@ public class InquryFragment extends Fragment {
         if (args != null) {
             Product product = (Product) args.getSerializable("product");
             if (product != null) {
-                int pg_no = product.getPg_no();
+                pg_no = product.getPg_no();
 
                 // RecyclerView 초기화
                 initRecyclerView(pg_no);
             }
         }
+
+        // bottom sheet
+        ProdDetailBottomSheetFragment prodDetailBottomSheetFragment = new ProdDetailBottomSheetFragment(pg_no);
+
+        // 버튼 클릭 시 bottom sheet를 보이도록 설정
+        binding.btnBuy.setOnClickListener(v -> {
+            prodDetailBottomSheetFragment.show(getChildFragmentManager(), prodDetailBottomSheetFragment.getTag());
+        });
 
         // 하단 네비게이션바 숨기기
         hideBottomNavigation(true);

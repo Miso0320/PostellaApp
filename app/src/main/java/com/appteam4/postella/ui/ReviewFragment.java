@@ -31,6 +31,7 @@ import com.appteam4.postella.dto.Review;
 import com.appteam4.postella.service.ReviewService;
 import com.appteam4.postella.service.ServiceProvider;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import java.util.List;
 
@@ -47,6 +48,13 @@ public class ReviewFragment extends Fragment {
     int kind = 1;
     int starRate = 0;
 
+    // bottom sheet
+    private View bottomSheetView;
+    private BottomSheetBehavior bottomSheetBehavior;
+
+    // 상품그룹식별번호
+    private int pg_no;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -61,12 +69,20 @@ public class ReviewFragment extends Fragment {
         if (args != null) {
             Product product = (Product) args.getSerializable("product");
             if (product != null) {
-                int pg_no = product.getPg_no();
+                pg_no = product.getPg_no();
 
                 // 상품평 목록 RecyclerView 초기화
                 initRecyclerView(pg_no, kind, starRate);
             }
         }
+
+        // bottom sheet
+        ProdDetailBottomSheetFragment prodDetailBottomSheetFragment = new ProdDetailBottomSheetFragment(pg_no);
+
+        // 버튼 클릭 시 bottom sheet를 보이도록 설정
+        binding.btnBuy.setOnClickListener(v -> {
+            prodDetailBottomSheetFragment.show(getChildFragmentManager(), prodDetailBottomSheetFragment.getTag());
+        });
 
         // 스피너 설정
         initSpinner(args);
