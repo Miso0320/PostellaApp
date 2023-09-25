@@ -79,5 +79,7 @@ public class CartHolder extends RecyclerView.ViewHolder {
         int totalPrice = cart.getPrd_price() * cart.getCrt_qty();
         cartProdPrice.setText("총 " + df.format(totalPrice) + "원");
         cartQty.setText(df.format(cart.getCrt_qty()));
+
     }
+
 }

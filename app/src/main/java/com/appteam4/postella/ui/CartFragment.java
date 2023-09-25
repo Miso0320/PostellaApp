@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.TextView;
 
 
 import com.appteam4.postella.R;
@@ -97,7 +98,8 @@ public class CartFragment extends Fragment {
 
                 Bundle args = new Bundle();
                 args.putSerializable("cart", cart);
-                Log.i(TAG, "cart정보: " + cart);
+                args.putSerializable("pg_no", cart.getPg_no());
+
                 navController.navigate(R.id.action_dest_cart_to_dest_prod_detail);
             }
 
