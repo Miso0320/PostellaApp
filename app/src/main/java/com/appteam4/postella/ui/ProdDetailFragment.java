@@ -250,6 +250,24 @@ public class ProdDetailFragment extends Fragment {
         // TabLayoutMediator 활성화하기
         tabLayoutMediator.attach();
 
+        // 체크박스 이벤트 처리
+        binding.checkboxFavorite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) {
+                    Snackbar snackbar = Snackbar.make(getView(), "상품을 나의 찜목록에 담았어요!", Snackbar.LENGTH_SHORT);
+                    snackbar.setAction("바로가기", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            // 바로가기 클릭 시 찜목록 프래그먼트로 이동
+                            NavController navController = NavHostFragment.findNavController(ProdDetailFragment.this);
+                            navController.navigate(R.id.dest_wish_list, null);
+                        }
+                    });
+                    snackbar.show();
+                }
+            }
+        });
     }
 
     /**

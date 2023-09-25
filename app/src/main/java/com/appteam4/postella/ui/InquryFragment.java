@@ -21,6 +21,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -34,6 +35,7 @@ import com.appteam4.postella.service.InquiryService;
 import com.appteam4.postella.service.ServiceProvider;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -81,6 +83,9 @@ public class InquryFragment extends Fragment {
         binding.btnBuy.setOnClickListener(v -> {
             prodDetailBottomSheetFragment.show(getChildFragmentManager(), prodDetailBottomSheetFragment.getTag());
         });
+        
+        // 찜목록 추가
+        initCheck();
 
         // 하단 네비게이션바 숨기기
         hideBottomNavigation(true);
@@ -89,6 +94,27 @@ public class InquryFragment extends Fragment {
         initTabPage(args);
 
         return binding.getRoot();
+    }
+
+    private void initCheck() {
+        // 체크박스 이벤트 처리
+        binding.checkboxFavorite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) {
+                    Snackbar snackbar = Snackbar.make(getView(), "상품을 나의 찜목록에 담았어요!", Snackbar.LENGTH_SHORT);
+                    snackbar.setAction("바로가기", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            // 바로가기 클릭 시 찜목록 프래그먼트로 이동
+                            NavController navController = NavHostFragment.findNavController(InquryFragment.this);
+                            navController.navigate(R.id.dest_wish_list, null);
+                        }
+                    });
+                    snackbar.show();
+                }
+            }
+        });
     }
 
     @Override

@@ -45,6 +45,9 @@ public interface ProductDetailService {
     @POST("removeWishForApp")
     Call<WishResult> removeWish(@Body MyWish wish);
 
+    @GET("getWishListForApp")
+    Call<List<MyWish>> getWishList(@Query("us_no")int us_no);
+
     /* 상품상세 이미지 받아오기 */
     @GET
     static void loadDetailImage(int pg_no, ImageView imageView) {

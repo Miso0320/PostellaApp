@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
@@ -32,6 +33,7 @@ import com.appteam4.postella.service.ReviewService;
 import com.appteam4.postella.service.ServiceProvider;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -87,6 +89,9 @@ public class ReviewFragment extends Fragment {
         // 스피너 설정
         initSpinner(args);
 
+        // 찜목록 추가
+        initCheck();
+
         // 하단 네비게이션바 숨기기
         hideBottomNavigation(true);
 
@@ -104,9 +109,7 @@ public class ReviewFragment extends Fragment {
     }
 
     /**
-     *
      * 앱바 설정
-     *
      */
     private void initMenu() {
         MenuProvider menuProvider = new MenuProvider() {
@@ -131,12 +134,9 @@ public class ReviewFragment extends Fragment {
     }
 
     /**
-     *
      * 상품평 스피너 초기화
      *
-     * @param args
-     * 			Bundle 객체 전달
-     *
+     * @param args Bundle 객체 전달
      */
     private void initSpinner(Bundle args) {
         // 정렬 스피너
@@ -226,16 +226,11 @@ public class ReviewFragment extends Fragment {
     }
 
     /**
-     *
      * 상품평 목록 RecyclerView 초기화
      *
-     * @param pg_no
-     * 			상품 그룹 번호
-     * @param kind
-     * 			정렬순 결정값
-     * @param starRate
-     * 			별점별 필터링 구분값
-     *
+     * @param pg_no    상품 그룹 번호
+     * @param kind     정렬순 결정값
+     * @param starRate 별점별 필터링 구분값
      */
     private void initRecyclerView(int pg_no, int kind, int starRate) {
         // RecyclerView에서 항목을 수직으로 배치하도록 설정
@@ -295,13 +290,31 @@ public class ReviewFragment extends Fragment {
         });
     }
 
+    private void initCheck() {
+        // 체크박스 이벤트 처리
+        binding.checkboxFavorite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    Snackbar snackbar = Snackbar.make(getView(), "상품을 나의 찜목록에 담았어요!", Snackbar.LENGTH_SHORT);
+                    snackbar.setAction("바로가기", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            // 바로가기 클릭 시 찜목록 프래그먼트로 이동
+                            NavController navController = NavHostFragment.findNavController(ReviewFragment.this);
+                            navController.navigate(R.id.dest_wish_list, null);
+                        }
+                    });
+                    snackbar.show();
+                }
+            }
+        });
+    }
+
     /**
-     *
      * 하단 네비게이션바 보이기/숨기기
      *
-     * @param bool
-     * 			보이기/숨기기 결정값
-     *
+     * @param bool 보이기/숨기기 결정값
      */
     private void hideBottomNavigation(boolean bool) {
         BottomNavigationView bottomNavigation = getActivity().findViewById(R.id.bottom_navigation_view);
@@ -315,12 +328,9 @@ public class ReviewFragment extends Fragment {
     }
 
     /**
-     *
      * 상단 탭메뉴 이동
      *
-     * @param args
-     * 			Bundle 객체 전달
-     *
+     * @param args Bundle 객체 전달
      */
     private void initTabPage(Bundle args) {
         binding.tabProductDetail.setOnClickListener(v -> {
