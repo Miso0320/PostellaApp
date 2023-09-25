@@ -62,14 +62,14 @@
             android:layout_weight="1"
             android:text="장바구니 담기" />
 
-        <Button
+        <!--<Button
             android:id="@+id/btn_buy_now"
             style="?attr/materialButtonOutlinedStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            android:text="바로 구매" />
+            android:text="바로 구매" />-->
 
     </LinearLayout>
 

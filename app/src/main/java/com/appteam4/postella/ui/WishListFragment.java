@@ -203,7 +203,7 @@ public class WishListFragment extends Fragment {
                                 snackbar.setAction("바로가기", new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        // 바로가기 클릭 시 찜목록 프래그먼트로 이동
+                                        // 바로가기 클릭 시 장바구니 프래그먼트로 이동
                                         NavController navController = NavHostFragment.findNavController(WishListFragment.this);
                                         navController.navigate(R.id.dest_cart);
                                     }

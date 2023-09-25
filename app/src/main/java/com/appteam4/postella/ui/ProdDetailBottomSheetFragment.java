@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -19,6 +20,7 @@ import com.appteam4.postella.dto.Product;
 import com.appteam4.postella.service.ProductDetailService;
 import com.appteam4.postella.service.ServiceProvider;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -63,13 +65,14 @@ public class ProdDetailBottomSheetFragment extends BottomSheetDialogFragment {
 
         ProductDetailService productDetailService = ServiceProvider.getProductDetailService(getContext());
 
+        // Bundle 객체 셍성
+        Bundle bundle = new Bundle();
+
         // 로그인 여부 확인
         String exist = AppKeyValueStore.getValue(getContext(), "us_no");
+
         // 로그인 되어 있는 경우
         if (exist != null) {
-            // 유저식별번호 받아오기
-            //int us_no = Integer.parseInt(AppKeyValueStore.getValue(getContext(), "us_no"));
-
             Call<List<Product>> optionCall = productDetailService.detailOptionsForApp(pg_no);
 
             // 상품 옵션정보 받아오기
@@ -96,16 +99,23 @@ public class ProdDetailBottomSheetFragment extends BottomSheetDialogFragment {
                 @Override
                 public void onPlusBtnClick(View itemView, int position) {
                     Product product = prodDetailBottomAdapter.getItem(position);
-
+                    
                     // 현재 수량 가져오기
                     int quantity = product.getQuantity();
 
-                    if(quantity < 100) {
+                    if (quantity < 100) {
                         quantity++;
                     }
 
                     // 수량 업데이트
                     product.setQuantity(quantity);
+
+                    bundle.putInt("quantity", quantity);
+                    bundle.putInt("prd_no", product.getPrd_no());
+                    bundle.putString("prd_name", product.getPrd_name());
+                    bundle.putInt("prd_price", product.getPrd_price());
+
+                    // 변화 알리기
                     prodDetailBottomAdapter.notifyDataSetChanged();
                 }
 
@@ -116,11 +126,19 @@ public class ProdDetailBottomSheetFragment extends BottomSheetDialogFragment {
                     // 현재 수량 가져오기
                     int quantity = product.getQuantity();
 
-                    if(quantity > 0) {
+                    if (quantity > 0) {
                         quantity--;
                     }
                     // 수량 업데이트
                     product.setQuantity(quantity);
+
+
+                    bundle.putInt("quantity", quantity);
+                    bundle.putInt("prd_no", product.getPrd_no());
+                    bundle.putString("prd_name", product.getPrd_name());
+                    bundle.putInt("prd_price", product.getPrd_price());
+
+                    // 변화 알리기
                     prodDetailBottomAdapter.notifyDataSetChanged();
                 }
             });
@@ -129,5 +147,32 @@ public class ProdDetailBottomSheetFragment extends BottomSheetDialogFragment {
             Log.i(TAG, "로그인 안된 경우 처리 필요");
         }
 
+        // 주문결제 페이지로 이동
+        initBtnSet(bundle);
+
+    }
+
+    private void initBtnSet(Bundle bundle) {
+        binding.btnCart.setOnClickListener(v -> {
+            Snackbar snackbar = Snackbar.make(getView(), "상품을 장바구니에 담았어요!", Snackbar.LENGTH_SHORT);
+            snackbar.setAction("바로가기", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // 바로가기 클릭 시 장바구니 프래그먼트로 이동
+                    NavController navController = NavHostFragment.findNavController(ProdDetailBottomSheetFragment.this);
+                    navController.navigate(R.id.dest_cart);
+                }
+            });
+            snackbar.show();
+        });
+
+        /*binding.btnBuyNow.setOnClickListener(v -> {
+            NavOptions navOptions = new NavOptions.Builder()
+                    .setPopUpTo(R.id.dest_inquiry, false)
+                    .setLaunchSingleTop(true)
+                    .build();
+
+            navController.navigate(R.id.dest_order, bundle, navOptions);
+        });*/
     }
 }
