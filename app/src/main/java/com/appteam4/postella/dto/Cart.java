@@ -20,14 +20,6 @@ public class Cart implements Serializable {
     private String pg_name;		//상품 대분류 이름
     private int pg_no;
 
-    public int getPg_no() {
-        return pg_no;
-    }
-
-    public void setPg_no(int pg_no) {
-        this.pg_no = pg_no;
-    }
-
     public int getCartNo() {
         return cartNo;
     }
@@ -140,6 +132,14 @@ public class Cart implements Serializable {
         this.pg_name = pg_name;
     }
 
+    public int getPg_no() {
+        return pg_no;
+    }
+
+    public void setPg_no(int pg_no) {
+        this.pg_no = pg_no;
+    }
+
     @Override
     public String toString() {
         return "Cart{" +
@@ -157,6 +157,7 @@ public class Cart implements Serializable {
                 ", img_type='" + img_type + '\'' +
                 ", encodedFile='" + encodedFile + '\'' +
                 ", pg_name='" + pg_name + '\'' +
+                ", pg_no=" + pg_no +
                 '}';
     }
 }

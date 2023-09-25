@@ -98,7 +98,7 @@ public class CartFragment extends Fragment {
             @Override
             public void onItemClick(View itemView, int position) {
                 Cart cart = cartAdapter.getItem(position);
-                Log.i(TAG, cart.toString());
+                //Log.i(TAG, cart.toString());
 
                 Bundle args = new Bundle();
                 args.putSerializable("cart", cart);
