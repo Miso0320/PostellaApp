@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.appteam4.postella.R;
 import com.appteam4.postella.databinding.FragmentOrderBinding;
 import com.appteam4.postella.datastore.AppKeyValueStore;
+import com.appteam4.postella.dto.Cart;
 import com.appteam4.postella.dto.DeliveryAddress;
 import com.appteam4.postella.dto.MyPageOrderList;
 import com.appteam4.postella.dto.Payment;
@@ -145,7 +146,7 @@ public class OrderFragment extends Fragment {
         binding.makeDeposit.setOnClickListener(v -> {
             if (bankLayout.getVisibility() == View.VISIBLE) {
                 bankLayout.setVisibility(View.GONE);
-                
+
                 // 메뉴 선택 표시 해제
                 binding.accountTransfer.setTextColor(Color.parseColor("#7E57C2"));
                 binding.accountTransfer.setTypeface(null, Typeface.NORMAL);
@@ -316,7 +317,7 @@ public class OrderFragment extends Fragment {
                 // Cart DTO -> Order DTO 데이터 전달
                 for (int i = 0; i < cartList.size(); i++) {
                     orderList.get(i).setPrd_no(cartList.get(i).getPrd_no());
-                    orderList.get(i).setPg_name(cartList.get(i).getPg_name());
+                    //orderList.get(i).setPg_name(cartList.get(i).getPg_name());
                     orderList.get(i).setPrd_name(cartList.get(i).getPrd_name());
                     orderList.get(i).setOd_detail_price(cartList.get(i).getPrd_price());
                     orderList.get(i).setOd_detail_qty(cartList.get(i).getCrt_qty());

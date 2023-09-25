@@ -72,6 +72,7 @@ public class ProdDetailBottomSheetFragment extends BottomSheetDialogFragment {
 
             Call<List<Product>> optionCall = productDetailService.detailOptionsForApp(pg_no);
 
+            // 상품 옵션정보 받아오기
             optionCall.enqueue(new Callback<List<Product>>() {
                 @Override
                 public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
@@ -87,6 +88,40 @@ public class ProdDetailBottomSheetFragment extends BottomSheetDialogFragment {
                 @Override
                 public void onFailure(Call<List<Product>> call, Throwable t) {
                     t.printStackTrace();
+                }
+            });
+
+            // 수량조절 버튼 클릭 이벤트 설정
+            prodDetailBottomAdapter.setOnItemClickListener(new ProdDetailBottomAdapter.OnItemClickListener() {
+                @Override
+                public void onPlusBtnClick(View itemView, int position) {
+                    Product product = prodDetailBottomAdapter.getItem(position);
+
+                    // 현재 수량 가져오기
+                    int quantity = product.getQuantity();
+
+                    if(quantity < 100) {
+                        quantity++;
+                    }
+
+                    // 수량 업데이트
+                    product.setQuantity(quantity);
+                    prodDetailBottomAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onMinusBtnClick(View itemView, int position) {
+                    Product product = prodDetailBottomAdapter.getItem(position);
+
+                    // 현재 수량 가져오기
+                    int quantity = product.getQuantity();
+
+                    if(quantity > 0) {
+                        quantity--;
+                    }
+                    // 수량 업데이트
+                    product.setQuantity(quantity);
+                    prodDetailBottomAdapter.notifyDataSetChanged();
                 }
             });
 

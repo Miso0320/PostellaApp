@@ -1,5 +1,6 @@
 package com.appteam4.postella.ui;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -26,7 +27,9 @@ public class ProdDetailBottomViewHolder extends RecyclerView.ViewHolder {
     private Button plusBtn;             // 수량 +1
     private Button minusBtn;            // 수량 -1
 
-    public ProdDetailBottomViewHolder(@NonNull View itemView) {
+    private ProdDetailBottomAdapter.OnItemClickListener listener;
+
+    public ProdDetailBottomViewHolder(@NonNull View itemView, ProdDetailBottomAdapter.OnItemClickListener onItemClickListener) {
         super(itemView);
         // 아이템 UI 얻기
         this.optionName = itemView.findViewById(R.id.option_name);
@@ -34,6 +37,16 @@ public class ProdDetailBottomViewHolder extends RecyclerView.ViewHolder {
         this.optionQty = itemView.findViewById(R.id.option_qty);
         this.plusBtn = itemView.findViewById(R.id.btn_plus);
         this.minusBtn = itemView.findViewById(R.id.btn_minus);
+
+        this.listener = listener;
+
+        plusBtn.setOnClickListener(v -> {
+            onItemClickListener.onPlusBtnClick(v, getAdapterPosition());
+        });
+
+        minusBtn.setOnClickListener(v -> {
+            onItemClickListener.onMinusBtnClick(v, getAdapterPosition());
+        });
     }
 
     public void setData(Product product) {
@@ -44,6 +57,6 @@ public class ProdDetailBottomViewHolder extends RecyclerView.ViewHolder {
         this.prdNo = product.getPrd_no();
         this.optionName.setText(product.getPrd_name());
         this.optionPrice.setText(df.format(product.getPrd_price()) + "원");
+        this.optionQty.setText(String.valueOf(product.getQuantity()));
     }
-
 }
