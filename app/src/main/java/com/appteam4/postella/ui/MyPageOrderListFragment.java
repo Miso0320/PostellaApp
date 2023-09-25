@@ -121,7 +121,8 @@ public class MyPageOrderListFragment extends Fragment {
 
                 Bundle args = new Bundle();
                 args.putSerializable("orderList", orderList);
-                Log.i(TAG, "orderList정보: " + orderList);
+                args.putSerializable("pg_no", orderList.getPg_no());
+
                 navController.navigate(R.id.action_dest_mypage_order_list_to_dest_prod_detail);
             }
         });
