@@ -35,6 +35,7 @@ public class CartHolder extends RecyclerView.ViewHolder {
     private AppCompatButton btnMinus;
     private AppCompatButton btnPlus;
     private CheckBox btnProdCheckbox;
+    private Button btnBuyItem;
 
     public CartHolder(@NonNull View itemView, CartAdapter.CartOnItemClickListener onItemClickListener) {
         super(itemView);
@@ -48,6 +49,7 @@ public class CartHolder extends RecyclerView.ViewHolder {
         this.btnMinus = (AppCompatButton) itemView.findViewById(R.id.btn_minus);
         this.btnPlus = (AppCompatButton) itemView.findViewById(R.id.btn_plus);
         this.btnProdCheckbox = (CheckBox) itemView.findViewById(R.id.btn_prod_checkbox);
+        this.btnBuyItem = (Button) itemView.findViewById(R.id.btn_buy_item);
 
         //클릭 이벤트 처리
         itemView.setOnClickListener(v -> {
@@ -64,6 +66,10 @@ public class CartHolder extends RecyclerView.ViewHolder {
 
         btnProdCheckbox.setOnClickListener(v -> {
             onItemClickListener.btnCheckBoxClick(btnProdCheckbox, getAdapterPosition());
+        });
+
+        btnBuyItem.setOnClickListener(v -> {
+            onItemClickListener.btnBuyItem(btnBuyItem, getAdapterPosition());
         });
     }
 

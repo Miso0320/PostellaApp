@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
@@ -104,6 +105,20 @@ public class CartFragment extends Fragment {
             }
 
             @Override
+            public void btnBuyItem(Button button, int position) {
+                Cart cart = cartAdapter.getItem(position);
+
+                Bundle args = new Bundle();
+                args.putSerializable("prd_no", cart.getPrd_no());
+                args.putSerializable("pg_name", cart.getPg_name());
+                args.putSerializable("prd_name", cart.getPrd_name());
+                args.putSerializable("prd_price", cart.getPrd_price());
+                args.putSerializable("crt_qty", cart.getCrt_qty());
+
+                navController.navigate(R.id.action_dest_cart_to_dest_order);
+            }
+
+            @Override
             public void btnMinusClick(View itemView, int position) {
                 // 해당 위치의 아이템을 가져옴
                 Cart cart = cartAdapter.getItem(position);
@@ -183,6 +198,7 @@ public class CartFragment extends Fragment {
                     binding.btnCheckAll.setChecked(false);
                 }
             }
+
         });
     }
     private void initBtnCheckAll(CartAdapter cartAdapter) {
