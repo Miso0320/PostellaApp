@@ -1,5 +1,6 @@
 package com.appteam4.postella.ui;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 
 
@@ -27,6 +28,7 @@ import com.appteam4.postella.dto.Cart;
 import com.appteam4.postella.service.CartService;
 import com.appteam4.postella.service.ServiceProvider;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,6 +53,7 @@ public class CartFragment extends Fragment {
 
         initRecyclerViewCart(cartAdapter);
         initBtnCheckAll(cartAdapter);
+        initBtnBuyItem(cartAdapter);
 
         return binding.getRoot();
     }
@@ -101,21 +104,7 @@ public class CartFragment extends Fragment {
                 args.putSerializable("cart", cart);
                 args.putSerializable("pg_no", cart.getPg_no());
 
-                navController.navigate(R.id.action_dest_cart_to_dest_prod_detail);
-            }
-
-            @Override
-            public void btnBuyItem(Button button, int position) {
-                Cart cart = cartAdapter.getItem(position);
-
-                Bundle args = new Bundle();
-                args.putSerializable("prd_no", cart.getPrd_no());
-                args.putSerializable("pg_name", cart.getPg_name());
-                args.putSerializable("prd_name", cart.getPrd_name());
-                args.putSerializable("prd_price", cart.getPrd_price());
-                args.putSerializable("crt_qty", cart.getCrt_qty());
-
-                navController.navigate(R.id.action_dest_cart_to_dest_order);
+                navController.navigate(R.id.action_dest_cart_to_dest_prod_detail, args);
             }
 
             @Override
@@ -209,6 +198,26 @@ public class CartFragment extends Fragment {
                 checkBox.setChecked(binding.btnCheckAll.isChecked());
             }
             cartAdapter.setAllChecked(binding.btnCheckAll.isChecked());
+        });
+    }
+
+    private void initBtnBuyItem(CartAdapter cartAdapter) {
+        binding.btnBuyItem.setOnClickListener(v -> {
+            List<Cart> list = new ArrayList<>();
+
+            for (int i=0; i<cartAdapter.getItemCount(); i++){
+                if (checkBoxList.get(i)){
+                    list.add(cartAdapter.getItem(i));
+                }
+            }
+
+            Bundle args = new Bundle();
+            if (list == null) {
+                args.putSerializable("cartList", (Serializable) list);
+                navController.navigate(R.id.action_dest_cart_to_dest_order, args);
+            } else {
+                Log.i(TAG, "상품을 선택해주세요");
+            }
         });
     }
 }

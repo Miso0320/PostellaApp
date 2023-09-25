@@ -74,7 +74,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartHolder> {
         void btnMinusClick(View itemView, int position);
         void btnPlusClick(View itemView, int position);
         void btnCheckBoxClick(CheckBox checkBox, int position);
-        void btnBuyItem(Button button, int position);
     }
 
     public void setOnItemClickListener(CartOnItemClickListener cartOnItemClickListener) {
