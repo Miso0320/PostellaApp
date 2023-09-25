@@ -28,6 +28,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartHolder> {
     List<Cart> list = new ArrayList<>();
     private CartOnItemClickListener cartOnItemClickListener;
     private CartService cartService;
+    private Boolean isAllChecked = false;
 
     @NonNull
     @Override
@@ -48,6 +49,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartHolder> {
     public void onBindViewHolder(@NonNull CartHolder holder, int position) {
         // 해당 위치(position)의 List<Cart> 객체를 가져옴
         Cart cart = list.get(position);
+
+        if (isAllChecked) {
+            CheckBox checkBox = holder.itemView.findViewById(R.id.btn_prod_checkbox);
+            checkBox.setChecked(true);
+        }
+
         // ViewHolder에 데이터를 설정하여 화면에 표시
         holder.setCartData(cart);
     }
@@ -76,4 +83,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartHolder> {
         return list.get(position);
     }
 
+    public void setAllChecked(Boolean allChecked) {
+        isAllChecked = allChecked;
+    }
 }

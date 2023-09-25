@@ -37,8 +37,7 @@ public class CartFragment extends Fragment {
     private static final String TAG = "CartFragment";
     private FragmentCartBinding binding;
     private NavController navController;
-    private List<Boolean> checkBoxList = new ArrayList<>();
-
+    private List<Boolean> checkBoxList = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,19 +45,19 @@ public class CartFragment extends Fragment {
         binding = FragmentCartBinding.inflate(inflater);
         navController = NavHostFragment.findNavController(this);
 
-        initRecyclerViewCart();
+        CartAdapter cartAdapter = new CartAdapter();
+
+        initRecyclerViewCart(cartAdapter);
+        initBtnCheckAll(cartAdapter);
 
         return binding.getRoot();
     }
 
-    private void initRecyclerViewCart() {
+    private void initRecyclerViewCart(CartAdapter cartAdapter) {
         // RecyclerView 에서 항목을 수직으로 배치
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(
                 getContext(), LinearLayoutManager.VERTICAL, false);
         binding.recyclerViewCart.setLayoutManager(linearLayoutManager);
-
-        // Adapter 생성
-        CartAdapter cartAdapter = new CartAdapter();
 
         if (AppKeyValueStore.getValue(getContext(), "us_no") != null) {
             // 공유데이터에서 us_no가져오기
@@ -98,6 +97,7 @@ public class CartFragment extends Fragment {
 
                 Bundle args = new Bundle();
                 args.putSerializable("cart", cart);
+                Log.i(TAG, "cart정보: " + cart);
                 navController.navigate(R.id.action_dest_cart_to_dest_prod_detail);
             }
 
@@ -161,22 +161,36 @@ public class CartFragment extends Fragment {
 
             @Override
             public void btnCheckBoxClick(CheckBox checkBox, int position) {
+
+                // 최초 실행 시 초기화
+                if (checkBoxList == null) {
+                    checkBoxList = new ArrayList<>();
+                    for (int i=0; i<cartAdapter.getItemCount(); i++) {
+                        checkBoxList.add(i, false);
+                    }
+                }
+
                 // 리스트에 포지션과 체크여부를 저장
                 checkBoxList.set(position, checkBox.isChecked());
+                Log.i(TAG, "리스트: " + checkBoxList);
 
-                /*binding.btnCheckAll.setOnClickListener(v -> {
-                    // 모든 체크박스를 선택 상태로 변경
-                    for (int i = 0; i < checkBoxList.size(); i++) {
-                        checkBoxList.set(i, true);
-                    }
-                    // RecyclerView를 업데이트하여 변경된 데이터를 반영
-                    cartAdapter.notifyDataSetChanged();
-                });*/
-
-                // RecyclerView를 업데이트하여 변경된 데이터를 반영
-                cartAdapter.notifyItemChanged(position);
+                // 모두 체크 되었으면 전체선택 체크
+                if (!checkBoxList.contains(false)) {
+                    binding.btnCheckAll.setChecked(true);
+                } else {
+                    binding.btnCheckAll.setChecked(false);
+                }
             }
         });
-
+    }
+    private void initBtnCheckAll(CartAdapter cartAdapter) {
+        binding.btnCheckAll.setOnClickListener(v -> {
+            for (int i=0; i<binding.recyclerViewCart.getChildCount(); i++) {
+                View view = binding.recyclerViewCart.getChildAt(i);
+                CheckBox checkBox = view.findViewById(R.id.btn_prod_checkbox);
+                checkBox.setChecked(binding.btnCheckAll.isChecked());
+            }
+            cartAdapter.setAllChecked(binding.btnCheckAll.isChecked());
+        });
     }
 }

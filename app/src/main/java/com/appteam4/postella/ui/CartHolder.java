@@ -63,7 +63,7 @@ public class CartHolder extends RecyclerView.ViewHolder {
         });
 
         btnProdCheckbox.setOnClickListener(v -> {
-            onItemClickListener.btnPlusClick(btnProdCheckbox, getAdapterPosition());
+            onItemClickListener.btnCheckBoxClick(btnProdCheckbox, getAdapterPosition());
         });
     }
 
