@@ -51,7 +51,6 @@ public class MyPageOrderListFragment extends Fragment {
 
         initMenu();
         initRecyclerViewMyOrderList();
-        //initClickProfile();
         initBtnLogout();
         initBtnImageSelect();
 
