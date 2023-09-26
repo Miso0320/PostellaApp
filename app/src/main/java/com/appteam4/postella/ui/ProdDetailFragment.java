@@ -96,7 +96,6 @@ public class ProdDetailFragment extends Fragment {
 
         // Bundle에서 객체 받아오기
         Bundle args = getArguments();
-        Log.i(TAG, "번들이 받아지나용? **************" + args);
         if (args != null) {
             if (args.getSerializable("product") != null) {
                 Product product = (Product) args.getSerializable("product");
@@ -108,7 +107,6 @@ public class ProdDetailFragment extends Fragment {
                 }
             } else {
                 pg_no = args.getInt("pg_no");
-                Log.i(TAG, "상품번호를 받기**************" + pg_no);
                 viewModel.setPgNo(pg_no);
                 // 상품상세 이미지 개수 받아오기
                 initImgCnt(pg_no);

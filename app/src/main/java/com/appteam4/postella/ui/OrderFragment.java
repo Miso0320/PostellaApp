@@ -308,23 +308,32 @@ public class OrderFragment extends Fragment {
             int us_no = Integer.parseInt(AppKeyValueStore.getValue(getContext(), "us_no"));
 
             // 장바구니 체크항목 받아오기
-            //List<Cart> cartList = (List<Cart>) args.getSerializable("cart");
+            List<Cart> cartList = (List<Cart>) args.getSerializable("cartList");
 
             // MyPageOrderList에 필요한 정보 저장
             List<MyPageOrderList> orderList = new ArrayList<>();
 
-            /*if (cartList != null) {
+            if (cartList != null) {
                 // Cart DTO -> Order DTO 데이터 전달
+                Log.i(TAG, "사이즈*******************************" + cartList.size());
                 for (int i = 0; i < cartList.size(); i++) {
-                    orderList.get(i).setPrd_no(cartList.get(i).getPrd_no());
-                    //orderList.get(i).setPg_name(cartList.get(i).getPg_name());
+                    MyPageOrderList item = new MyPageOrderList();
+                    /*orderList.get(i).setPrd_no(cartList.get(i).getPrd_no());
+                    orderList.get(i).setPg_name(cartList.get(i).getPg_name());
                     orderList.get(i).setPrd_name(cartList.get(i).getPrd_name());
                     orderList.get(i).setOd_detail_price(cartList.get(i).getPrd_price());
-                    orderList.get(i).setOd_detail_qty(cartList.get(i).getCrt_qty());
-                }
-            }*/
+                    orderList.get(i).setOd_detail_qty(cartList.get(i).getCrt_qty());*/
+                    item.setPrd_no(cartList.get(i).getPrd_no());
+                    item.setPg_name(cartList.get(i).getPg_name());
+                    item.setPrd_name(cartList.get(i).getPrd_name());
+                    item.setOd_detail_price(cartList.get(i).getPrd_price());
+                    item.setOd_detail_qty(cartList.get(i).getCrt_qty());
 
-            for (int i = 0; i < 10; i++) {
+                    orderList.add(item);
+                }
+            }
+
+            /*for (int i = 0; i < 10; i++) {
                 MyPageOrderList item = new MyPageOrderList();
                 item.setPrd_no(i);
                 item.setPg_name("상품명" + i);
@@ -333,7 +342,7 @@ public class OrderFragment extends Fragment {
                 item.setOd_detail_qty(i);
 
                 orderList.add(item);
-            }
+            }*/
 
             bundle.putSerializable("orderList", (Serializable) orderList);
 

@@ -27,6 +27,7 @@ import com.appteam4.postella.dto.Cart;
 
 import com.appteam4.postella.service.CartService;
 import com.appteam4.postella.service.ServiceProvider;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -212,11 +213,13 @@ public class CartFragment extends Fragment {
             }
 
             Bundle args = new Bundle();
-            if (list == null) {
+            if (list != null) {
                 args.putSerializable("cartList", (Serializable) list);
                 navController.navigate(R.id.action_dest_cart_to_dest_order, args);
+                Log.i(TAG, "list**********************************************" + list);
             } else {
-                Log.i(TAG, "상품을 선택해주세요");
+                Snackbar snackbar = Snackbar.make(getView(), "상품을 선택해주세요!", Snackbar.LENGTH_SHORT);
+                snackbar.show();
             }
         });
     }
