@@ -38,5 +38,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderViewHolder> {
 
     public void setOrderList(List<MyPageOrderList> orderList) {
         this.orderList = orderList;
+        // 데이터가 변경된 것을 알리기
+        notifyDataSetChanged();
     }
 }

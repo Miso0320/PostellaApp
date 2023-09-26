@@ -413,7 +413,8 @@ public class OrderFragment extends Fragment {
         // 총 상품금액
         int total = 0;
         for (MyPageOrderList order : orderList) {
-            total += order.getOd_detail_price();
+            int temp = order.getOd_detail_price() * order.getOd_detail_qty();
+            total += temp;
         }
         binding.totalPriceAmount.setText(df.format(total) + "원");
 

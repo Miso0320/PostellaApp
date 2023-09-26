@@ -1,5 +1,6 @@
 package com.appteam4.postella.ui;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,6 +30,7 @@ public class OrderViewHolder extends RecyclerView.ViewHolder {
         this.prd_name = itemView.findViewById(R.id.prd_name);
         this.prd_price = itemView.findViewById(R.id.prd_price);
         this.prd_qty = itemView.findViewById(R.id.prd_qty);
+        this.pgImg = itemView.findViewById(R.id.pg_img);
     }
 
     public void setData(MyPageOrderList order) {
@@ -43,7 +45,9 @@ public class OrderViewHolder extends RecyclerView.ViewHolder {
         int totalPrice = order.getOd_detail_price() * order.getOd_detail_qty();
         this.prd_price.setText(df.format(totalPrice) + "원");
 
+        Log.i(TAG, "setData:************************* " + order.getPrd_no());
+
         // 상품 썸네일 이미지 받아오기
-        //OrderService.loadImage(order.getPrd_no(), pgImg);
+        OrderService.loadImage(order.getPrd_no(), pgImg);
     }
 }
