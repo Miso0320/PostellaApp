@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
             showAd();
         }
 
+        // 폭죽 애니메이션 Konfetti
         KonfettiView viewKonfetti = findViewById(R.id.konfettiView);
         EmitterConfig emitterConfig = new Emitter(300, TimeUnit.MILLISECONDS).max(300);
         viewKonfetti.start(
