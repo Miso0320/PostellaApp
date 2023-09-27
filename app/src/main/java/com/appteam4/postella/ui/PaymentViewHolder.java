@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.appteam4.postella.R;
 import com.appteam4.postella.dto.MyPageOrderList;
+import com.appteam4.postella.service.OrderService;
 
 import java.text.DecimalFormat;
 
@@ -25,6 +26,7 @@ public class PaymentViewHolder extends RecyclerView.ViewHolder {
         this.pg_name = itemView.findViewById(R.id.pg_name);
         this.prd_name = itemView.findViewById(R.id.prd_name);
         this.prd_price = itemView.findViewById(R.id.prd_price);
+        this.pgImg = itemView.findViewById(R.id.pg_img);
     }
 
     public void setData(MyPageOrderList order) {
@@ -39,6 +41,6 @@ public class PaymentViewHolder extends RecyclerView.ViewHolder {
         this.prd_price.setText(df.format(totalPrice) + "원");
 
         // 상품 썸네일 이미지 받아오기
-        //OrderService.loadImage(order.getPrd_no(), pgImg);
+        OrderService.loadImage(order.getPrd_no(), pgImg);
     }
 }
