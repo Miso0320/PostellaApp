@@ -27,6 +27,15 @@ import com.appteam4.postella.ui.MainFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.concurrent.TimeUnit;
+
+import nl.dionsegijn.konfetti.core.PartyFactory;
+import nl.dionsegijn.konfetti.core.emitter.Emitter;
+import nl.dionsegijn.konfetti.core.emitter.EmitterConfig;
+import nl.dionsegijn.konfetti.core.models.Shape;
+import nl.dionsegijn.konfetti.core.models.Size;
+import nl.dionsegijn.konfetti.xml.KonfettiView;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
@@ -73,7 +82,21 @@ public class MainActivity extends AppCompatActivity {
             showAd();
         }
 
+        KonfettiView viewKonfetti = findViewById(R.id.konfettiView);
+        EmitterConfig emitterConfig = new Emitter(300, TimeUnit.MILLISECONDS).max(300);
+        viewKonfetti.start(
+                new PartyFactory(emitterConfig)
+                        .shapes(Shape.Circle.INSTANCE, Shape.Square.INSTANCE)
+                        .spread(360)
+                        .position(0, 0.1, 1, 1)
+                        .sizes(new Size(8, 50, 10))
+                        .timeToLive(5000)
+                        .fadeOutEnabled(true)
+                        .build()
+        );
+
     }
+
     private void initAppbar() {
         // Toolbar를 앱바로 설정
         setSupportActionBar(binding.toolbar);
