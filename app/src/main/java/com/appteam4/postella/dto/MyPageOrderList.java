@@ -5,13 +5,13 @@ import java.io.Serializable;
 public class MyPageOrderList implements Serializable {
     private int od_no;					// 주문번호
     private int us_no;					// 회원고유번호
+    private String us_name;             // 이름
     private long od_date;				// 주문날짜
     private String od_status;			// 주문상태
     private int od_item_cnt;			// 주문상품 종류의 개수
     private long od_arrived_date;		// 구매자가 배송받은 날짜
     private int pg_no;
     private String pg_name;
-
     private String prd_name;			// 상품명
     private int prd_no;					// 상품고유번호
     private int od_detail_qty;			// 개별 상품 개수
@@ -19,6 +19,14 @@ public class MyPageOrderList implements Serializable {
     private int od_detail_no;			// 개별 상품 식별번호
     private String img_type;			// 이미지 MIME 타입
     private String encodedFile;			// 인코딩된 이미지
+
+    public String getUs_name() {
+        return us_name;
+    }
+
+    public void setUs_name(String us_name) {
+        this.us_name = us_name;
+    }
 
     public String getPg_name() {
         return pg_name;
@@ -145,6 +153,7 @@ public class MyPageOrderList implements Serializable {
         return "MyPageOrderList{" +
                 "od_no=" + od_no +
                 ", us_no=" + us_no +
+                ", us_name='" + us_name + '\'' +
                 ", od_date=" + od_date +
                 ", od_status='" + od_status + '\'' +
                 ", od_item_cnt=" + od_item_cnt +

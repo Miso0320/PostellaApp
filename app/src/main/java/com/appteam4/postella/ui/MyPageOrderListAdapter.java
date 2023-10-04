@@ -55,6 +55,7 @@ public class MyPageOrderListAdapter extends RecyclerView.Adapter<MyPageOrderList
 
     public interface OnItemClickListener {
         void onItemClick(View itemView, int position);
+        void addCartClick();
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {

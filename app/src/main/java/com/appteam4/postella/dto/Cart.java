@@ -19,6 +19,15 @@ public class Cart implements Serializable {
     private String encodedFile;	//encoded된 이미지파일
     private String pg_name;		//상품 대분류 이름
     private int pg_no;
+    private String us_name;
+
+    public String getUs_name() {
+        return us_name;
+    }
+
+    public void setUs_name(String us_name) {
+        this.us_name = us_name;
+    }
 
     public int getCartNo() {
         return cartNo;
@@ -158,6 +167,7 @@ public class Cart implements Serializable {
                 ", encodedFile='" + encodedFile + '\'' +
                 ", pg_name='" + pg_name + '\'' +
                 ", pg_no=" + pg_no +
+                ", us_name='" + us_name + '\'' +
                 '}';
     }
 }

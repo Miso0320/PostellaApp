@@ -30,6 +30,7 @@ import com.appteam4.postella.service.ServiceProvider;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +44,7 @@ public class CartFragment extends Fragment {
     private FragmentCartBinding binding;
     private NavController navController;
     private List<Boolean> checkBoxList = null;
+    private int currentPrice = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -82,6 +84,7 @@ public class CartFragment extends Fragment {
                         cartAdapter.setList(cartList);
                         // RecyclerView에 어댑터 세팅
                         binding.recyclerViewCart.setAdapter(cartAdapter);
+                        binding.cartUserName.setText(cartList.get(0).getUs_name() + "님의 배송상품");
                     } else {
                         Log.i(TAG, "onResponse: 리스트가 널이여~");
                     }
@@ -187,6 +190,21 @@ public class CartFragment extends Fragment {
                 } else {
                     binding.btnCheckAll.setChecked(false);
                 }
+
+                // 총 가격
+                Boolean checkValue = checkBoxList.get(position).booleanValue();
+
+                int prdPrice = cartAdapter.getItem(position).getPrd_price();
+                int crtQty = cartAdapter.getItem(position).getCrt_qty();
+
+                if (checkValue) {
+                    currentPrice += prdPrice * crtQty;
+                } else {
+                    currentPrice -= prdPrice * crtQty;
+                }
+
+                DecimalFormat df = new DecimalFormat("#,###");
+                binding.cartSelectedPrice.setText(df.format(currentPrice) + "원");
             }
 
         });
@@ -197,6 +215,18 @@ public class CartFragment extends Fragment {
                 View view = binding.recyclerViewCart.getChildAt(i);
                 CheckBox checkBox = view.findViewById(R.id.btn_prod_checkbox);
                 checkBox.setChecked(binding.btnCheckAll.isChecked());
+
+                int prdPrice = cartAdapter.getItem(i).getPrd_price();
+                int crtQty = cartAdapter.getItem(i).getCrt_qty();
+
+                if (binding.btnCheckAll.isChecked()) {
+                    currentPrice += prdPrice * crtQty * 40;
+                } else {
+                    currentPrice -= prdPrice * crtQty * 40;
+                }
+
+                DecimalFormat df = new DecimalFormat("#,###");
+                binding.cartSelectedPrice.setText(df.format(currentPrice) + "원");
             }
             cartAdapter.setAllChecked(binding.btnCheckAll.isChecked());
         });
@@ -216,7 +246,7 @@ public class CartFragment extends Fragment {
             if (list != null) {
                 args.putSerializable("cartList", (Serializable) list);
                 navController.navigate(R.id.action_dest_cart_to_dest_order, args);
-                Log.i(TAG, "list**********************************************" + list);
+                Log.i(TAG, "list***********" + list);
             } else {
                 Snackbar snackbar = Snackbar.make(getView(), "상품을 선택해주세요!", Snackbar.LENGTH_SHORT);
                 snackbar.show();

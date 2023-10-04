@@ -73,6 +73,7 @@ public class ServiceProvider {
         return productGroupService;
     }
 
+    // 마이페이지
     public static MyPageOrderListService getMyPageOrderList(Context context) {
         MyPageOrderListService myPageOrderListService = getRetrofit(context).create(MyPageOrderListService.class);
         return myPageOrderListService;
@@ -84,6 +85,7 @@ public class ServiceProvider {
         return cartService;
     }
 
+    // 로그인
     public static UserService getUserService(Context context) {
         UserService userService = getRetrofit(context).create(UserService.class);
         return userService;

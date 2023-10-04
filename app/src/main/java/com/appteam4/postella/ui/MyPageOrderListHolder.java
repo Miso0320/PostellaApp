@@ -2,6 +2,7 @@ package com.appteam4.postella.ui;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,6 +35,7 @@ public class MyPageOrderListHolder extends RecyclerView.ViewHolder {
     private TextView orderPrdName;
     private TextView orderDetailQty;
     private TextView orderArrivalDate;
+    private Button btnAddCart;
 
     public MyPageOrderListHolder (@NonNull View itemView, MyPageOrderListAdapter.OnItemClickListener onItemClickListener) {
         super(itemView);
@@ -45,12 +47,15 @@ public class MyPageOrderListHolder extends RecyclerView.ViewHolder {
         orderPrdName = (TextView) itemView.findViewById(R.id.order_prd_name);
         orderDetailQty = (TextView) itemView.findViewById(R.id.order_detail_qty);
         orderArrivalDate = (TextView) itemView.findViewById(R.id.order_arrival_date);
-
+        btnAddCart = (Button) itemView.findViewById(R.id.btn_add_cart);
 
         //클릭 이벤트 처리
         itemView.setOnClickListener(v -> {
-            Log.i(TAG, "orderListNo : " + orderListNo);
             onItemClickListener.onItemClick(v, getAdapterPosition());
+        });
+
+        btnAddCart.setOnClickListener(v -> {
+            onItemClickListener.addCartClick();
         });
     }
 
@@ -65,7 +70,6 @@ public class MyPageOrderListHolder extends RecyclerView.ViewHolder {
         orderDetailQty.setText(myPageOrderList.getOd_detail_qty() + "개");
 
         Long arrivalDate = myPageOrderList.getOd_arrived_date();
-        Log.i(TAG, "날짜: " + arrivalDate);
         if (arrivalDate != 0) {
             Date date = new Date(myPageOrderList.getOd_arrived_date());
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");

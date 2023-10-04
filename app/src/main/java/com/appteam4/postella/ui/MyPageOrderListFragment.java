@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.PickVisualMediaRequest;
@@ -42,12 +44,11 @@ public class MyPageOrderListFragment extends Fragment {
     private FragmentMyOrderListBinding binding;
     private NavController navController;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-       binding = FragmentMyOrderListBinding.inflate(inflater);
-       navController = NavHostFragment.findNavController(this);
+        binding = FragmentMyOrderListBinding.inflate(inflater);
+        navController = NavHostFragment.findNavController(this);
 
         initMenu();
         initRecyclerViewMyOrderList();
@@ -96,6 +97,7 @@ public class MyPageOrderListFragment extends Fragment {
                         orderListAdapter.setList(list);
                         // RecyclerView에 어댑터 세팅
                         binding.recyclerViewMyOrderList.setAdapter(orderListAdapter);
+                        binding.userName.setText(list.get(0).getUs_name() + "님 환영합니다.");
                     } else {
                         Log.i(TAG, "onResponse: 리스트가 널이여~");
                     }
@@ -123,6 +125,11 @@ public class MyPageOrderListFragment extends Fragment {
                 args.putSerializable("pg_no", orderList.getPg_no());
 
                 navController.navigate(R.id.action_dest_mypage_order_list_to_dest_prod_detail, args);
+            }
+
+            @Override
+            public void addCartClick() {
+                Toast.makeText(getContext(), "장바구니에 추가되었습니다", Toast.LENGTH_SHORT).show();
             }
         });
 
