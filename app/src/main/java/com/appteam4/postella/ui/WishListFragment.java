@@ -166,7 +166,7 @@ public class WishListFragment extends Fragment {
                             wishAdapter.removeItem(position);
                             wishAdapter.notifyDataSetChanged();
 
-                            Snackbar snackbar = Snackbar.make(getView(), "상품을 장바구니에서 삭제했어요!", Snackbar.LENGTH_SHORT);
+                            Snackbar snackbar = Snackbar.make(getView(), "상품을 찜목록에서 삭제했어요!", Snackbar.LENGTH_SHORT);
                             snackbar.show();
                         }
 
